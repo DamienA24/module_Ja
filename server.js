@@ -8,17 +8,17 @@ const server = require('http').Server(app);
 
 const token = config.configFxcm.token;
 
-/* const sockIo = require('socket.io-client');
+const sockIo = require('socket.io-client');
 const host = config.configFxcm.host;
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
-const resource = "/candles/2/m1"; */
+const resource = "/candles/2/m1";
 
-/* let requestHeaders = {
+let requestHeaders = {
   'User-Agent': 'request',
   'Accept': 'application/json',
   'Content-Type': 'application/x-www-form-urlencoded',
-}; */
+};
 
 const port = 8080;
 app.use(express.static(__dirname + '/public'));
@@ -34,7 +34,7 @@ server.listen(port, () => {
 const io = require('socket.io')(server);
 
 
-/* getConnexionFXCM = (token) => {
+getConnexionFXCM = (token) => {
   let socket = sockIo(proto + '://' + host + ':' + apiPort, {
     query: {
       access_token: token
@@ -51,17 +51,15 @@ const io = require('socket.io')(server);
   socket.on('error', (error) => {
     console.log('Socket.IO session error: ', error);
   });
-}; */
+};
 
-prod.getConnexionFXCM(token);
+getConnexionFXCM(token);
 
 io.on('connection', (socket) => {
 
   socket.on('sendInstrument', function () {
 
-    prod.getParams()
-
-   /*  axios({
+    axios({
       url: `${proto}://${host}:${apiPort}${resource}`,
       method: 'GET',
       "params": {
@@ -73,7 +71,7 @@ io.on('connection', (socket) => {
       io.emit('messageFromServer', data);
     }).catch((error) => {
       console.log(error)
-    })  */
+    })
   })
 });
 
