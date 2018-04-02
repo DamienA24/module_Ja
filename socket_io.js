@@ -1,7 +1,7 @@
 const resource = "/trading/get_instruments";
 const config = require('./config_fxcm.js');
 const server = require('./server');
-const header = require('./sockets');
+const header = require('./sockets_connexion_fxcm');
 const axios = require('axios');
 const socketIo = require('socket.io');
 
