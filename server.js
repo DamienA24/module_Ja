@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('./config_fxcm.js');
 const connexionSocket = require('./sockets');
+const io = require('./socket_io');
 
 const app = express();
 const server = require('http').Server(app);
@@ -18,12 +19,9 @@ server.listen(port, () => {
   console.log('server listening on port : ', port)
 });
 
-const io = require('socket.io')(server);
-
 connexionSocket.getConnexionFXCM(token);
 
-require('./socket_io')(server);
-
+require('./socket_io').listen(server);
 
 module.exports = {
   server
