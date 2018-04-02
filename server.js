@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('./config_fxcm.js');
-const prod = require('./socket_io');
+const connexionSocket = require('./sockets');
 const axios = require('axios');
 
 const app = express();
@@ -33,7 +33,6 @@ server.listen(port, () => {
 
 const io = require('socket.io')(server);
 
-
 /* getConnexionFXCM = (token) => {
   let socket = sockIo(proto + '://' + host + ':' + apiPort, {
     query: {
@@ -53,7 +52,7 @@ const io = require('socket.io')(server);
   });
 }; */
 
-prod.getConnexionFXCM(token);
+connexionSocket.getConnexionFXCM(token);
 
 io.on('connection', (socket) => {
 
