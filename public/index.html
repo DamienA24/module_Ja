@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <section class="ergonomie-home-public">
+    <div class="use-pc"></div>
+    <div id="demo">
+
+      <div id="demoBg"></div>
+      <div id="demoTitle">
+        Pour tester cette fonctionnalité, utiliser un PC
+      </div>
+
+      <div id="demoBoxContent">
+        <div id="leftDemoBox">
+          <div id="demoErgonomie">
+            <div id="demoErgonomie-title">Ergonomie</div>
+            <div id="demoErgonomie-subTitle">
+              <i class="fa fa-arrow-right"></i> Science pour accroître la productivité</div>
+            <div id="demoErgonomie-description">Prendre un trade avec Jarvis est simple, intuitif et rapide. Pas besoin de tutoriel.</div>
+          </div>
+
+          <div id="emailModal">
+            <div class="modal-content">
+              <div class="content-form">
+                <div class="text-marketing">
+                  <p>Cette démo vous a-t-elle plu? Laissez votre email pour obtenir les dernières informations</p>
+                </div>
+                <form method="post" accept-charset="UTF-8" action="https://my.dmtrading.fr/form/5aaaa9a5607adukbuvg2q4i7dahnd5c2vw">
+                  <input type="hidden" name="form_name" value="Formulaire Jarvis Trader Landing page salon">
+                  <div>
+                    <input id="form_input57597" type="email" name="email" placeholder="Votre adresse email *" required>
+                  </div>
+                  <div class="button-modal">
+                    <button type="submit" id="btn_submit_57600">Valider</button>
+                    <button type="button" id="closeModal">Annuler</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div id="demoSteps">
+            <div class="demoStep">
+              <div>1</div>
+              <div>Définissez votre risque</div>
+            </div>
+            <div class="demoStep">
+              <div>2</div>
+              <div>Placez votre stop</div>
+            </div>
+            <div class="demoStep">
+              <div>3</div>
+              <div>Passez l'ordre</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="demoBox">
+          <div id="demoBoxDisplay">
+
+            <div id="demoBoxDisplay-bar"></div>
+            <div id="demoBoxDisplay-devise">
+
+              <div class="demoBoxDisplay-devise transition_0_2" data-first="BTC" data-second="USD" data-type='crypto'>BTC / USD</div>
+              <div class="demoBoxDisplay-devise transition_0_2" data-first="EUR" data-second="USD" data-type='fiat'>EUR / USD</div>
+              <div class="demoBoxDisplay-devise transition_0_2" data-first="GBP" data-second="CAD" data-type='fiat'>GBP / CAD</div>
+              <div class="demoBoxDisplay-devise transition_0_2" data-first="ETH" data-second="EUR" data-type='crypto'>ETH / EUR</div>
+
+            </div>
+            <div id="demoBoxDisplay-nav">
+
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="hour">h1</div>
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="fourhour">h4</div>
+
+            </div>
+            <div id="demoBoxDisplay-chart">
+
+              <canvas id="demoBoxDisplay-chartCanvas"></canvas>
+
+              <div id="demoBoxDisplay-chartLoader">
+                <div class='mb'>
+                  <div class='mbc'>
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div id="demoBoxDisplay-xxx"></div>
+            <div id="demoBoxDisplay-yyy"></div>
+
+            <div id="demoBoxDisplay-take" class='toDrag'>
+              <div id="demoBoxDisplay-takeTrait"></div>
+              <div id="demoBoxDisplay-takeLabel" class='transition_0_5'>TP</div>
+              <div id="demoBoxDisplay-takeWhere">
+                <div id="demoBoxDisplay-takeWhere-triangle"></div>
+                <div id="demoBoxDisplay-takeWhere-label">0</div>
+                <div id="demoBoxDisplay-takeWhere-close">
+                  <i class='fa fa-times'></i>
+                </div>
+              </div>
+            </div>
+
+            <div id="demoBoxDisplay-stop" class='toDrag'>
+              <div id="demoBoxDisplay-stopTrait"></div>
+              <div id="demoBoxDisplay-stopLabel" class='transition_0_5'>SL</div>
+              <div id="demoBoxDisplay-stopWhere">
+                <div id="demoBoxDisplay-stopWhere-triangle"></div>
+                <div id="demoBoxDisplay-stopWhere-label">0</div>
+                <div id="demoBoxDisplay-stopWhere-close">
+                  <i class='fa fa-times'></i>
+                </div>
+              </div>
+            </div>
+
+            <div id="demoBoxDisplay-pending" class='toDrag'>
+              <div id="demoBoxDisplay-pendingTrait"></div>
+              <div id="demoBoxDisplay-pendingLabel">P</div>
+              <div id="demoBoxDisplay-pendingWhere">
+                <div id="demoBoxDisplay-pendingWhere-triangle"></div>
+                <div id="demoBoxDisplay-pendingWhere-label">0</div>
+                <div id="demoBoxDisplay-pendingWhere-close">
+                  <i class='fa fa-times'></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="clear onMobile"></div>
+          <div id="demoBoxInfos">
+            <div id="demoBoxInfos-title">Compte démo</div>
+            <div id="demoBoxInfosBox">
+              <div id="demoBoxInfos-pair">
+                <div id="demoBoxInfos-pair-first">
+                  <input type="text" value=''>
+                </div>
+                <div id="demoBoxInfos-pair-separator">/</div>
+                <div id="demoBoxInfos-pair-second">
+                  <input type="text" value=''>
+                </div>
+                <div class='clear'></div>
+                <div id="demoBoxInfos-pair-auto"></div>
+              </div>
+              <div id="demoBoxInfos-balance">
+                <div id="demoBoxInfos-balance-label">Balance</div>
+                <div id="demoBoxInfos-balance-value"></div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-spread">
+                <div id="demoBoxInfos-spread-label">Spread</div>
+                <div id="demoBoxInfos-spread-value">.</div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-swap">
+                <div id="demoBoxInfos-swap-label">Swap</div>
+                <div id="demoBoxInfos-swap-value">-0.000082</div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-price">
+                <div id="demoBoxInfos-price-down">.</div>
+                <div id="demoBoxInfos-price-up">.</div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-change">
+                <div id="demoBoxInfos-change-market" class="transition_0_2">Market</div>
+                <div id="demoBoxInfos-change-button">
+                  <div id="demoBoxInfos-change-buttonBox" class="transition_0_2"></div>
+                </div>
+                <div id="demoBoxInfos-change-pending" class="transition_0_2">Pending</div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-amount">
+                <div id="demoBoxInfos-amount-label">Montant</div>
+                <div id="demoBoxInfos-amount-value">
+                  <input type='text' value="100" data-ref="demoBoxDisplay-amount">
+                  <div id="demoBoxInfos-amount-value-up" class="numberBox-up" data-ref="demoBoxDisplay-amount">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                  <div id="demoBoxInfos-amount-value-down" class="numberBox-down" data-ref="demoBoxDisplay-amount">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                </div>
+                <div id="demoBoxInfos-amount-type" data-ref="demoBoxDisplay-amountType">
+                  <div class='checkBox transition_0_2' data-ref="demoBoxDisplay-amountType">
+                    <div id="demoBoxInfos-amount-type-money" class="checkBox-one">Argent €</div>
+                    <div id="demoBoxInfos-amount-type-percentage" class="checkBox-two">Pourcentage</div>
+                  </div>
+                  <div id="demoBoxInfos-amount-type-up" class="checkBox-up" data-ref="demoBoxDisplay-amountType">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                  <div id="demoBoxInfos-amount-type-down" class="checkBox-down" data-ref="demoBoxDisplay-amountType">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-pending">
+                <div id="demoBoxInfos-pending-label">{lg-home-demo-pending}</div>
+                <div id="demoBoxInfos-pending-value">
+                  <input type='text' value="0.580" data-ref="demoBoxDisplay-pending">
+                  <div id="demoBoxInfos-pending-value-up" class="numberBox-up" data-ref="demoBoxDisplay-pending">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                  <div id="demoBoxInfos-pending-value-down" class="numberBox-down" data-ref="demoBoxDisplay-pending">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-stopLoss" data-ref="demoBoxDisplay-stop">
+                <div id="demoBoxInfos-stopLoss-label">STOP-LOSS</div>
+                <div id="demoBoxInfos-stopLoss-value">
+                  <input type='text' value="0.580" data-ref="demoBoxDisplay-stop">
+                  <div id="demoBoxInfos-stopLoss-value-up" class="numberBox-up" data-ref="demoBoxDisplay-stop">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                  <div id="demoBoxInfos-stopLoss-value-down" class="numberBox-down" data-ref="demoBoxDisplay-stop">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                </div>
+                <div id="demoBoxInfos-stopLoss-indicator">0</div>
+                <div id="demoBoxInfos-stopLoss-close">
+                  <i class='fa fa-times'></i>
+                </div>
+                <div id="demoBoxInfos-stopLoss-hide" class='transition_0_5'></div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-takeProfit" data-ref="demoBoxDisplay-take">
+                <div id="demoBoxInfos-takeProfit-label">TAKE-PROFIT</div>
+                <div id="demoBoxInfos-takeProfit-value">
+                  <input type='text' value="0.580" data-ref="demoBoxDisplay-take">
+                  <div id="demoBoxInfos-takeProfit-value-up" class="numberBox-up" data-ref="demoBoxDisplay-take">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                  <div id="demoBoxInfos-takeProfit-value-down" class="numberBox-down" data-ref="demoBoxDisplay-take">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                </div>
+                <div id="demoBoxInfos-takeProfit-indicator">0</div>
+                <div id="demoBoxInfos-takeProfit-close">
+                  <i class='fa fa-times'></i>
+                </div>
+                <div id="demoBoxInfos-takeProfit-hide" class='transition_0_5'></div>
+                <div class="clear"></div>
+              </div>
+              <div id="demoBoxInfos-tradeSize">TradeSize :
+                <font>1000</font>
+              </div>
+              <div id="demoBoxInfos-buttons">
+                <div id="demoBoxInfos-button-sell" class="transition_0_2" href='{link-download}#register'>Vendre</div>
+                <div id="demoBoxInfos-button-buy" class="transition_0_2" href='{link-download}#register'>Acheter</div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
