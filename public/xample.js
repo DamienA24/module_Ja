@@ -2,17 +2,6 @@ var demoBox = {
   canvasId: "demoBoxDisplay-chartCanvas",
   queryHisto: "https://api.jarvis-edge.io/currency/histo/",
   queryCurrency: "https://api.jarvis-edge.io/currency/",
-  configFXCM: {
-    token: 'ff31542281ed5e612d82863c45287b4f32b45007',
-    api_host: 'api-demo.fxcm.com',
-    api_port: 443,
-    api_proto: 'https'
-  },
-  requestFXCM: {
-    'User-Agent': 'request',
-    'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
   marketName: "USDT-BTC",
   tickInterval: "hour",
   timestamp: 0,
@@ -42,28 +31,6 @@ var demoBox = {
   },
 
   init: () => {
-
-    /*$('#demoBoxInfos-pair-first input').val(demoBox.firstC).keyup(function(){
-
-      demoBox.funPush("",function(){
-
-        demoBox.openComCurrency("first");
-
-      });
-
-    });
-
-    $('#demoBoxInfos-pair-second input').val(demoBox.secondC).keyup(function(){
-
-      demoBox.funPush("",function(){
-
-        demoBox.openComCurrency("second");
-
-      });
-
-    });*/
-
-    /*demoBox.getCurrency();*/
 
     demoBox.canvas = document.getElementById(demoBox.canvasId);
     demoBox.context = demoBox.canvas.getContext("2d");
@@ -249,9 +216,6 @@ var demoBox = {
 
 
     demoBox.getData(myObj.attr("data-type"));
-    // demoBox.getDataFXCM("GET", "/trading/get_instruments");
-    demoBox.getConnexionFXCM(demoBox.configFXCM.token);
-
 
   },
 
@@ -359,15 +323,6 @@ var demoBox = {
 
     $("#" + _div).draggable(_data);
 
-    /*$("#"+_div).draggable.position({
-        of: $("#"+_div),
-        my: 'left top',
-        at: 'left top',
-        using: function (css, calc) {
-            $("#"+_div).animate(css, 200, 'linear');
-        }
-    });*/
-
     $('#' + _div + "Where-close").click(function() {
 
       demoBox.removeBar(_div);
@@ -409,40 +364,6 @@ var demoBox = {
 
     });
 
-  },
-
-  getConnexionFXCM: (token) => {
-
-    let socket = io(demoBox.configFXCM.api_proto + '://' + demoBox.configFXCM.api_host + ':' + demoBox.configFXCM.api_port, {
-      query: {
-        access_token: token
-      }
-    });
-    socket.on('connect', () => {
-      console.log('Socket.IO session has been opened: ', socket.id);
-      demoBox.requestFXCM.Authorization = 'Bearer ' + socket.id + token;
-    });
-    socket.on('connect_error', (error) => {
-      console.log('Socket.IO session connect error: ', error);
-    });
-    // fired when socket.io cannot connect (login errors)
-    socket.on('error', (error) => {
-      console.log('Socket.IO session error: ', error);
-    });
-  },
-
-  getDataFXCM: (method, resource) => {
-
-    // GET HTTP(S) requests have parameters encoded in URL
-
-    $.ajax({
-        method: method,
-        url: `${demoBox.configFXCM.api_proto}://${demoBox.configFXCM.api_host}:${demoBox.configFXCM.api_port}${resource}`,
-        headers: demoBox.requestFXCM,
-      })
-      .done(function(data) {
-        let response = data;
-      });
   },
 
   getData: (_type) => {
@@ -558,7 +479,6 @@ var demoBox = {
 
         var iw = i;
         demoBox.context.lineTo(iw, 240 - (_data[i].high - demoBox.min) * ratio);
-        //console.log(i+" -> "+(Math.floor((parseFloat(_data[i].H)-demoBox.min)*ratio)));
 
       }
 

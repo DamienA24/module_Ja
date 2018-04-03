@@ -1,11 +1,14 @@
 $(document).ready(function () {
   var socket = io('http://localhost:8080');
 
-  $('#demoBoxInfos-button-sell').click(() => {
-    socket.emit('sendInstrument', data);
+  $('.demoBoxDisplay-devise').click((data) => {
+    let _div = data;
+    let sentData = moduleDemo.getData(_div);
+    socket.emit('sendInstrument', sentData);
   })
 
   socket.on('messageFromServer', function (data) {
-    console.log(data);
+    let recupData = data;
+    moduleDemo.getMinMax(recupData);
   });
 });
