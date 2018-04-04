@@ -1259,3 +1259,15 @@ $(document).ready(function() {
 
   moduleDemo.drawChart(moduleDemo.dataIn);
 } */
+
+/* let myObj = data.currentTarget.attributes.class.nodeValue;
+    if(myObj == 'demoBoxDisplay-devise') {
+      $('.demoBoxDisplay-devise').removeClass("on");
+      myObj = myObj.replace("demoBoxDisplay-devise ",""); 
+      myObj = myObj.replace(" transition_0_2","");
+      $(".demoBoxDisplay-devise."+myObj).addClass("on");
+    } else if(myObj == 'demoBoxDisplay-nav transition_0_2'){
+      myObj = myObj.replace("demoBoxDisplay-nav ",""); 
+      myObj = myObj.replace(" transition_0_2","");
+      $(".demoBoxDisplay-nav."+myObj).addClass("on");
+    } */

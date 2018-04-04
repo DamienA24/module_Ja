@@ -30,7 +30,7 @@ let moduleDemo = {
 
     $('.demoBoxDisplay-nav').click((data) => {
       moduleDemo.tickInterval = data.currentTarget.dataset.value;
-      moduleDemo.getData();
+      moduleDemo.getData(data);
     });
 
     moduleDemo.initBarAndInput("demoBoxDisplay-take", {
@@ -59,6 +59,15 @@ let moduleDemo = {
   },
 
   getData: (data) => {
+
+    let myObj = data.currentTarget.attributes.class.nodeValue;
+      
+    $('.demoBoxDisplay-devise').removeClass("on");
+    myObj = myObj.replace("demoBoxDisplay-devise ",""); 
+    myObj = myObj.replace(" transition_0_2","");
+
+    $(".demoBoxDisplay-devise."+myObj).addClass("on");
+
     moduleDemo.firstC = data.currentTarget.dataset.first;
     moduleDemo.secondC = data.currentTarget.dataset.second;
 
@@ -230,7 +239,7 @@ let moduleDemo = {
   initBarAndInput: (_div, _data) => {
 
     $("#" + _div).draggable(_data);
-    $('#' + _div + "Where-close").click(function() {
+    $('#' + _div + "Where-close").click(function () {
       moduleDemo.removeBar(_div);
     });
   },
@@ -299,7 +308,7 @@ let moduleDemo = {
 
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
-/*     demoBox.setTradeSize();*/
+    /*     demoBox.setTradeSize();*/
   },
 };
 
