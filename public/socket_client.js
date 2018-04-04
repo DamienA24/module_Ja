@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var socket = io('http://localhost:8080');
+  var socket = io('http://localhost:3000');
 
   $('.demoBoxDisplay-devise').click((data) => {
     let _div = data;

@@ -14,7 +14,9 @@ const proto = config.configFxcm.proto;
 
 const devises = {
   'EUR/USD': '1',
-  'GBP/CAD': '20'
+  'AUD/USD': '6',
+  'EUR/JPY': '10',
+  'GBP/CAD': '20',
 }
 
 let listen = (server) => {
@@ -38,7 +40,7 @@ let listen = (server) => {
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
         "params": {
-          "num": 10
+          "num": 351
         },
         headers: header.requestHeaders
       }).then((response) => {

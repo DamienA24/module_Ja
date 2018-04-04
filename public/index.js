@@ -13,6 +13,7 @@ let moduleDemo = {
   firstC: 'EUR',
   secondC: 'USD',
 
+
   init: () => {
 
     moduleDemo.canvas = document.getElementById(moduleDemo.canvasId);
@@ -77,16 +78,16 @@ let moduleDemo = {
     moduleDemo.canvas.height = 240;
 
     moduleDemo.context.beginPath();
-      moduleDemo.endY = 240 - (_data[_data.length - 1][7] - moduleDemo.min) * ratio;
+    moduleDemo.endY = 240 - (_data[_data.length - 1][7] - moduleDemo.min) * ratio;
 
-      moduleDemo.context.strokeStyle = "white"; // Green path
-      moduleDemo.context.moveTo(0, 240 - (_data[0].high - moduleDemo.min) * ratio);
+    moduleDemo.context.strokeStyle = "white"; // Green path
+    moduleDemo.context.moveTo(0, 240 - (_data[0].high - moduleDemo.min) * ratio);
 
-      for (let i = 0; i < _data.length; i++) {
+    for (let i = 0; i < _data.length; i++) {
 
-        let iw = i;
-        moduleDemo.context.lineTo(iw, 240 - (_data[i][7] - moduleDemo.min) * ratio);
-      }
+      let iw = i;
+      moduleDemo.context.lineTo(iw, 240 - (_data[i][7] - moduleDemo.min) * ratio);
+    }
 
     moduleDemo.context.stroke();
     moduleDemo.drawGrid();
@@ -151,23 +152,21 @@ let moduleDemo = {
 
     let myTickInterval = moduleDemo.tickInterval;
     let myHtml = "";
-
-    //console.log(demoBox.dataIn);
-
+    
     let myStep = Math.floor(moduleDemo.dataIn.length / 8);
 
     for (let i = 1; i < 8; i++) {
       if (moduleDemo.dataIn[i * myStep]) {
 
-        let myDate = moment(moduleDemo.dataIn[i * myStep].time * 1000);
+        var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
       } else {
         if (myTickInterval == "week") {
 
-          let myDate = moment(demoBox.dataIn[(i - 1) * myStep].time * 1000);
+          var myDate = moment(moduleDemo.dataIn[(i - 1) * myStep][0] * 1000);
           myDate.add(1, 'day');
         } else {
 
-          let myDate = moment(demoBox.dataIn[(i - 1) * myStep].time * 1000);
+          var myDate = moment(moduleDemo.dataIn[(i - 1) * myStep][0] * 1000);
           myDate.add(1, 'day');
         }
       }
