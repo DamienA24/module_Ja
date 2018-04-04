@@ -1181,3 +1181,81 @@ $(document).ready(function() {
   demoBox.init();
 
 });
+
+/* drawChart : (_data) => {
+
+  let myTickInterval = moduleDemo.tickInterval;
+  let ratio = 240 / (moduleDemo.max - moduleDemo.min);
+
+  moduleDemo.canvas.width = 400;
+  moduleDemo.canvas.height = 240;
+
+  moduleDemo.context.beginPath();
+
+  if (moduleDemo.type == 1) {
+
+    moduleDemo.endY = 240 - (_data[_data.length - 1].high - moduleDemo.min) * ratio;
+
+    moduleDemo.context.strokeStyle = "white"; // Green path
+    moduleDemo.context.moveTo(0, 240 - (_data[0].high - moduleDemo.min) * ratio);
+
+    for (let i = 0; i < _data.length; i++) {
+
+      let iw = i;
+      moduleDemo.context.lineTo(iw, 240 - (_data[i].high - moduleDemo.min) * ratio);
+
+    }
+
+  } else {
+
+    moduleDemo.endY = 240 - Math.floor((parseFloat(_data[_data.length - 1].high) - moduleDemo.min) * ratio);
+
+    moduleDemo.context.strokeStyle = "white"; // Green path
+    moduleDemo.context.moveTo(0, 240 - Math.floor((parseFloat(_data[0].high) - moduleDemo.min) * ratio));
+
+    for (var i = 0; i < _data.length; i++) {
+
+      var iw = i;
+      moduleDemo.context.lineTo(iw, 240 - Math.floor((parseFloat(_data[i].high) - moduleDemo.min) * ratio));
+      //console.log(i+" -> "+(Math.floor((parseFloat(_data[i].H)-demoBox.min)*ratio)));
+
+    }
+
+  }
+
+  moduleDemo.context.stroke();
+
+  moduleDemo.drawGrid();
+
+  $('#demoBox').removeClass("loading");
+
+  //console.log("----------------------------------------------------------------");
+
+} */
+
+/* getMinMax: (_data) => {
+  moduleDemo.dataIn = _data.candles;
+
+  moduleDemo.max = 0;
+  moduleDemo.min = 10000;
+
+  for (let candle of _data.candles) {
+    moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
+    moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
+  }
+    if (moduleDemo.max < 10) {
+    moduleDemo.type = 1;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
+
+    moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
+    moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
+
+  } else {
+    moduleDemo.buffer = Math.floor((moduleDemo.max - moduleDemo.min) * 20 / 100);
+
+    moduleDemo.min = Math.floor(moduleDemo.min - moduleDemo.buffer);
+    moduleDemo.max = Math.ceil(moduleDemo.max + moduleDemo.buffer);
+  }
+
+  moduleDemo.drawChart(moduleDemo.dataIn);
+} */
