@@ -33,11 +33,37 @@ let moduleDemo = {
       moduleDemo.getData();
     });
 
+    moduleDemo.initBarAndInput("demoBoxDisplay-take", {
+      axis: 'y',
+      containment: '#demoBoxDisplay-chart',
+      start: moduleDemo.takeProfitStartDrag,
+      drag: moduleDemo.takeProfitDrag,
+      stop: moduleDemo.takeProfitStopDrag
+    });
+
+    moduleDemo.initBarAndInput("demoBoxDisplay-stop", {
+      axis: 'y',
+      containment: '#demoBoxDisplay-chart',
+      start: moduleDemo.stopLossStartDrag,
+      drag: moduleDemo.stopLossDrag,
+      stop: moduleDemo.stopLossStopDrag
+    });
+
+    moduleDemo.initBarAndInput("demoBoxDisplay-pending", {
+      axis: 'y',
+      containment: '#demoBoxDisplay-chart',
+      start: moduleDemo.pendingStartDrag,
+      drag: moduleDemo.pendingDrag,
+      stop: moduleDemo.pendingStopDrag
+    });
   },
 
   getData: (data) => {
     moduleDemo.firstC = data.currentTarget.dataset.first;
     moduleDemo.secondC = data.currentTarget.dataset.second;
+
+    $('#demoBox').addClass("loading");
+    moduleDemo.clearChart();
 
     $('.demoBoxDisplay-nav').removeClass('on');
     $('.demoBoxDisplay-nav[data-value=' + moduleDemo.tickInterval + ']').addClass('on');
@@ -152,7 +178,7 @@ let moduleDemo = {
 
     let myTickInterval = moduleDemo.tickInterval;
     let myHtml = "";
-    
+
     let myStep = Math.floor(moduleDemo.dataIn.length / 8);
 
     for (let i = 1; i < 8; i++) {
@@ -200,10 +226,83 @@ let moduleDemo = {
     }
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
+
+  initBarAndInput: (_div, _data) => {
+
+    $("#" + _div).draggable(_data);
+    $('#' + _div + "Where-close").click(function() {
+      moduleDemo.removeBar(_div);
+    });
+  },
+
+  takeProfitStartDrag: (e, ui) => {
+    moduleDemo.typeIn = 'take';
+    $('#demoBoxDisplay-take').addClass("on");
+    $('#demoBoxInfos-takeProfit').addClass("on");
+    moduleDemo.getYYYValue("demoBoxDisplay-take", ui.position.top);
+  },
+
+  takeProfitStopDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-take", ui.position.top);
+  },
+
+  takeProfitDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-take", ui.position.top);
+  },
+
+  stopLossStartDrag: (e, ui) => {
+
+    moduleDemo.typeIn = 'stop';
+    $('#demoBoxDisplay-stop').addClass("on");
+    $('#demoBoxInfos-stopLoss').addClass("on");
+    moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
+  },
+
+  stopLossStopDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
+  },
+
+  stopLossDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
+  },
+
+  clearChart: () => {
+    moduleDemo.context.clearRect(0, 0, moduleDemo.canvas.width, moduleDemo.canvas.height);
+  },
+
+  reduceNumber: (_numb, _count) => {
+
+    let myCount = _count || 1000;
+
+    _numb *= myCount;
+    _numb = Math.floor(_numb);
+    _numb /= myCount;
+
+    let verifLengthNumber = _numb;
+    if (verifLengthNumber.toString().length >= 10) {
+      return _numb.toFixed(2);
+    } else {
+      return _numb.toFixed(4);
+    }
+  },
+
+  getYYYValue: (_div, _nb) => {
+
+    let myVolume = moduleDemo.max - moduleDemo.min;
+
+    _nb += 3;
+    _nb -= parseFloat($("#demoBoxDisplay-chart").css('margin-top'));
+    _nb = 240 - _nb;
+
+    let myRatio = _nb / 240;
+    let myValue = myRatio * myVolume + moduleDemo.min;
+
+    $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
+    $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
+/*     demoBox.setTradeSize();*/
+  },
 };
 
 $(document).ready(function () {
-
   moduleDemo.init();
-
 });

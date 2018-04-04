@@ -33,9 +33,8 @@ let listen = (server) => {
           break;
         };
       };
-
+      
        let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
-
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
