@@ -106,7 +106,7 @@ let moduleDemo = {
 
       if ($('#demoBoxDisplay-pending').hasClass('show')) {
 
-        let myVal = moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7];
+        var myVal = moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7];
 
         $("input[data-ref=demoBoxDisplay-pending]").val(moduleDemo.reduceNumber(myVal, 10000000));
         moduleDemo.takeKeyUp("demoBoxDisplay-pending");
@@ -243,11 +243,11 @@ let moduleDemo = {
         break;
     } */
 
-    /* $('input[data-ref=demoBoxDisplay-take]').val(demoBox.reduceNumber(lastData.high, 10000000));
-    demoBox.takeKeyUp('demoBoxDisplay-take');
+     $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
+     moduleDemo.takeKeyUp('demoBoxDisplay-take');
 
-    $('input[data-ref=demoBoxDisplay-stop]').val(demoBox.reduceNumber(lastData.high, 10000000));
-    demoBox.takeKeyUp('demoBoxDisplay-stop'); */
+    $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
+    moduleDemo.takeKeyUp('demoBoxDisplay-stop'); 
 
     $(window, document).trigger('resize');
 
@@ -429,12 +429,12 @@ let moduleDemo = {
 
       if (!$("#demoBoxDisplay-take").hasClass('on')) {
 
-        $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1].high));
+        $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7]));
         moduleDemo.takeKeyUp("demoBoxDisplay-take");
       }
       if (!$("#demoBoxDisplay-stop").hasClass('on')) {
 
-        $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1].high));
+        $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7]));
         moduleDemo.takeKeyUp("demoBoxDisplay-stop");
       }
       moduleDemo.setTradeSize();
@@ -498,7 +498,7 @@ let moduleDemo = {
 
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
-    /*     demoBox.setTradeSize();*/
+        moduleDemo.setTradeSize();
   },
 
   takeKeyUp: (_div) => {
@@ -597,13 +597,13 @@ let moduleDemo = {
         if ($("#demoBoxDisplay-stop").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myPending + MyNewVal, 10000000));
-          demoBox.takeKeyUp("demoBoxDisplay-stop");
+          moduleDemo.takeKeyUp("demoBoxDisplay-stop");
         }
       } else if (moduleDemo.typeIn == 'stop') {
     if ($("#demoBoxDisplay-take").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending + MyNewVal, 10000000));
-          demoBox.takeKeyUp("demoBoxDisplay-take");
+          moduleDemo.takeKeyUp("demoBoxDisplay-take");
         }
       }
     } else if (myTake > myPending && myStop > myPending) {
@@ -611,13 +611,13 @@ let moduleDemo = {
         if ($("#demoBoxDisplay-stop").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));
-          demoBox.takeKeyUp("demoBoxDisplay-stop");
+          moduleDemo.takeKeyUp("demoBoxDisplay-stop");
         }
       } else if (demoBox.typeIn == 'stop') {
         if ($("#demoBoxDisplay-take").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));
-          demoBox.takeKeyUp("demoBoxDisplay-take");
+          moduleDemo.takeKeyUp("demoBoxDisplay-take");
         }
       }
     }
