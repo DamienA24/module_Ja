@@ -493,7 +493,6 @@ var demoBox = {
 
         var iw = i;
         demoBox.context.lineTo(iw, 240 - Math.floor((parseFloat(_data[i].high) - demoBox.min) * ratio));
-        //console.log(i+" -> "+(Math.floor((parseFloat(_data[i].H)-demoBox.min)*ratio)));
 
       }
 

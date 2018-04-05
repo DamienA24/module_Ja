@@ -4,10 +4,13 @@ let moduleDemo = {
   context: null,
   balance: 3000,
   dataIn: null,
+  myTimer: null,
+  lastPrice: 0,
   min: 0,
   max: 30000,
   buffer: 0,
   endY: 0,
+  typeIn: 'take',
   devise: "€",
   tickInterval: "hour",
   firstC: 'EUR',
@@ -20,18 +23,6 @@ let moduleDemo = {
     moduleDemo.context = moduleDemo.canvas.getContext("2d");
 
     $('#demoBoxInfos-balance-value').html(moduleDemo.balance + " " + moduleDemo.devise);
-
-    /* $('.demoBoxDisplay-devise').click((data) => {
-      moduleDemo.firstC = data.currentTarget.dataset.first;
-      moduleDemo.secondC = data.currentTarget.dataset.second;
-
-      moduleDemo.getData();
-    }); */
-
-    $('.demoBoxDisplay-nav').click((data) => {
-      moduleDemo.tickInterval = data.currentTarget.dataset.value;
-      moduleDemo.getData(data);
-    });
 
     moduleDemo.initBarAndInput("demoBoxDisplay-take", {
       axis: 'y',
@@ -56,20 +47,98 @@ let moduleDemo = {
       drag: moduleDemo.pendingDrag,
       stop: moduleDemo.pendingStopDrag
     });
+
+    $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function() {
+
+      let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
+
+      $("input[data-ref=demoBoxDisplay-amount]").val(moduleDemo.numberMore(myVal, 1));
+      moduleDemo.setTradeSize();
+    });
+
+    $(".numberBox-down[data-ref=demoBoxDisplay-amount]").click(function() {
+
+      let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
+
+      $("input[data-ref=demoBoxDisplay-amount]").val(moduleDemo.numberMore(myVal, -1));
+      moduleDemo.setTradeSize();
+    });
+
+    $('input[data-ref=demoBoxDisplay-amount]').keyup(function() {
+
+      let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
+
+      $("input[data-ref=demoBoxDisplay-amount]").val(moduleDemo.numberVerifDot(myVal));
+      moduleDemo.setTradeSize();
+    });
+
+    $("#demoBoxInfos-amount-type-up").click(function() {
+      $("#demoBoxInfos-amount-type").toggleClass("pourcentage");
+
+      myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
+      $('input[data-ref=demoBoxDisplay-amount]').val(Math.floor(moduleDemo.balance * myAmount / 100));
+      moduleDemo.setTradeSize();
+    });
+
+    $("#demoBoxInfos-amount-type-down").click(function() {
+      $("#demoBoxInfos-amount-type").toggleClass("pourcentage");
+      if ($('#demoBoxInfos-amount-type').hasClass('pourcentage') && parseFloat($('input[data-ref=demoBoxDisplay-amount]').val()) > 20) {
+
+        myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
+        $('input[data-ref=demoBoxDisplay-amount]').val(Math.floor(100 / (moduleDemo.balance / myAmount)));
+      }
+      moduleDemo.setTradeSize();
+    });
+
+    $("#demoBoxInfos-stopLoss-close").click(function() {
+      moduleDemo.removeBar('demoBoxDisplay-stop');
+    });
+
+    $("#demoBoxInfos-takeProfit-close").click(function() {
+      moduleDemo.removeBar('demoBoxDisplay-take');
+    });
+
+    $('#demoBoxInfos-change-buttonBox').click(function() {
+
+      $('#demoBoxInfos-change').toggleClass("pending");
+      $('#demoBoxDisplay-pending').toggleClass("show");
+      $('#demoBoxInfos-pending').slideToggle("fast");
+
+      if ($('#demoBoxDisplay-pending').hasClass('show')) {
+
+        let myVal = moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7];
+
+        $("input[data-ref=demoBoxDisplay-pending]").val(moduleDemo.reduceNumber(myVal, 10000000));
+        moduleDemo.takeKeyUp("demoBoxDisplay-pending");
+      } else {
+        if (!$("#demoBoxDisplay-take").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7], 10000000));
+          moduleDemo.takeKeyUp("demoBoxDisplay-take");
+        }
+        if (!$("#demoBoxDisplay-stop").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7], 10000000));
+          moduleDemo.takeKeyUp("demoBoxDisplay-stop");
+        }
+      }
+      moduleDemo.setTradeSize();
+    });
   },
 
   getData: (data) => {
 
     let myObj = data.currentTarget.attributes.class.nodeValue;
-      
-    $('.demoBoxDisplay-devise').removeClass("on");
-    myObj = myObj.replace("demoBoxDisplay-devise ",""); 
-    myObj = myObj.replace(" transition_0_2","");
 
-    $(".demoBoxDisplay-devise."+myObj).addClass("on");
+    myObj = myObj.replace("demoBoxDisplay-devise ", "");
+    myObj = myObj.replace(" transition_0_2", "");
 
-    moduleDemo.firstC = data.currentTarget.dataset.first;
-    moduleDemo.secondC = data.currentTarget.dataset.second;
+    if (myObj == 'usd' || myObj == 'aud' || myObj == 'cad' || myObj == 'jpy') {
+      $('.demoBoxDisplay-devise').removeClass("on");
+      $(".demoBoxDisplay-devise." + myObj).addClass("on");
+      moduleDemo.firstC = data.currentTarget.dataset.first;
+      moduleDemo.secondC = data.currentTarget.dataset.second;
+    }
 
     $('#demoBox').addClass("loading");
     moduleDemo.clearChart();
@@ -88,13 +157,14 @@ let moduleDemo = {
 
   getMinMax: (_data) => {
     moduleDemo.dataIn = _data.candles;
+    moduleDemo.lastPrice = _data.candles[_data.candles.length - 1][7];
 
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
 
     for (let candle of _data.candles) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
     }
     moduleDemo.type = 1;
     moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
@@ -116,7 +186,7 @@ let moduleDemo = {
     moduleDemo.endY = 240 - (_data[_data.length - 1][7] - moduleDemo.min) * ratio;
 
     moduleDemo.context.strokeStyle = "white"; // Green path
-    moduleDemo.context.moveTo(0, 240 - (_data[0].high - moduleDemo.min) * ratio);
+    moduleDemo.context.moveTo(0, 240 - (_data[0][7] - moduleDemo.min) * ratio);
 
     for (let i = 0; i < _data.length; i++) {
 
@@ -146,8 +216,8 @@ let moduleDemo = {
 
     let lastData = moduleDemo.dataIn[moduleDemo.dataIn.length - 1];
 
-    $("#demoBoxInfos-price-down").html(lastData.low);
-    $("#demoBoxInfos-price-up").html(lastData.high);
+    $("#demoBoxInfos-price-down").html(lastData[2]);
+    $("#demoBoxInfos-price-up").html(lastData[7]);
 
 
     /* switch (demoBox.firstC) {
@@ -223,11 +293,6 @@ let moduleDemo = {
 
     let myStep = myVolume / 5;
 
-    console.log("myVolume: " + myVolume);
-    console.log("demoBox.min: " + moduleDemo.min);
-    console.log("demoBox.max: " + moduleDemo.max);
-    console.log("myStep: " + myStep);
-
     for (let i = 1; i < 5; i++) {
       let toShow = (moduleDemo.min + myStep * (5 - i));
       myHtml += "<div class='yyy' style='top:" + (240 / 5 * i) + "px'><div class='yyy-value'>" + moduleDemo.reduceNumber(toShow, 10000000) + "</div></div>";
@@ -239,8 +304,36 @@ let moduleDemo = {
   initBarAndInput: (_div, _data) => {
 
     $("#" + _div).draggable(_data);
-    $('#' + _div + "Where-close").click(function () {
+    $('#' + _div + "Where-close").click(function() {
+
       moduleDemo.removeBar(_div);
+    });
+    $('input[data-ref=' + _div + ']').keyup(function() {
+
+      if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
+      if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
+
+      moduleDemo.takeKeyUp(_div);
+    });
+    $(".numberBox-up[data-ref=" + _div + "]").click(function() {
+
+      if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
+      if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
+
+      var myVal = $("input[data-ref=" + _div + "]").val();
+
+      $("input[data-ref=" + _div + "]").val(moduleDemo.numberMore(myVal, 1));
+      moduleDemo.takeKeyUp(_div);
+    });
+    $(".numberBox-down[data-ref=" + _div + "]").click(function() {
+
+      if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
+      if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
+
+      var myVal = $("input[data-ref=" + _div + "]").val();
+
+      $("input[data-ref=" + _div + "]").val(moduleDemo.numberMore(myVal, -1));
+      moduleDemo.takeKeyUp(_div);
     });
   },
 
@@ -275,6 +368,29 @@ let moduleDemo = {
     moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
   },
 
+  pendingStartDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-pending", ui.position.top);
+  },
+
+  pendingStopDrag: (e, ui) => {
+    moduleDemo.getYYYValue("demoBoxDisplay-pending", ui.position.top);
+  },
+
+  pendingDrag: (e, ui) => {
+
+    moduleDemo.getYYYValue("demoBoxDisplay-pending", ui.position.top);
+    if (!$("#demoBoxDisplay-take").hasClass('on')) {
+
+      moduleDemo.getYYYValue("demoBoxDisplay-take", ui.position.top);
+      moduleDemo.takeKeyUp("demoBoxDisplay-take");
+    }
+    if (!$("#demoBoxDisplay-stop").hasClass('on')) {
+
+      moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
+      moduleDemo.takeKeyUp("demoBoxDisplay-stop");
+    }
+  },
+
   clearChart: () => {
     moduleDemo.context.clearRect(0, 0, moduleDemo.canvas.width, moduleDemo.canvas.height);
   },
@@ -295,6 +411,80 @@ let moduleDemo = {
     }
   },
 
+  removeBar: (_div) => {
+    
+    if (_div.indexOf('pending') == -1) {
+
+      $('#' + _div).removeClass('on');
+      let lastData = ($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.reduceNumber(moduleDemo.dataIn[demoBox.dataIn.length - 1][7]);
+      
+      $('input[data-ref=' + _div + ']').val(lastData);
+      $('input[data-ref=' + _div + ']').parent().parent().removeClass('on');
+
+      moduleDemo.takeKeyUp(_div);
+    } else {
+      $('#demoBoxInfos-change').removeClass("pending");
+      $('#demoBoxDisplay-pending').removeClass("show");
+      $('#demoBoxInfos-pending').slideUp("fast");
+
+      if (!$("#demoBoxDisplay-take").hasClass('on')) {
+
+        $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1].high));
+        moduleDemo.takeKeyUp("demoBoxDisplay-take");
+      }
+      if (!$("#demoBoxDisplay-stop").hasClass('on')) {
+
+        $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1].high));
+        moduleDemo.takeKeyUp("demoBoxDisplay-stop");
+      }
+      moduleDemo.setTradeSize();
+    }
+  },
+
+  numberMore: (_number, _direction) => {
+
+    let _cacheNumber = _number;
+    let numStr = _number.toString().replace(",", ".").split(".");
+    let step = 1;
+
+    myDistance = 0;
+
+    if (numStr.length > 1) {
+
+      myDistance = numStr[1].length;
+      let myStr = "0.";
+
+      for (var i = 0; i < myDistance - 1; i++) {
+
+        myStr += "0";
+      }
+      myStr += "1";
+      step = parseFloat(myStr);
+    }
+    _number = parseFloat(_number) + parseFloat(_direction) * parseFloat(step);
+
+    let verifNumb = _number.toString();
+    let verifNumbParse = verifNumb.split(".");
+
+    if (verifNumbParse.length == 2) {
+      if (verifNumbParse[1].length < myDistance) {
+
+        _number = verifNumb + "0";
+      }
+      if (verifNumbParse[1].length > myDistance) {
+
+        _number = verifNumbParse[0] + "." + verifNumbParse[1].substring(0, myDistance);
+      }
+    }
+    if (_number == _cacheNumber && verifNumbParse.length == 2) {
+
+      _number = _number * Math.pow(10, myDistance);
+      _number += parseFloat(_direction);
+      _number = _number / Math.pow(10, myDistance);
+    }
+    return _number.toString();
+  },
+  
   getYYYValue: (_div, _nb) => {
 
     let myVolume = moduleDemo.max - moduleDemo.min;
@@ -309,6 +499,154 @@ let moduleDemo = {
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
     /*     demoBox.setTradeSize();*/
+  },
+
+  takeKeyUp: (_div) => {
+
+    let myVolume = moduleDemo.max - moduleDemo.min;
+    let myVal = $('input[data-ref=' + _div + ']').val();
+    let myWhere = myVal - moduleDemo.min;
+
+    $('input[data-ref=' + _div + ']').val(moduleDemo.numberVerifDot(myVal));
+    myWhere = 240 - (myWhere / myVolume * 240);
+
+    if (myWhere > 0 && myWhere < 240) {
+
+      $('#' + _div).removeClass("toofar");
+    } else {
+
+      $('#' + _div).addClass("toofar");
+    }
+    $('#' + _div).css('top', myWhere + 60 - 3);
+    $('#' + _div + "Where-label").html(myVal);
+
+    if (_div.indexOf('pending') != -1) {
+      if (!$("#demoBoxDisplay-stop").hasClass('on')) {
+
+        $('#demoBoxDisplay-stop').css('top', myWhere + 60 - 3);
+        $("#demoBoxDisplay-stopWhere-label").html(myVal);
+        $('input[data-ref=demoBoxDisplay-stop]').val(myVal);
+      }
+      if (!$("#demoBoxDisplay-take").hasClass('on')) {
+
+        $('#demoBoxDisplay-take').css('top', myWhere + 60 - 3);
+        $("#demoBoxDisplay-takeWhere-label").html(myVal);
+        $('input[data-ref=demoBoxDisplay-take]').val(myVal);
+      }
+    }
+    moduleDemo.setTradeSize();
+  },
+
+  numberVerifDot: (number) => {
+
+    let nbr = number;
+
+    nbr = nbr.toString().replace(",", ".");
+    return nbr;
+  },
+
+  displayStop: (_numb, _count) => {
+
+    let myCount = _count || 1000;
+
+    _numb *= myCount;
+    _numb = Math.floor(_numb);
+    _numb /= myCount;
+
+    return _numb.toFixed(2);
+  },
+
+  setTradeSize: () => {
+    moduleDemo.funPush("", moduleDemo.setTradeSizeReel);
+  },
+
+  setTradeSizeReel: () => {
+
+    var myResult = 0;
+
+    var myVolume = moduleDemo.max - moduleDemo.min;
+    var myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
+    var myTake = $('input[data-ref=demoBoxDisplay-take]').val();
+    var myStop = $('input[data-ref=demoBoxDisplay-stop]').val();
+
+    var myType = (Number(myTake) > Number(myStop)) ? "buy" : "sell";
+    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7]);
+
+
+    if ($('#demoBoxInfos-amount-type').hasClass("pourcentage")) {
+
+      myAmount = Math.floor(myAmount * moduleDemo.balance / 100);
+    }
+    myResultStop = moduleDemo.displayStop(myAmount, 1000) + " " + moduleDemo.devise;
+
+    let myPoint = 0;
+    let myResultTake;
+    let myResultSize;
+
+      myPoint = myAmount * moduleDemo.lastPrice / Math.abs((myStop - myPending)*1000);
+      myResultTake = (myPoint * Math.abs((myTake - myPending)*1000) / moduleDemo.lastPrice).toFixed(2) + " " + moduleDemo.devise;
+      myResultSize = myPoint.toFixed(2) + " " + "EUR";
+
+    $("#demoBoxInfos-takeProfit-indicator").html(myResultTake);
+    $("#demoBoxInfos-stopLoss-indicator").html(myResultStop);
+
+    let MyNewVal = myVolume * 5 / 100;
+
+    if (myTake < myPending && myStop < myPending) {
+      if (moduleDemo.typeIn == 'take') {
+        if ($("#demoBoxDisplay-stop").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myPending + MyNewVal, 10000000));
+          demoBox.takeKeyUp("demoBoxDisplay-stop");
+        }
+      } else if (moduleDemo.typeIn == 'stop') {
+    if ($("#demoBoxDisplay-take").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending + MyNewVal, 10000000));
+          demoBox.takeKeyUp("demoBoxDisplay-take");
+        }
+      }
+    } else if (myTake > myPending && myStop > myPending) {
+      if (moduleDemo.typeIn == 'take') {
+        if ($("#demoBoxDisplay-stop").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));
+          demoBox.takeKeyUp("demoBoxDisplay-stop");
+        }
+      } else if (demoBox.typeIn == 'stop') {
+        if ($("#demoBoxDisplay-take").hasClass('on')) {
+
+          $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));
+          demoBox.takeKeyUp("demoBoxDisplay-take");
+        }
+      }
+    }
+    $('#demoBoxInfos-button-sell').removeClass("show");
+    $('#demoBoxInfos-button-buy').removeClass("show");
+    if (!$("#demoBoxDisplay-take").hasClass('on') && !$("#demoBoxDisplay-stop").hasClass('on')) {
+
+      $('#demoBoxInfos-button-sell').addClass("show");
+      $('#demoBoxInfos-button-buy').addClass("show");
+    } else {
+      $('#demoBoxInfos-button-' + myType).addClass("show");
+    }
+    if (myAmount > moduleDemo.balance) {
+
+      $('#demoBoxInfos-tradeSize').html("<font>not enough fund</font>");
+      $("#demoBoxInfos-button-sell").removeClass('show');
+      $("#demoBoxInfos-button-sell").css('cursor', '');
+      $("#demoBoxInfos-button-buy").removeClass('show');
+    } else {
+      $('#demoBoxInfos-tradeSize').html("Trade Size : <font>" + myResultSize + "</font>");
+    }
+  },
+
+  funPush: function(e, _function) {
+
+    clearTimeout(moduleDemo.myTimer);
+    moduleDemo.myTimer = setTimeout(function() {
+      _function(e);
+    }, 100);
   },
 };
 
