@@ -49,24 +49,25 @@ let listen = (server) => {
         console.log(error)
       })
     })
+
+      socket.on('sendTrade', (data) => {
+      let resource = data;
+      axios({
+        url: `${proto}://${host}:${apiPort}${resource}`,
+        method: 'GET',
+        "params": {
+          "models": ["Account"]
+        },    
+        headers: header.requestHeaders
+      }).then((response) => {
+        let sentData = response.data;
+      }).catch((error) => {
+        console.log(error)
+      })
+    })  
   });
 };
 
-let getAccountId = () => {
-  let resource = `/trading/get_model`;
-  axios({
-    url: `${proto}://${host}:${apiPort}${resource}`,
-    method: 'GET',
-    "models": "Account",
-    headers: header.requestHeaders
-  }).then((response) => {
-    let sentData = response.data;
-  }).catch((error) => {
-    console.log(error)
-  })
-}
-
 module.exports = {
   listen,
-  getAccountId
 }

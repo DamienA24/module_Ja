@@ -10,6 +10,8 @@ let moduleDemo = {
   max: 30000,
   buffer: 0,
   endY: 0,
+  lot: null,
+  type: null,
   typeIn: 'take',
   devise: "€",
   tickInterval: "h1",
@@ -48,7 +50,7 @@ let moduleDemo = {
       stop: moduleDemo.pendingStopDrag
     });
 
-    $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function() {
+    $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
 
       let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
 
@@ -56,7 +58,7 @@ let moduleDemo = {
       moduleDemo.setTradeSize();
     });
 
-    $(".numberBox-down[data-ref=demoBoxDisplay-amount]").click(function() {
+    $(".numberBox-down[data-ref=demoBoxDisplay-amount]").click(function () {
 
       let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
 
@@ -64,7 +66,7 @@ let moduleDemo = {
       moduleDemo.setTradeSize();
     });
 
-    $('input[data-ref=demoBoxDisplay-amount]').keyup(function() {
+    $('input[data-ref=demoBoxDisplay-amount]').keyup(function () {
 
       let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
 
@@ -72,7 +74,7 @@ let moduleDemo = {
       moduleDemo.setTradeSize();
     });
 
-    $("#demoBoxInfos-amount-type-up").click(function() {
+    $("#demoBoxInfos-amount-type-up").click(function () {
       $("#demoBoxInfos-amount-type").toggleClass("pourcentage");
 
       myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
@@ -80,7 +82,7 @@ let moduleDemo = {
       moduleDemo.setTradeSize();
     });
 
-    $("#demoBoxInfos-amount-type-down").click(function() {
+    $("#demoBoxInfos-amount-type-down").click(function () {
       $("#demoBoxInfos-amount-type").toggleClass("pourcentage");
       if ($('#demoBoxInfos-amount-type').hasClass('pourcentage') && parseFloat($('input[data-ref=demoBoxDisplay-amount]').val()) > 20) {
 
@@ -90,15 +92,15 @@ let moduleDemo = {
       moduleDemo.setTradeSize();
     });
 
-    $("#demoBoxInfos-stopLoss-close").click(function() {
+    $("#demoBoxInfos-stopLoss-close").click(function () {
       moduleDemo.removeBar('demoBoxDisplay-stop');
     });
 
-    $("#demoBoxInfos-takeProfit-close").click(function() {
+    $("#demoBoxInfos-takeProfit-close").click(function () {
       moduleDemo.removeBar('demoBoxDisplay-take');
     });
 
-    $('#demoBoxInfos-change-buttonBox').click(function() {
+    $('#demoBoxInfos-change-buttonBox').click(function () {
 
       $('#demoBoxInfos-change').toggleClass("pending");
       $('#demoBoxDisplay-pending').toggleClass("show");
@@ -173,6 +175,16 @@ let moduleDemo = {
     moduleDemo.drawChart(moduleDemo.dataIn);
   },
 
+  sendTrade: () => {
+    let trade = {};
+    trade.take = $('input[data-ref=demoBoxDisplay-take]').val();
+    trade.stop = $('input[data-ref=demoBoxDisplay-stop]').val();
+    trade.lot =  moduleDemo.lot;
+    trade.type = moduleDemo.type;
+    trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
+    return trade;
+  },
+
   drawChart: (_data) => {
 
     let myTickInterval = moduleDemo.tickInterval;
@@ -218,35 +230,11 @@ let moduleDemo = {
     $("#demoBoxInfos-price-down").html(lastData[2]);
     $("#demoBoxInfos-price-up").html(lastData[7]);
 
-
-    /* switch (demoBox.firstC) {
-      case "BTC":
-        $("#demoBoxInfos-spread-value").html("10");
-        $('input[data-ref=demoBoxDisplay-take]').attr("maxLength", "8");
-        $('input[data-ref=demoBoxDisplay-stop]').attr("maxLength", "8");
-        break;
-      case "EUR":
-        $("#demoBoxInfos-spread-value").html("0.0001");
-        $('input[data-ref=demoBoxDisplay-take]').attr("maxLength", "6");
-        $('input[data-ref=demoBoxDisplay-stop]').attr("maxLength", "6");
-        break;
-      case "GBP":
-        $("#demoBoxInfos-spread-value").html("0.0002");
-        $('input[data-ref=demoBoxDisplay-take]').attr("maxLength", "6");
-        $('input[data-ref=demoBoxDisplay-stop]').attr("maxLength", "6");
-        break;
-      case "ETH":
-        $("#demoBoxInfos-spread-value").html("5");
-        $('input[data-ref=demoBoxDisplay-take]').attr("maxLength", "7");
-        $('input[data-ref=demoBoxDisplay-stop]').attr("maxLength", "7");
-        break;
-    } */
-
-     $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
-     moduleDemo.takeKeyUp('demoBoxDisplay-take');
+    $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
+    moduleDemo.takeKeyUp('demoBoxDisplay-take');
 
     $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
-    moduleDemo.takeKeyUp('demoBoxDisplay-stop'); 
+    moduleDemo.takeKeyUp('demoBoxDisplay-stop');
 
     $(window, document).trigger('resize');
 
@@ -303,18 +291,18 @@ let moduleDemo = {
   initBarAndInput: (_div, _data) => {
 
     $("#" + _div).draggable(_data);
-    $('#' + _div + "Where-close").click(function() {
+    $('#' + _div + "Where-close").click(function () {
 
       moduleDemo.removeBar(_div);
     });
-    $('input[data-ref=' + _div + ']').keyup(function() {
+    $('input[data-ref=' + _div + ']').keyup(function () {
 
       if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
       if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
 
       moduleDemo.takeKeyUp(_div);
     });
-    $(".numberBox-up[data-ref=" + _div + "]").click(function() {
+    $(".numberBox-up[data-ref=" + _div + "]").click(function () {
 
       if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
       if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
@@ -324,7 +312,7 @@ let moduleDemo = {
       $("input[data-ref=" + _div + "]").val(moduleDemo.numberMore(myVal, 1));
       moduleDemo.takeKeyUp(_div);
     });
-    $(".numberBox-down[data-ref=" + _div + "]").click(function() {
+    $(".numberBox-down[data-ref=" + _div + "]").click(function () {
 
       if (_div.indexOf('take') != -1) moduleDemo.typeIn = 'take';
       if (_div.indexOf('stop') != -1) moduleDemo.typeIn = 'stop';
@@ -411,12 +399,12 @@ let moduleDemo = {
   },
 
   removeBar: (_div) => {
-    
+
     if (_div.indexOf('pending') == -1) {
 
       $('#' + _div).removeClass('on');
       let lastData = ($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.reduceNumber(moduleDemo.dataIn[demoBox.dataIn.length - 1][7]);
-      
+
       $('input[data-ref=' + _div + ']').val(lastData);
       $('input[data-ref=' + _div + ']').parent().parent().removeClass('on');
 
@@ -483,7 +471,7 @@ let moduleDemo = {
     }
     return _number.toString();
   },
-  
+
   getYYYValue: (_div, _nb) => {
 
     let myVolume = moduleDemo.max - moduleDemo.min;
@@ -497,7 +485,7 @@ let moduleDemo = {
 
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
-        moduleDemo.setTradeSize();
+    moduleDemo.setTradeSize();
   },
 
   takeKeyUp: (_div) => {
@@ -582,9 +570,11 @@ let moduleDemo = {
     let myResultTake;
     let myResultSize;
 
-      myPoint = myAmount * moduleDemo.lastPrice / Math.abs((myStop - myPending)*1000);
-      myResultTake = (myPoint * Math.abs((myTake - myPending)*1000) / moduleDemo.lastPrice).toFixed(2) + " " + moduleDemo.devise;
-      myResultSize = myPoint.toFixed(2) + " " + "EUR";
+    myPoint = myAmount * moduleDemo.lastPrice / Math.abs((myStop - myPending) * 10000);
+    myResultTake = (myPoint * Math.abs((myTake - myPending) * 10000) / moduleDemo.lastPrice).toFixed(2) + " " + moduleDemo.devise;
+    myResultSize = (myPoint / 10).toFixed(2) + " " + "lot";
+    moduleDemo.type = myType;
+    moduleDemo.lot = (myPoint / 10).toFixed(2);
 
     $("#demoBoxInfos-takeProfit-indicator").html(myResultTake);
     $("#demoBoxInfos-stopLoss-indicator").html(myResultStop);
@@ -599,7 +589,7 @@ let moduleDemo = {
           moduleDemo.takeKeyUp("demoBoxDisplay-stop");
         }
       } else if (moduleDemo.typeIn == 'stop') {
-    if ($("#demoBoxDisplay-take").hasClass('on')) {
+        if ($("#demoBoxDisplay-take").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending + MyNewVal, 10000000));
           moduleDemo.takeKeyUp("demoBoxDisplay-take");
@@ -640,15 +630,15 @@ let moduleDemo = {
     }
   },
 
-  funPush: function(e, _function) {
+  funPush: function (e, _function) {
 
     clearTimeout(moduleDemo.myTimer);
-    moduleDemo.myTimer = setTimeout(function() {
+    moduleDemo.myTimer = setTimeout(function () {
       _function(e);
     }, 100);
   },
 };
 
-$(document).ready(function () {
+/* $(document).ready(function () {
   moduleDemo.init();
-});
+});  */
