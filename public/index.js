@@ -12,7 +12,7 @@ let moduleDemo = {
   endY: 0,
   typeIn: 'take',
   devise: "€",
-  tickInterval: "hour",
+  tickInterval: "h1",
   firstC: 'EUR',
   secondC: 'USD',
 
@@ -142,11 +142,10 @@ let moduleDemo = {
 
     $('#demoBox').addClass("loading");
     moduleDemo.clearChart();
+    let myTickInterval = moduleDemo.tickInterval;
 
     $('.demoBoxDisplay-nav').removeClass('on');
     $('.demoBoxDisplay-nav[data-value=' + moduleDemo.tickInterval + ']').addClass('on');
-
-    let myTickInterval = moduleDemo.tickInterval;
 
     let recoverdData = {
       currency: `${moduleDemo.firstC}/${moduleDemo.secondC}`,
@@ -613,7 +612,7 @@ let moduleDemo = {
           $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));
           moduleDemo.takeKeyUp("demoBoxDisplay-stop");
         }
-      } else if (demoBox.typeIn == 'stop') {
+      } else if (moduleDemo.typeIn == 'stop') {
         if ($("#demoBoxDisplay-take").hasClass('on')) {
 
           $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myPending - MyNewVal, 10000000));

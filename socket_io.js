@@ -1,5 +1,5 @@
 /* const resource = "/trading/get_instruments";
- */ 
+ */
 const config = require('./config_fxcm.js');
 const server = require('./server');
 const header = require('./sockets_connexion_fxcm');
@@ -33,8 +33,8 @@ let listen = (server) => {
           break;
         };
       };
-      
-       let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
+
+      let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
@@ -52,6 +52,21 @@ let listen = (server) => {
   });
 };
 
+let getAccountId = () => {
+  let resource = `/trading/get_model`;
+  axios({
+    url: `${proto}://${host}:${apiPort}${resource}`,
+    method: 'GET',
+    "models": "Account",
+    headers: header.requestHeaders
+  }).then((response) => {
+    let sentData = response.data;
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
 module.exports = {
-  listen
+  listen,
+  getAccountId
 }
