@@ -1,5 +1,3 @@
-/* const resource = "/trading/get_instruments";
- */
 const config = require('./config_fxcm.js');
 const server = require('./server');
 const header = require('./sockets_connexion_fxcm');
@@ -11,6 +9,8 @@ const requestHead = server.requestHeaders;
 const host = config.configFxcm.host;
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
+
+const prott = require(proto);
 
 const devises = {
   'EUR/USD': '1',
@@ -50,21 +50,26 @@ let listen = (server) => {
       })
     })
 
-      socket.on('sendTrade', (data) => {
-      let resource = data;
+    socket.on('sendTrade', (data) => {
+      let resource = '/trading/open_trade';
+
+      config.postTrade.amount = data.lot;
+      config.postTrade.limit = Number(data.take);
+      config.postTrade.is_buy = data.type === "buy" ? true : false;
+      config.postTrade.stop = Number(data.stop);
+      config.postTrade.symbol = data.currency;
+
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
-        method: 'GET',
-        "params": {
-          "models": ["Account"]
-        },    
+        method: 'POST',
+        "params": config.postTrade,
         headers: header.requestHeaders
       }).then((response) => {
-        let sentData = response.data;
+        let sentData = response;
       }).catch((error) => {
         console.log(error)
       })
-    })  
+    })
   });
 };
 

@@ -44,6 +44,7 @@ let getAccountId = () => {
     headers: requestHeaders
   }).then((response) => {
     config.configFxcm.accountId = response.data.accounts[0].accountId;
+    config.postTrade.account_id = response.data.accounts[0].accountId;
   }).catch((error) => {
     console.log(error)
   })
