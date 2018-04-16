@@ -14,23 +14,23 @@ let requestHeaders = {
 };
 
 let getConnexionFXCM = (token) => {
-    let socket = sockIo(proto + '://' + host + ':' + apiPort, {
-      query: {
-        access_token: token
-      }
-    });
-    socket.on('connect', () => {
-      console.log('Socket.IO session has been opened: ', socket.id);
-      requestHeaders.Authorization = 'Bearer ' + socket.id + token;
-      getAccountId();
-    });
-    socket.on('connect_error', (error) => {
-      console.log('Socket.IO session connect error: ', error);
-    });
-    // fired when socket.io cannot connect (login errors)
-    socket.on('error', (error) => {
-      console.log('Socket.IO session error: ', error);
-    });
+  let socket = sockIo(proto + '://' + host + ':' + apiPort, {
+    query: {
+      access_token: token
+    }
+  });
+  socket.on('connect', () => {
+    console.log('Socket.IO session has been opened: ', socket.id);
+    requestHeaders.Authorization = 'Bearer ' + socket.id + token;
+    getAccountId();
+  });
+  socket.on('connect_error', (error) => {
+    console.log('Socket.IO session connect error: ', error);
+  });
+  // fired when socket.io cannot connect (login errors)
+  socket.on('error', (error) => {
+    console.log('Socket.IO session error: ', error);
+  });
 };
 
 let getAccountId = () => {

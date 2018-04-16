@@ -8,7 +8,7 @@ const server = require('http').Server(app);
 
 const token = config.configFxcm.token;
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {

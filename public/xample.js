@@ -1270,3 +1270,9 @@ $(document).ready(function() {
       myObj = myObj.replace(" transition_0_2","");
       $(".demoBoxDisplay-nav."+myObj).addClass("on");
     } */
+
+  /*   url: `${proto}://${host}:${apiPort}${resource}?account_id=${config.postTrade.account_id}&
+        symbol=${config.postTrade.symbol}&is_buy=${config.postTrade.is_buy}&
+        limit=${config.postTrade.limit}&stop=${config.postTrade.stop}&
+        amount=${config.postTrade.amount}&rate=0&at_market=0&is_in_pips=false&
+        order_type=AtMarket&time_in_force=GTC` */

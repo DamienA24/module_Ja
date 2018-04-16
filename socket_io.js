@@ -3,6 +3,7 @@ const server = require('./server');
 const header = require('./sockets_connexion_fxcm');
 const axios = require('axios');
 const socketIo = require('socket.io');
+let querystring = require('query-string');
 
 const requestHead = server.requestHeaders;
 
@@ -10,7 +11,7 @@ const host = config.configFxcm.host;
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
 
-const prott = require(proto);
+const tradinghttp = require(proto);
 
 const devises = {
   'EUR/USD': '1',
@@ -53,22 +54,39 @@ let listen = (server) => {
     socket.on('sendTrade', (data) => {
       let resource = '/trading/open_trade';
 
-      config.postTrade.amount = data.lot;
+      config.postTrade.amount = data.lot.replace('.', ',');
       config.postTrade.limit = Number(data.take);
       config.postTrade.is_buy = data.type === "buy" ? true : false;
       config.postTrade.stop = Number(data.stop);
       config.postTrade.symbol = data.currency;
 
-      axios({
-        url: `${proto}://${host}:${apiPort}${resource}`,
+      let postData = querystring.stringify(config.postTrade);
+
+      let option = {
+        host: config.configFxcm.host,
+        port: 443,
         method: 'POST',
-        "params": config.postTrade,
+        path: resource,
         headers: header.requestHeaders
-      }).then((response) => {
-        let sentData = response;
-      }).catch((error) => {
-        console.log(error)
-      })
+      }
+
+      let req = tradinghttp.request(option, (res) => {
+        let result = '';
+        res.on('data', function (chunk) {
+          result += chunk;
+        });
+        res.on('end', function () {
+          let data = JSON.parse(result);
+          io.emit('messageServerPostData')
+        });
+        res.on('error', function (err) {
+          console.log('Error : ', err);
+        })
+      }).on('error', function (err) {
+        console.log('Req error : ', err);
+      });
+      req.write(postData);
+      req.end();
     })
   });
 };
