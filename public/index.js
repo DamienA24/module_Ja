@@ -17,6 +17,14 @@ let moduleDemo = {
   tickInterval: "h1",
   firstC: 'EUR',
   secondC: 'USD',
+  tradeTake: {
+    type: 'off',
+    endY: 0,
+    firstCurrency: '',
+    secondCurrency: '',
+    intervalTrade: '',
+    lastPrice: 0,
+  },
 
 
   init: () => {
@@ -25,6 +33,7 @@ let moduleDemo = {
     moduleDemo.context = moduleDemo.canvas.getContext("2d");
 
     $('#demoBoxInfos-balance-value').html(moduleDemo.balance + " " + moduleDemo.devise);
+    $('#demoBoxDisplay-tradeTake').hide();
 
     moduleDemo.initBarAndInput("demoBoxDisplay-take", {
       axis: 'y',
@@ -144,6 +153,7 @@ let moduleDemo = {
 
     $('#demoBox').addClass("loading");
     moduleDemo.clearChart();
+
     let myTickInterval = moduleDemo.tickInterval;
 
     $('.demoBoxDisplay-nav').removeClass('on');
@@ -179,7 +189,14 @@ let moduleDemo = {
     let trade = {};
     trade.take = $('input[data-ref=demoBoxDisplay-take]').val();
     trade.stop = $('input[data-ref=demoBoxDisplay-stop]').val();
-    trade.lot =  moduleDemo.lot;
+
+    if ($('#demoBoxDisplay-pending').hasClass('show')) {
+      trade.rate = Number($('#demoBoxDisplay-pendingWhere-label').html());
+    } else {
+      trade.rate = 0;
+    }
+
+    trade.lot = moduleDemo.lot;
     trade.type = moduleDemo.type;
     trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
     return trade;
@@ -288,11 +305,27 @@ let moduleDemo = {
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
 
+  drawTradeTake: (data) => {
+    moduleDemo.context.beginPath();
+    moduleDemo.context.setLineDash([5, 10]);
+    moduleDemo.context.moveTo(0, data.endY);
+    moduleDemo.context.lineTo(400, data.endY);
+    moduleDemo.context.lineWidth = 2;
+    moduleDemo.context.strokeStyle = 'blue';
+    moduleDemo.context.stroke();
+
+    moduleDemo.context.setLineDash([]);
+    moduleDemo.context.font = '16px Arial';
+    moduleDemo.context.strokeText(data.lastPrice, 10, data.endY - 3);
+    moduleDemo.context.closePath();
+  },
+
+
+
   initBarAndInput: (_div, _data) => {
 
     $("#" + _div).draggable(_data);
     $('#' + _div + "Where-close").click(function () {
-
       moduleDemo.removeBar(_div);
     });
     $('input[data-ref=' + _div + ']').keyup(function () {
@@ -382,6 +415,21 @@ let moduleDemo = {
     moduleDemo.context.clearRect(0, 0, moduleDemo.canvas.width, moduleDemo.canvas.height);
   },
 
+  renitializeInterface : () =>{
+    $('#demoBoxInfos-button-sell').removeClass('buttonModify').html('Vendre');
+    $('#demoBoxInfos-button-buy').removeClass('buttonClose').html('Acheter');
+    $('#demoBoxInfos-amount').show();
+    $('#demoBoxInfos-change').show(); 
+  },
+
+  changeInterface: () => {
+    moduleDemo.tradeTake.type = 'on';
+    $('#demoBoxInfos-change').hide();
+    $('#demoBoxInfos-amount').hide();
+    $('#demoBoxInfos-button-sell').addClass('buttonModify').html('Modifier');
+    $('#demoBoxInfos-button-buy').addClass('buttonClose').html('cloturer');
+  },
+
   reduceNumber: (_numb, _count) => {
 
     let myCount = _count || 1000;
@@ -403,7 +451,7 @@ let moduleDemo = {
     if (_div.indexOf('pending') == -1) {
 
       $('#' + _div).removeClass('on');
-      let lastData = ($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.reduceNumber(moduleDemo.dataIn[demoBox.dataIn.length - 1][7]);
+      let lastData = ($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.reduceNumber(moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7]);
 
       $('input[data-ref=' + _div + ']').val(lastData);
       $('input[data-ref=' + _div + ']').parent().parent().removeClass('on');
@@ -485,7 +533,14 @@ let moduleDemo = {
 
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
-    moduleDemo.setTradeSize();
+
+    if (moduleDemo.tradeTake.type === 'off') {
+      moduleDemo.setTradeSize();
+    } else {
+      if (_div === 'demoBoxDisplay-take') {
+        moduleDemo.setTradeSize();
+      }
+    }
   },
 
   takeKeyUp: (_div) => {
@@ -617,7 +672,12 @@ let moduleDemo = {
       $('#demoBoxInfos-button-sell').addClass("show");
       $('#demoBoxInfos-button-buy').addClass("show");
     } else {
-      $('#demoBoxInfos-button-' + myType).addClass("show");
+      if (moduleDemo.tradeTake.type == 'on') {
+        $('#demoBoxInfos-button-sell').addClass("show");
+        $('#demoBoxInfos-button-buy').addClass("show");
+      } else {
+        $('#demoBoxInfos-button-' + myType).addClass("show");
+      }
     }
     if (myAmount > moduleDemo.balance) {
 

@@ -231,13 +231,15 @@ section {
 
 #demoBox.loading #demoBoxDisplay #demoBoxDisplay-take,
 #demoBox.loading #demoBoxDisplay #demoBoxDisplay-stop,
-#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending {
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-tradeTake {
   display: none;
 }
 
 #demoBox.loading #demoBoxDisplay #demoBoxDisplay-take.show,
 #demoBox.loading #demoBoxDisplay #demoBoxDisplay-stop.show,
-#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending.show {
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending.show,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-tradeTake.show {
   display: none;
 }
 

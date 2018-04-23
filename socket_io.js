@@ -52,15 +52,23 @@ let listen = (server) => {
     })
 
     socket.on('sendTrade', (data) => {
-      let resource = '/trading/open_trade';
 
-      config.postTrade.amount = data.lot.replace('.', ',');
+      config.postTrade.amount = data.lot;
       config.postTrade.limit = Number(data.take);
       config.postTrade.is_buy = data.type === "buy" ? true : false;
       config.postTrade.stop = Number(data.stop);
       config.postTrade.symbol = data.currency;
 
       let postData = querystring.stringify(config.postTrade);
+      let resource;
+
+      if(data.rate === 0){
+         resource = '/trading/open_trade';
+      } else {
+        config.postTrade.rate = data.rate;
+         resource = '/create_entry_order';
+         config.postTrade.order_type = 'Entry';
+      }
 
       let option = {
         host: config.configFxcm.host,
@@ -77,7 +85,7 @@ let listen = (server) => {
         });
         res.on('end', function () {
           let data = JSON.parse(result);
-          io.emit('messageServerPostData')
+          io.emit('messageFromServerPostTrade');
         });
         res.on('error', function (err) {
           console.log('Error : ', err);

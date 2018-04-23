@@ -4,6 +4,8 @@ $(document).ready(function () {
   $('.demoBoxDisplay-devise').click((data) => {
     let _div = data;
     let sentData = moduleDemo.getData(_div);
+
+    moduleDemo.renitializeInterface();
     socket.emit('sendInstrument', sentData);
   });
 
@@ -39,9 +41,16 @@ $(document).ready(function () {
     moduleDemo.getMinMax(recupData);
   });
 
-  socket.on('messageServerPostData', function () {
-    alert('trade pris!');
-  });
+  socket.on('messageFromServerPostTrade', function () {
+    moduleDemo.tradeTake.endY = moduleDemo.endY;
+    moduleDemo.tradeTake.firstCurrency = moduleDemo.firstC;
+    moduleDemo.tradeTake.secondCurrency = moduleDemo.secondC;
+    moduleDemo.tradeTake.lastPrice = moduleDemo.lastPrice;
+    moduleDemo.tradeTake.type = 'on';
+
+     moduleDemo.drawTradeTake(moduleDemo.tradeTake);
+     moduleDemo.changeInterface();
+   });
 
   moduleDemo.init();
 });

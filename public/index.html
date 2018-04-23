@@ -138,6 +138,18 @@
               </div>
             </div>
 
+            <div id="demoBoxDisplay-tradeTake" class='toDrag'>
+              <div id="demoBoxDisplay-tradeTakeTrait"></div>
+              <div id="demoBoxDisplay-tradeTakeLabel">T</div>
+              <div id="demoBoxDisplay-tradeTakeWhere">
+                <div id="demoBoxDisplay-tradeTakeWhere-triangle"></div>
+                <div id="demoBoxDisplay-tradeTakeWhere-label">0</div>
+                <div id="demoBoxDisplay-tradeTakeWhere-close">
+                  <i class='fa fa-times'></i>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div class="clear onMobile"></div>
           <div id="demoBoxInfos">
@@ -208,7 +220,7 @@
                 <div class="clear"></div>
               </div>
               <div id="demoBoxInfos-pending">
-                <div id="demoBoxInfos-pending-label">{lg-home-demo-pending}</div>
+                <div id="demoBoxInfos-pending-label">Pending</div>
                 <div id="demoBoxInfos-pending-value">
                   <input type='text' value="0.580" data-ref="demoBoxDisplay-pending">
                   <div id="demoBoxInfos-pending-value-up" class="numberBox-up" data-ref="demoBoxDisplay-pending">
@@ -261,8 +273,8 @@
                 <p></p>
               </div>
               <div id="demoBoxInfos-buttons">
-                <div id="demoBoxInfos-button-sell" class="transition_0_2" href='{link-download}#register'>Vendre</div>
-                <div id="demoBoxInfos-button-buy" class="transition_0_2" href='{link-download}#register'>Acheter</div>
+                <div id="demoBoxInfos-button-sell" class="transition_0_2">Vendre</div>
+                <div id="demoBoxInfos-button-buy" class="transition_0_2">Acheter</div>
                 <div class="clear"></div>
               </div>
             </div>
@@ -274,13 +286,12 @@
     </div>
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-  <script
-			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-        crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/moment@2.22.0/moment.min.js"></script>
-  <script src="moment.js"></script>  
+  <script src="moment.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="socket_client.js"></script>
   <script src="index.js"></script>
