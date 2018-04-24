@@ -24,6 +24,10 @@ let moduleDemo = {
     secondCurrency: '',
     intervalTrade: '',
     lastPrice: 0,
+    posSL: 0,
+    posTP: 0,
+    valSL: 0,
+    valTP: 0
   },
 
 
@@ -224,9 +228,17 @@ let moduleDemo = {
 
     moduleDemo.context.stroke();
     moduleDemo.drawGrid();
-
     $('#demoBox').removeClass("loading");
 
+    if (moduleDemo.tradeTake.type == 'on') {
+      moduleDemo.drawTradeTake(moduleDemo.tradeTake);
+      $("input[data-ref=demoBoxDisplay-stop]").val(moduleDemo.tradeTake.valSL);
+      $("input[data-ref=demoBoxDisplay-take]").val(moduleDemo.tradeTake.valTP);
+      $('#demoBoxDisplay-take').css('top', moduleDemo.tradeTake.posTP.top - 3);
+      $('#demoBoxDisplay-stop').css('top', moduleDemo.tradeTake.posSL.top - 3);
+      $("#demoBoxDisplay-stopWhere-label").html(moduleDemo.tradeTake.valSL);
+      $("#demoBoxDisplay-takeWhere-label").html(moduleDemo.tradeTake.valTP);
+    }
   },
 
   drawGrid: () => {
@@ -318,9 +330,8 @@ let moduleDemo = {
     moduleDemo.context.font = '16px Arial';
     moduleDemo.context.strokeText(data.lastPrice, 10, data.endY - 3);
     moduleDemo.context.closePath();
+
   },
-
-
 
   initBarAndInput: (_div, _data) => {
 
@@ -415,15 +426,14 @@ let moduleDemo = {
     moduleDemo.context.clearRect(0, 0, moduleDemo.canvas.width, moduleDemo.canvas.height);
   },
 
-  renitializeInterface : () =>{
+  renitializeInterface: () => {
     $('#demoBoxInfos-button-sell').removeClass('buttonModify').html('Vendre');
     $('#demoBoxInfos-button-buy').removeClass('buttonClose').html('Acheter');
     $('#demoBoxInfos-amount').show();
-    $('#demoBoxInfos-change').show(); 
+    $('#demoBoxInfos-change').show();
   },
 
   changeInterface: () => {
-    moduleDemo.tradeTake.type = 'on';
     $('#demoBoxInfos-change').hide();
     $('#demoBoxInfos-amount').hide();
     $('#demoBoxInfos-button-sell').addClass('buttonModify').html('Modifier');

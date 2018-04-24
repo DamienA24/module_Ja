@@ -20,7 +20,16 @@ const postTrade = {
   "time_in_force": "GTC"
 }
 
+const changeTrade = {
+  "order_id": null,
+  "limit": 0,
+  "is_limit_in_pips": null,
+  "stop": 0,
+  "is_stop_in_pips": null
+}
+
 module.exports = {
   configFxcm,
-  postTrade
+  postTrade,
+  changeTrade
 };
