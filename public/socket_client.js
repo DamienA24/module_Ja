@@ -20,7 +20,10 @@ $(document).ready(function () {
 
   $('#demoBoxInfos-buttons').click(() => {
     if ($('#demoBoxInfos-button-sell').hasClass("show") || $('#demoBoxInfos-button-buy').hasClass("show") && !$('#demoBoxDisplay-pending').hasClass('show')) {
-      moduleDemo.context;
+      if($('#demoBoxInfos-button-buy').hasClass("buttonClose")) {
+        let closeTrade = moduleDemo.closeTrade();
+        socket.emit('closeTrade', closeTrade);
+      }
       let sendTrade = moduleDemo.sendTrade();
       if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
@@ -54,7 +57,6 @@ $(document).ready(function () {
     moduleDemo.tradeTake.valTP = $("input[data-ref=demoBoxDisplay-take]").val();
     moduleDemo.tradeTake.posSL = $("#demoBoxDisplay-stop").position();
     moduleDemo.tradeTake.posTP = $("#demoBoxDisplay-take").position();
-
 
     moduleDemo.drawTradeTake(moduleDemo.tradeTake);
     moduleDemo.changeInterface();

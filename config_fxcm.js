@@ -4,9 +4,9 @@ const configFxcm = {
   port: 443,
   proto: 'https',
   accountId: null
-}
+};
 
-const postTrade = {
+let postTrade = {
   "account_id": null,
   "symbol": null,
   "is_buy": null,
@@ -18,18 +18,27 @@ const postTrade = {
   "is_in_pips": false,
   "order_type": "AtMarket",
   "time_in_force": "GTC"
-}
+};
 
-const changeTrade = {
+let changeTrade = {
   "order_id": null,
   "limit": 0,
-  "is_limit_in_pips": null,
+  "is_limit_in_pips": false,
   "stop": 0,
-  "is_stop_in_pips": null
-}
+  "is_stop_in_pips": false
+};
+
+let closeTrade = {
+  "trade_id": null,
+  "amount": 0,
+  "at_market": 0,
+  "order_type": "AtMarket",
+  "time_in_force": "GTC"
+};
 
 module.exports = {
   configFxcm,
   postTrade,
-  changeTrade
+  changeTrade,
+  closeTrade
 };

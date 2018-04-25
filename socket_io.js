@@ -25,7 +25,7 @@ let listen = (server) => {
 
   io.on('connection', (socket) => {
 
-    socket.on('sendInstrument', function (data) {
+    socket.on('sendInstrument', (data) => {
       let recoverdData = data;
 
       for (let props in devises) {
@@ -52,24 +52,45 @@ let listen = (server) => {
     })
 
     socket.on('sendTrade', (data) => {
+      requestTradeSend(data);
+    });
 
-      config.postTrade.amount = data.lot;
-      config.postTrade.limit = Number(data.take);
-      config.postTrade.is_buy = data.type === "buy" ? true : false;
-      config.postTrade.stop = Number(data.stop);
-      config.postTrade.symbol = data.currency;
+    socket.on('sendTradeChange', (data) => {
+      /*to do */
+    });
 
-      let postData = querystring.stringify(config.postTrade);
+    socket.on('closeTrade', (data) => {
+      requestTradeSend(data);
+    });
+
+    function requestTradeSend(data) {
       let resource;
+      let postData;
+      let dataModify = data.modify == 'yes' ? 'yes' : 'no';
 
-      if(data.rate === 0){
-         resource = '/trading/open_trade';
+      if (dataModify == 'yes') {
+        config.changeTrade.limit = data.take;
+        config.changeTrade.stop = data.stop;
+
+        resource = '/trading/change_trade_stop_limit';
+        postData = querystring.stringify(config.changeTrade);
+
+      } else if(data.close == 'on') {
+        config.closeTrade.amount = data.amount;
+        resource = 'trading/close_trade';
+
+        postData = querystring.stringify(config.closeTrade);
       } else {
-        config.postTrade.rate = data.rate;
-         resource = '/create_entry_order';
-         config.postTrade.order_type = 'Entry';
-      }
+        config.postTrade.amount = data.lot;
+        config.postTrade.limit = Number(data.take);
+        config.postTrade.is_buy = data.type === "buy" ? true : false;
+        config.postTrade.stop = Number(data.stop);
+        config.postTrade.symbol = data.currency;
 
+        resource = '/trading/open_trade';
+        postData = querystring.stringify(config.postTrade);
+      }
+    
       let option = {
         host: config.configFxcm.host,
         port: 443,
@@ -84,7 +105,11 @@ let listen = (server) => {
           result += chunk;
         });
         res.on('end', function () {
-          let data = JSON.parse(result);
+          if (dataModify == 'no') {
+            let data = JSON.parse(result);
+            config.changeTrade.order_id = String(data.data.orderId);
+          }
+          console.log(result);
           io.emit('messageFromServerPostTrade');
         });
         res.on('error', function (err) {
@@ -95,7 +120,8 @@ let listen = (server) => {
       });
       req.write(postData);
       req.end();
-    })
+      
+    }
   });
 };
 

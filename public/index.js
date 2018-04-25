@@ -193,6 +193,7 @@ let moduleDemo = {
     let trade = {};
     trade.take = $('input[data-ref=demoBoxDisplay-take]').val();
     trade.stop = $('input[data-ref=demoBoxDisplay-stop]').val();
+    trade.modify = moduleDemo.tradeTake.type == 'on' ? 'yes' : 'no';
 
     if ($('#demoBoxDisplay-pending').hasClass('show')) {
       trade.rate = Number($('#demoBoxDisplay-pendingWhere-label').html());
@@ -204,6 +205,14 @@ let moduleDemo = {
     trade.type = moduleDemo.type;
     trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
     return trade;
+  },
+
+  closeTrade: () => {
+    let closeTrade = {};
+    closeTrade.amount = moduleDemo.lot;
+    closeTrade.close = 'on';
+    
+    return closeTrade;
   },
 
   drawChart: (_data) => {
