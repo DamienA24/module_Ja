@@ -33,7 +33,8 @@ let closeTrade = {
   "amount": 0,
   "at_market": 0,
   "order_type": "AtMarket",
-  "time_in_force": "GTC"
+  "time_in_force": "GTC",
+  "close" : "off"
 };
 
 module.exports = {

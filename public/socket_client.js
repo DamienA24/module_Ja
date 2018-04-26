@@ -3,9 +3,8 @@ $(document).ready(function () {
 
   $('.demoBoxDisplay-devise').click((data) => {
     moduleDemo.tradeTake.type = 'off';
-    let _div = data;
-    let sentData = moduleDemo.getData(_div);
-
+    moduleDemo._divDevise = data;
+    let sentData = moduleDemo.getData(moduleDemo._divDevise);
     moduleDemo.renitializeInterface();
     socket.emit('sendInstrument', sentData);
   });
@@ -18,18 +17,25 @@ $(document).ready(function () {
     socket.emit('sendInstrument', sentData);
   });
 
-  $('#demoBoxInfos-buttons').click(() => {
+  $('#demoBoxInfos-buttons').click((data) => {
     if ($('#demoBoxInfos-button-sell').hasClass("show") || $('#demoBoxInfos-button-buy').hasClass("show") && !$('#demoBoxDisplay-pending').hasClass('show')) {
-      if($('#demoBoxInfos-button-buy').hasClass("buttonClose")) {
+      if ($('#demoBoxInfos-button-buy').hasClass("buttonClose")) {
+        moduleDemo.tradeTake.type = 'off';
         let closeTrade = moduleDemo.closeTrade();
         socket.emit('closeTrade', closeTrade);
-      }
-      let sendTrade = moduleDemo.sendTrade();
-      if (sendTrade.lot < 1) {
-        $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
+
+        let sentData = moduleDemo.getData(moduleDemo._divDevise);
+        socket.emit('sendInstrument', sentData);
+        moduleDemo.renitializeInterface();
       } else {
-        socket.emit('sendTrade', sendTrade);
+        let sendTrade = moduleDemo.sendTrade();
+        if (sendTrade.lot < 1) {
+          $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
+        } else {
+          socket.emit('sendTrade', sendTrade);
+        }
       }
+
     }
 
     if ($('#demoBoxDisplay-pending').hasClass('show')) {
@@ -60,6 +66,10 @@ $(document).ready(function () {
 
     moduleDemo.drawTradeTake(moduleDemo.tradeTake);
     moduleDemo.changeInterface();
+  });
+
+  socket.on('messageFromServerTradeClose', function() {
+    
   });
 
   moduleDemo.init();

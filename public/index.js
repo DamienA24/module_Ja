@@ -12,6 +12,7 @@ let moduleDemo = {
   endY: 0,
   lot: null,
   type: null,
+  _divDevise: null,
   typeIn: 'take',
   devise: "€",
   tickInterval: "h1",
@@ -147,6 +148,7 @@ let moduleDemo = {
 
     myObj = myObj.replace("demoBoxDisplay-devise ", "");
     myObj = myObj.replace(" transition_0_2", "");
+    myObj = myObj.replace("off", "");
 
     if (myObj == 'usd' || myObj == 'aud' || myObj == 'cad' || myObj == 'jpy') {
       $('.demoBoxDisplay-devise').removeClass("on");
@@ -211,7 +213,7 @@ let moduleDemo = {
     let closeTrade = {};
     closeTrade.amount = moduleDemo.lot;
     closeTrade.close = 'on';
-    
+
     return closeTrade;
   },
 

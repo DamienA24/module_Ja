@@ -75,9 +75,10 @@ let listen = (server) => {
         resource = '/trading/change_trade_stop_limit';
         postData = querystring.stringify(config.changeTrade);
 
-      } else if(data.close == 'on') {
+      } else if (data.close == 'on') {
         config.closeTrade.amount = data.amount;
-        resource = 'trading/close_trade';
+        config.closeTrade.close = data.close;
+        resource = '/trading/close_trade';
 
         postData = querystring.stringify(config.closeTrade);
       } else {
@@ -90,7 +91,7 @@ let listen = (server) => {
         resource = '/trading/open_trade';
         postData = querystring.stringify(config.postTrade);
       }
-    
+
       let option = {
         host: config.configFxcm.host,
         port: 443,
@@ -105,12 +106,14 @@ let listen = (server) => {
           result += chunk;
         });
         res.on('end', function () {
-          if (dataModify == 'no') {
-            let data = JSON.parse(result);
-            config.changeTrade.order_id = String(data.data.orderId);
-          }
           console.log(result);
-          io.emit('messageFromServerPostTrade');
+          if (config.closeTrade.close == "on") {
+            io.emit('messageFromServerTradeClose');
+          } else {
+            io.emit('messageFromServerPostTrade');
+            getPositionOPen();
+          }
+
         });
         res.on('error', function (err) {
           console.log('Error : ', err);
@@ -120,8 +123,26 @@ let listen = (server) => {
       });
       req.write(postData);
       req.end();
-      
-    }
+
+    };
+
+    function getPositionOPen() {
+      let resource = `/trading/get_model`;
+      axios({
+        url: `${proto}://${host}:${apiPort}${resource}`,
+        method: 'GET',
+        "params": {
+          "models": "OpenPosition",
+          "isTotal": true
+        },
+        headers: header.requestHeaders
+      }).then((response) => {
+        console.log(response);
+        config.closeTrade.trade_id = response.data.open_positions[0].tradeId;
+      }).catch((error) => {
+        console.log(error)
+      })
+    };
   });
 };
 
