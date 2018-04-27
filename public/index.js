@@ -30,8 +30,7 @@ let moduleDemo = {
     valSL: 0,
     valTP: 0
   },
-
-
+ 
   init: () => {
 
     moduleDemo.canvas = document.getElementById(moduleDemo.canvasId);

@@ -108,12 +108,12 @@ let listen = (server) => {
         res.on('end', function () {
           console.log(result);
           if (config.closeTrade.close == "on") {
+            config.closeTrade.close = "off";
             io.emit('messageFromServerTradeClose');
           } else {
             io.emit('messageFromServerPostTrade');
             getPositionOPen();
           }
-
         });
         res.on('error', function (err) {
           console.log('Error : ', err);

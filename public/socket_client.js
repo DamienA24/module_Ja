@@ -35,7 +35,6 @@ $(document).ready(function () {
           socket.emit('sendTrade', sendTrade);
         }
       }
-
     }
 
     if ($('#demoBoxDisplay-pending').hasClass('show')) {
@@ -68,8 +67,8 @@ $(document).ready(function () {
     moduleDemo.changeInterface();
   });
 
-  socket.on('messageFromServerTradeClose', function() {
-    
+  socket.on('messageFromServerTradeClose', function () {
+
   });
 
   moduleDemo.init();
