@@ -2,6 +2,8 @@ const sockIo = require('socket.io-client');
 const config = require('./config_fxcm.js');
 const https = require('https');
 const axios = require('axios');
+let querystring = require('query-string');
+let update = require('./socket_io');
 
 const token = config.configFxcm.token;
 const host = config.configFxcm.host;
@@ -24,7 +26,8 @@ let getConnexionFXCM = (token) => {
     console.log('Socket.IO session has been opened: ', socket.id);
     requestHeaders.Authorization = 'Bearer ' + socket.id + token;
     getAccountId();
-  });
+/*     suscribePrices(socket);
+ */  });
   socket.on('connect_error', (error) => {
     console.log('Socket.IO session connect error: ', error);
   });
@@ -46,40 +49,9 @@ let getAccountId = () => {
   }).then((response) => {
     config.configFxcm.accountId = response.data.accounts[0].accountId;
     config.postTrade.account_id = response.data.accounts[0].accountId;
-    suscribeTable();
   }).catch((error) => {
     console.log(error)
   })
-};
-
-let suscribeTable = () => {
-
-  let subscribe = ` {"tables":["Order","OpenPosition"]}`;
-
-  let option = {
-    host: config.configFxcm.host,
-    port: 443,
-    method: 'POST',
-    path: '/trading/subscribe',
-    headers: requestHeaders
-  };
-
-  let req = https.request(option, (res) => {
-    let result = '';
-    res.on('data', function (chunk) {
-      result += chunk;
-    });
-    res.on('end', function () {
-      console.log(result);
-    });
-    res.on('error', function (err) {
-      console.log('Error : ', err);
-    })
-  }).on('error', function (err) {
-    console.log('Req error : ', err);
-  });
-  req.write(subscribe);
-  req.end();
 };
 
 module.exports = {

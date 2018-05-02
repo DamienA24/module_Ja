@@ -1,5 +1,5 @@
 const configFxcm = {
-  token: "d3e536cf4fa2fa8f4ab9eeaaf7554d87e610f747", // get this from http://tradingstation.fxcm.com/
+  token: "a1262fae0f94fd916143398e99cc89c6acd80795",
   host: 'api-demo.fxcm.com',
   port: 443,
   proto: 'https',

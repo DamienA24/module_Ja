@@ -1,11 +1,9 @@
-const config = require('./config_fxcm.js');
+const config = require('./config_fxcm');
 const server = require('./server');
 const header = require('./sockets_connexion_fxcm');
 const axios = require('axios');
 const socketIo = require('socket.io');
 let querystring = require('query-string');
-
-const requestHead = server.requestHeaders;
 
 const host = config.configFxcm.host;
 const apiPort = config.configFxcm.port;
@@ -22,7 +20,6 @@ const devises = {
 
 let listen = (server) => {
   let io = socketIo.listen(server);
-
   io.on('connection', (socket) => {
 
     socket.on('sendInstrument', (data) => {
@@ -39,7 +36,7 @@ let listen = (server) => {
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
-        "params": {
+        params: {
           "num": 351
         },
         headers: header.requestHeaders
