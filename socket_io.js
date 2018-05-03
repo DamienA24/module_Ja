@@ -39,7 +39,7 @@ let listen = (server) => {
         params: {
           "num": 351
         },
-        headers: header.requestHeaders
+        headers: config.requestHeaders
       }).then((response) => {
         let sentData = response.data;
         io.emit('messageFromServer', sentData);
