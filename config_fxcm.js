@@ -34,12 +34,19 @@ let closeTrade = {
   "at_market": 0,
   "order_type": "AtMarket",
   "time_in_force": "GTC",
-  "close" : "off"
+  "close": "off"
+};
+
+let requestHeaders = {
+  'User-Agent': 'request',
+  'Accept': 'application/json',
+  'Content-Type': 'application/x-www-form-urlencoded',
 };
 
 module.exports = {
   configFxcm,
   postTrade,
   changeTrade,
-  closeTrade
+  closeTrade,
+  requestHeaders
 };

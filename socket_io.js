@@ -1,8 +1,9 @@
-const config = require('./config_fxcm');
-const server = require('./server');
 const header = require('./sockets_connexion_fxcm');
-const axios = require('axios');
+const config = require('./config_fxcm');
 const socketIo = require('socket.io');
+const server = require('./server');
+const axios = require('axios');
+
 let querystring = require('query-string');
 
 const host = config.configFxcm.host;
@@ -16,12 +17,11 @@ const devises = {
   'AUD/USD': '6',
   'EUR/JPY': '10',
   'GBP/CAD': '20',
-}
+};
 
 let listen = (server) => {
   let io = socketIo.listen(server);
   io.on('connection', (socket) => {
-
     socket.on('sendInstrument', (data) => {
       let recoverdData = data;
 
@@ -95,7 +95,7 @@ let listen = (server) => {
         method: 'POST',
         path: resource,
         headers: header.requestHeaders
-      }
+      };
 
       let req = tradinghttp.request(option, (res) => {
         let result = '';

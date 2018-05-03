@@ -1,6 +1,6 @@
-const express = require('express');
-const config = require('./config_fxcm.js');
 const connexionSocket = require('./sockets_connexion_fxcm');
+const config = require('./config_fxcm.js');
+const express = require('express');
 const io = require('./socket_io');
 
 const app = express();
