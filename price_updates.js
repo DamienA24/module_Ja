@@ -51,6 +51,5 @@ let priceUpdate = (update) => {
 };
 
 module.exports = {
-  priceUpdate,
   suscribePrices
 };
