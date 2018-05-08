@@ -48,5 +48,6 @@ module.exports = {
   postTrade,
   changeTrade,
   closeTrade,
-  requestHeaders
+  requestHeaders,
+  
 };

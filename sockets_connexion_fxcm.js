@@ -20,8 +20,8 @@ let getConnexionFXCM = (token) => {
     console.log('Socket.IO session has been opened: ', socket.id);
     config.requestHeaders.Authorization = 'Bearer ' + socket.id + token;
     getAccountId();
-    updatePrice.suscribePrices(socket);
-  });
+/*     updatePrice.suscribePrices(socket)
+ */  });
   socket.on('connect_error', (error) => {
     console.log('Socket.IO session connect error: ', error);
   });
@@ -29,7 +29,8 @@ let getConnexionFXCM = (token) => {
   socket.on('error', (error) => {
     console.log('Socket.IO session error: ', error);
   });
-};
+
+}; 
 
 let getAccountId = () => {
   let resource = `/trading/get_model`;
@@ -50,5 +51,5 @@ let getAccountId = () => {
 
 module.exports = {
   getConnexionFXCM,
-  getAccountId
+  getAccountId,
 };

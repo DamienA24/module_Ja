@@ -1,7 +1,6 @@
 const connexionSocket = require('./sockets_connexion_fxcm');
 const config = require('./config_fxcm.js');
 const express = require('express');
-const io = require('./socket_io');
 
 const app = express();
 const server = require('http').Server(app);
@@ -21,7 +20,8 @@ server.listen(port, () => {
 
 connexionSocket.getConnexionFXCM(token);
 require('./socket_io').listen(server);
+require('./price_updates').listenPrice(server);
 
 module.exports = {
-  server
-}
+   server,
+ }

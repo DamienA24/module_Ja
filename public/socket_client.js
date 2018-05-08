@@ -67,9 +67,5 @@ $(document).ready(function () {
     moduleDemo.changeInterface();
   });
 
-  socket.on('messageFromServerTradeClose', function () {
-
-  });
-
   moduleDemo.init();
 });
