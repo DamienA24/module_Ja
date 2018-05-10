@@ -20,8 +20,8 @@ let getConnexionFXCM = (token) => {
     console.log('Socket.IO session has been opened: ', socket.id);
     config.requestHeaders.Authorization = 'Bearer ' + socket.id + token;
     getAccountId();
-/*     updatePrice.suscribePrices(socket)
- */  });
+     updatePrice.suscribePrices(socket)
+  });
   socket.on('connect_error', (error) => {
     console.log('Socket.IO session connect error: ', error);
   });

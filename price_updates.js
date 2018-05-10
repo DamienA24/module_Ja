@@ -66,7 +66,7 @@ let listenPrice = (server) => {
   return io;
 };
 
-/* let priceUpdate = (update) => {
+let priceUpdate = (update) => {
   try {
     let jsonData = JSON.parse(update);
 
@@ -79,7 +79,7 @@ let listenPrice = (server) => {
     console.log('price update JSON parse error: ', e);
     return;
   }
-}; */
+};
 
 let suscribePrices = (socket) => {
   let pairs = {

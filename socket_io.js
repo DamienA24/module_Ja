@@ -187,8 +187,6 @@ let listen = (server) => {
       }
     }; */
   });
-
-  return io;
 };
 
 module.exports = {
