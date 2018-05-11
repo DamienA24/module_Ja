@@ -17,9 +17,9 @@ const devises = {
   'GBP/CAD': '20',
 };
 
-let listen = (server) => {
-  let io = socketIo.listen(server);
+let listen = (io) => {
   io.on('connection', (socket) => {
+    console.log('OKOKOKOK')
     socket.on('sendInstrument', (data) => {
       let recoverdData = data;
 

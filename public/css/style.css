@@ -7,8 +7,8 @@
 @font-face {
   font-family: 'OpenSansLight';
   src: url("../fonts/OpenSansLight/OpenSansLight.eot");
-  src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
-  font-weight: bold;
+/*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
+ */  font-weight: bold;
   font-style: normal;
 }
 
@@ -17,7 +17,8 @@ section {
 }
 
 .ergonomie-home-public {
-  background-image: url("../img/demoBG.jpg");
+  /*   background-image: url("../img/demoBG.jpg");
+ */
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
@@ -98,7 +99,8 @@ section {
 
 #demo {
   color: #FFFFFF;
-  background-image: url(../../images/testDynamisBox/stock-1863880_1920.jpg);
+  /*   background-image: url(../../images/testDynamisBox/stock-1863880_1920.jpg);
+ */
   padding: 50px 0px;
   position: relative;
 }
@@ -782,7 +784,8 @@ section {
   border-bottom: 2px solid #FFFFFF;
   padding: 10px 0px;
   font-size: 14px;
-  background-image: url(../../content/images/testDynamisBox/bg1.png);
+  /*   background-image: url(../../content/images/testDynamisBox/bg1.png);
+ */
   background-position: top center;
   background-size: 100%;
   background-repeat: no-repeat;
@@ -1226,7 +1229,8 @@ section {
   padding-top: 17px;
   text-align: center;
   color: #3F3F47;
-  background-image: url(../../content/images/testDynamisBox/bg2.png);
+  /*   background-image: url(../../content/images/testDynamisBox/bg2.png);
+ */
   background-position: top center;
   background-size: contain;
   background-repeat: no-repeat;

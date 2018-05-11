@@ -1,5 +1,6 @@
 const connexionSocket = require('./sockets_connexion_fxcm');
 const config = require('./config_fxcm.js');
+const socketIo = require('socket.io');
 const express = require('express');
 
 const app = express();
@@ -11,7 +12,7 @@ const port = process.env.PORT || 8080;
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 server.listen(port, () => {
@@ -19,8 +20,9 @@ server.listen(port, () => {
 });
 
 connexionSocket.getConnexionFXCM(token);
-require('./socket_io').listen(server);
-require('./price_updates').listenPrice(server);
+let io = socketIo.listen(server);
+require('./socket_io').listen(io);
+require('./price_updates').listenPrice(io);
 
 module.exports = {
    server,

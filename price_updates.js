@@ -6,8 +6,7 @@ const https = require('https');
 
 
 
-let listenPrice = (server) => {
-  let io = socketIo.listen(server);
+let listenPrice = (io) => {
   io.on('connection', (socket) => {
 
     socket.on('test', (data) => {

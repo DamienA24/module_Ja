@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var socket = io('http://localhost:8080');
+  var socket = new io('ws://localhost:8080/');
 
   $('.demoBoxDisplay-devise').click((data) => {
     moduleDemo.tradeTake.type = 'off';
