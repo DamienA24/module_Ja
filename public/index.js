@@ -34,8 +34,6 @@ let moduleDemo = {
 
   init: () => {
 
-    moduleDemo.canvas = document.getElementById(moduleDemo.canvasId);
-    moduleDemo.context = moduleDemo.canvas.getContext("2d");
 
     $('#demoBoxInfos-balance-value').html(moduleDemo.balance + " " + moduleDemo.devise);
     $('#demoBoxDisplay-tradeTake').hide();
@@ -158,8 +156,8 @@ let moduleDemo = {
     }
 
     $('#demoBox').addClass("loading");
-    moduleDemo.clearChart();
-
+    /*     moduleDemo.clearChart();
+     */
     let myTickInterval = moduleDemo.tickInterval;
 
     $('.demoBoxDisplay-nav').removeClass('on');
@@ -217,7 +215,7 @@ let moduleDemo = {
     return closeTrade;
   },
 
-  drawChart: (_data) => {
+  /* drawChart: (_data) => {
 
     let myTickInterval = moduleDemo.tickInterval;
     let ratio = 240 / (moduleDemo.max - moduleDemo.min);
@@ -353,9 +351,38 @@ let moduleDemo = {
     moduleDemo.context.moveTo(351, 240 - moduleDemo.endLine * ratio);
     console.log(`valueY =  ${240 - (price.rate - moduleDemo.min)*ratio}`);
     moduleDemo.context.strokeStyle = "red"; // Green path
-  
+
     moduleDemo.context.lineTo(352, 240 - moduleDemo.endLine * ratio);
     moduleDemo.context.stroke();
+  }, */
+
+  initChart: (dataTest) => {
+    moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
+    var option = {
+      xAxis: {
+        data: ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27']
+      },
+      yAxis: {},
+      series: [{
+        type: '',
+        data: [
+          [20, 30, 10, 35],
+          [40, 35, 30, 55],
+          [33, 38, 33, 40],
+          [40, 40, 32, 42]
+        ]
+      }]
+    };
+    moduleDemo.canvas.setOption(option);
+  },
+
+  drawChart: (_data) => {
+    let candlesArray = _data.candles.slice(300);
+    let test = [];
+    candlesArray.forEach((candle) => {
+      test.push(candle.slice(1, 5));
+    });
+    moduleDemo.initChart(test);
   },
 
   initBarAndInput: (_div, _data) => {

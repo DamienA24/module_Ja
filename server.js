@@ -1,5 +1,7 @@
 const connexionSocket = require('./sockets_connexion_fxcm');
 const config = require('./config_fxcm.js');
+const path = require('path');
+
 /* const socketIo = require('socket.io');
 
 const express = require('express');
@@ -17,6 +19,8 @@ const token = config.configFxcm.token;
 
 const port = process.env.PORT || 8080;
 app.use(express.static(__dirname + '/public'));
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');

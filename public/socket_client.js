@@ -49,8 +49,11 @@ $(document).ready(function () {
 
   socket.on('messageFromServer', function (data) {
     let recupData = data;
-    moduleDemo.getMinMax(recupData);
-  });
+/*     moduleDemo.getMinMax(recupData);
+ */  
+    moduleDemo.drawChart(recupData);
+
+});
 
   socket.on('messageFromServerPostTrade', function () {
     moduleDemo.tradeTake.endY = moduleDemo.endY;
@@ -67,10 +70,10 @@ $(document).ready(function () {
     moduleDemo.changeInterface();
   });
 
-  socket.on('test2', function (data) {
+  /* socket.on('test2', function (data) {
   console.log(data);
    moduleDemo.drawUpdatePrice(data);
-  });
+  }); */
 
   moduleDemo.init();
   socket.emit('test2');
