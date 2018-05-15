@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var socket = new io('ws://localhost:8080/');
+  var socket = io('http://localhost:8080/');
 
   $('.demoBoxDisplay-devise').click((data) => {
     moduleDemo.tradeTake.type = 'off';
@@ -67,5 +67,11 @@ $(document).ready(function () {
     moduleDemo.changeInterface();
   });
 
+  socket.on('test2', function (data) {
+    console.log(data);
+   moduleDemo.drawUpdatePrice(data);
+  });
+
   moduleDemo.init();
+  socket.emit('test2');
 });

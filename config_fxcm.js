@@ -1,3 +1,9 @@
+const socketIo = require('socket.io');
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+let io = socketIo.listen(server);
+
 const configFxcm = {
   token: "a1262fae0f94fd916143398e99cc89c6acd80795",
   host: 'api-demo.fxcm.com',
@@ -49,5 +55,8 @@ module.exports = {
   changeTrade,
   closeTrade,
   requestHeaders,
-  
+  io,
+  app,
+  express,
+  server
 };

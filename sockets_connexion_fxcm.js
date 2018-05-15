@@ -3,6 +3,7 @@ const querystring = require('query-string');
 const sockIo = require('socket.io-client');
 const config = require('./config_fxcm.js');
 const axios = require('axios');
+const ioTest = require('./config_fxcm').io;
 
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
@@ -20,17 +21,15 @@ let getConnexionFXCM = (token) => {
     console.log('Socket.IO session has been opened: ', socket.id);
     config.requestHeaders.Authorization = 'Bearer ' + socket.id + token;
     getAccountId();
-     updatePrice.suscribePrices(socket)
+    require('./price_updates').listenPrice(socket, ioTest);
   });
   socket.on('connect_error', (error) => {
     console.log('Socket.IO session connect error: ', error);
   });
-  // fired when socket.io cannot connect (login errors)
   socket.on('error', (error) => {
     console.log('Socket.IO session error: ', error);
   });
-
-}; 
+};
 
 let getAccountId = () => {
   let resource = `/trading/get_model`;

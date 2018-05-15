@@ -322,7 +322,6 @@ let moduleDemo = {
     for (let i = 1; i < 5; i++) {
       let toShow = (moduleDemo.min + myStep * (5 - i));
       myHtml += "<div class='yyy' style='top:" + (240 / 5 * i) + "px'><div class='yyy-value'>" + moduleDemo.reduceNumber(toShow, 10000000) + "</div></div>";
-
     }
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
@@ -341,6 +340,20 @@ let moduleDemo = {
     moduleDemo.context.strokeText(data.lastPrice, 10, data.endY - 3);
     moduleDemo.context.closePath();
 
+  },
+
+  drawUpdatePrice: (price) => {
+
+    let myTickInterval = moduleDemo.tickInterval;
+    let ratio = 240 / (moduleDemo.max - moduleDemo.min);
+
+    moduleDemo.context.beginPath();
+
+    moduleDemo.context.moveTo(351, 240 - (price.rate - moduleDemo.min) * ratio);
+
+    moduleDemo.context.strokeStyle = "white"; // Green path
+    moduleDemo.context.lineTo(360, 240 - (price.rate - moduleDemo.min) * ratio);
+    moduleDemo.context.stroke();
   },
 
   initBarAndInput: (_div, _data) => {
