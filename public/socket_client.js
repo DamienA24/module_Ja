@@ -68,7 +68,7 @@ $(document).ready(function () {
   });
 
   socket.on('test2', function (data) {
-    console.log(data);
+  console.log(data);
    moduleDemo.drawUpdatePrice(data);
   });
 

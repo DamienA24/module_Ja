@@ -10,6 +10,7 @@ let moduleDemo = {
   max: 30000,
   buffer: 0,
   endY: 0,
+  endLine: 0,
   lot: null,
   type: null,
   _divDevise: null,
@@ -30,7 +31,7 @@ let moduleDemo = {
     valSL: 0,
     valTP: 0
   },
- 
+
   init: () => {
 
     moduleDemo.canvas = document.getElementById(moduleDemo.canvasId);
@@ -220,6 +221,7 @@ let moduleDemo = {
 
     let myTickInterval = moduleDemo.tickInterval;
     let ratio = 240 / (moduleDemo.max - moduleDemo.min);
+    moduleDemo.endLine = _data[350][7] - moduleDemo.min
 
     moduleDemo.canvas.width = 400;
     moduleDemo.canvas.height = 240;
@@ -231,7 +233,6 @@ let moduleDemo = {
     moduleDemo.context.moveTo(0, 240 - (_data[0][7] - moduleDemo.min) * ratio);
 
     for (let i = 0; i < _data.length; i++) {
-
       let iw = i;
       moduleDemo.context.lineTo(iw, 240 - (_data[i][7] - moduleDemo.min) * ratio);
     }
@@ -349,10 +350,11 @@ let moduleDemo = {
 
     moduleDemo.context.beginPath();
 
-    moduleDemo.context.moveTo(351, 240 - (price.rate - moduleDemo.min) * ratio);
-
-    moduleDemo.context.strokeStyle = "white"; // Green path
-    moduleDemo.context.lineTo(360, 240 - (price.rate - moduleDemo.min) * ratio);
+    moduleDemo.context.moveTo(351, 240 - moduleDemo.endLine * ratio);
+    console.log(`valueY =  ${240 - (price.rate - moduleDemo.min)*ratio}`);
+    moduleDemo.context.strokeStyle = "red"; // Green path
+  
+    moduleDemo.context.lineTo(352, 240 - moduleDemo.endLine * ratio);
     moduleDemo.context.stroke();
   },
 

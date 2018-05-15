@@ -15,7 +15,7 @@ let listenPrice = (socket, io) => {
 
     let suscribePrices = (socket) => {
       let pairs = {
-        "pairs": ["EUR/USD", "AUD/USD"]
+        "pairs": ["EUR/USD"]
       };
       let postData = querystring.stringify(pairs);
       let option = {
