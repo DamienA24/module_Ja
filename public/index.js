@@ -120,7 +120,7 @@ let moduleDemo = {
 
       if ($('#demoBoxDisplay-pending').hasClass('show')) {
 
-        var myVal = moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7];
+        var myVal = moduleDemo.dataIn[moduleDemo.dataIn.length - 1][2];
 
         $("input[data-ref=demoBoxDisplay-pending]").val(moduleDemo.reduceNumber(myVal, 10000000));
         moduleDemo.takeKeyUp("demoBoxDisplay-pending");
@@ -155,7 +155,8 @@ let moduleDemo = {
       moduleDemo.secondC = data.currentTarget.dataset.second;
     }
 
-    $('#demoBox').addClass("loading");
+    /*     $('#demoBox').addClass("loading");
+     */
     /*     moduleDemo.clearChart();
      */
     let myTickInterval = moduleDemo.tickInterval;
@@ -356,33 +357,88 @@ let moduleDemo = {
     moduleDemo.context.stroke();
   }, */
 
-  initChart: (dataTest) => {
+  initChart: (dataTest, time) => {
     moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
     var option = {
       xAxis: {
-        data: ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27']
+        data: time,
+        axisLine: {
+          lineStyle: {
+            color: '#8392A5'
+          }
+        },
+        boundaryGap: ['10%', '10%'],
+        axisTick: {
+          interval: 10
+        }
       },
-      yAxis: {},
+      min: time[0],
+      max: time[time.length - 1],
+      scale: true,
+      yAxis: {
+        scale: true,
+      },
       series: [{
-        type: '',
-        data: [
-          [20, 30, 10, 35],
-          [40, 35, 30, 55],
-          [33, 38, 33, 40],
-          [40, 40, 32, 42]
-        ]
+        type: 'k',
+        data: dataTest,
+        itemStyle: {
+          normal: {
+            color: '#FD1050',
+            color0: '#0CF49B',
+            borderColor: '#FD1050',
+            borderColor0: '#0CF49B'
+          }
+        }
       }]
     };
     moduleDemo.canvas.setOption(option);
   },
 
   drawChart: (_data) => {
+    moduleDemo.dataIn = _data.candles;
+    moduleDemo.lastPrice = _data.candles[350][2];
     let candlesArray = _data.candles.slice(300);
-    let test = [];
-    candlesArray.forEach((candle) => {
-      test.push(candle.slice(1, 5));
+
+    moduleDemo.max = 0;
+    moduleDemo.min = 10000;
+
+    for (let candle of _data.candles) {
+      moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
+    }
+    moduleDemo.type = 1;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
+
+    moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
+    moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
+
+    $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.lastPrice);
+    moduleDemo.takeKeyUp('demoBoxDisplay-take');
+
+    $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.lastPrice);
+    moduleDemo.takeKeyUp('demoBoxDisplay-stop');
+
+    $("#demoBoxInfos-price-down").html(_data.candles[350][1]);
+    $("#demoBoxInfos-price-up").html(_data.candles[350][2]);
+
+    $('#demoBoxDisplay-take').css('top', 80);
+    $('#demoBoxDisplay-stop').css('top', 160);
+    $('#demoBoxDisplay-pending').css('top', 120);
+
+    moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
+    moduleDemo.getYYYValue("demoBoxDisplay-stop", 157);
+    moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
+
+    let dates = candlesArray.map(function (item) {
+      let d = new Date(item[0] * 1000);
+      return d.getHours();
     });
-    moduleDemo.initChart(test);
+
+    let data = candlesArray.map(function (item) {
+      return [+item[1], +item[2], +item[3], +item[4]];
+    });
+
+    moduleDemo.initChart(data, dates);
   },
 
   initBarAndInput: (_div, _data) => {
