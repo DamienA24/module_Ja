@@ -372,6 +372,12 @@ let moduleDemo = {
           interval: 10
         }
       },
+    grid: {
+        left: '10%',
+        right: '10%',
+        top: '5%',
+        bottom: '10%'
+    },
       min: time[0],
       max: time[time.length - 1],
       scale: true,
