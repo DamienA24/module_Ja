@@ -372,18 +372,14 @@ let moduleDemo = {
         }
       },
       grid: {
-        left: '10%',
+        left: '1%',
         right: '10%',
         top: '5%',
         bottom: '10%'
       },
       yAxis: {
         scale: true,
-        axisLine: {
-          lineStyle: {
-            color: '#8392A5'
-          }
-        }
+        show: false,
       },
       series: [{
         type: 'k',
@@ -400,6 +396,21 @@ let moduleDemo = {
     };
     moduleDemo.canvas.setOption(options);
   },
+
+  drawGridYYY: () => {
+
+    let myHtml = "";
+    let myVolume = moduleDemo.max - moduleDemo.min;
+
+    let myStep = myVolume / 5;
+
+    for (let i = 1; i < 5; i++) {
+      let toShow = (moduleDemo.min + myStep * (5 - i));
+      myHtml += "<div class='yyy' style='top:" + (240 / 5 * i) + "px'><div class='yyy-value'>" + moduleDemo.reduceNumber(toShow, 10000000) + "</div></div>";
+    }
+    $('#demoBoxDisplay-yyy').html(myHtml);
+  },
+
 
   drawChart: (_data) => {
     moduleDemo.dataIn = _data.candles;
@@ -446,6 +457,7 @@ let moduleDemo = {
     });
 
     moduleDemo.initChart(data, dates);
+    moduleDemo.drawGridYYY();
   },
 
   initBarAndInput: (_div, _data) => {
