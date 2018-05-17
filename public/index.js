@@ -372,17 +372,19 @@ let moduleDemo = {
           interval: 10
         }
       },
-    grid: {
+      grid: {
         left: '10%',
         right: '10%',
         top: '5%',
         bottom: '10%'
-    },
-      min: time[0],
-      max: time[time.length - 1],
-      scale: true,
+      },
       yAxis: {
         scale: true,
+        axisLine: {
+          lineStyle: {
+            color: '#8392A5'
+          }
+        }
       },
       series: [{
         type: 'k',
