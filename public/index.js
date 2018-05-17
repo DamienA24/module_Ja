@@ -369,7 +369,7 @@ let moduleDemo = {
           }
         },
         axisTick: {
-          interval: 10
+          interval: 5
         }
       },
       tooltip: {
@@ -429,7 +429,7 @@ let moduleDemo = {
 
     for (let candle of candlesArray) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
     }
     moduleDemo.type = 1;
     moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
