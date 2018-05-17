@@ -180,7 +180,7 @@ let moduleDemo = {
 
     for (let candle of _data.candles) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
     }
     moduleDemo.type = 1;
     moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
@@ -372,11 +372,17 @@ let moduleDemo = {
           interval: 10
         }
       },
+      tooltip: {
+        trigger: 'none',
+        axisPointer: {
+          type: 'cross'
+        }
+      },
       grid: {
         left: '1%',
         right: '10%',
         top: '0%',
-        bottom: '1%'
+        bottom: '0%'
       },
       yAxis: {
         scale: true,
@@ -423,10 +429,10 @@ let moduleDemo = {
 
     for (let candle of candlesArray) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
     }
     moduleDemo.type = 1;
-    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 10 / 100;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
 
     moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
     moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
