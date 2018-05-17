@@ -362,6 +362,7 @@ let moduleDemo = {
     let options = {
       xAxis: {
         data: time,
+        show: false,
         axisLine: {
           lineStyle: {
             color: '#8392A5'
@@ -374,8 +375,8 @@ let moduleDemo = {
       grid: {
         left: '1%',
         right: '10%',
-        top: '5%',
-        bottom: '10%'
+        top: '0%',
+        bottom: '1%'
       },
       yAxis: {
         scale: true,
@@ -386,10 +387,10 @@ let moduleDemo = {
         data: dataTest,
         itemStyle: {
           normal: {
-            color: '#FD1050',
-            color0: '#0CF49B',
-            borderColor: '#FD1050',
-            borderColor0: '#0CF49B'
+            color: '#0CF49B',
+            color0: '#FD1050',
+            borderColor: '#0CF49B',
+            borderColor0: '#FD1050'
           }
         }
       }]
@@ -749,7 +750,7 @@ let moduleDemo = {
     var myStop = $('input[data-ref=demoBoxDisplay-stop]').val();
 
     var myType = (Number(myTake) > Number(myStop)) ? "buy" : "sell";
-    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.dataIn[moduleDemo.dataIn.length - 1][7]);
+    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.dataIn[moduleDemo.dataIn.length - 1][2]);
 
 
     if ($('#demoBoxInfos-amount-type').hasClass("pourcentage")) {
