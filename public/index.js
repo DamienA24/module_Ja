@@ -359,7 +359,7 @@ let moduleDemo = {
 
   initChart: (dataTest, time) => {
     moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
-    var option = {
+    let options = {
       xAxis: {
         data: time,
         axisLine: {
@@ -367,7 +367,6 @@ let moduleDemo = {
             color: '#8392A5'
           }
         },
-        boundaryGap: ['10%', '10%'],
         axisTick: {
           interval: 10
         }
@@ -399,7 +398,7 @@ let moduleDemo = {
         }
       }]
     };
-    moduleDemo.canvas.setOption(option);
+    moduleDemo.canvas.setOption(options);
   },
 
   drawChart: (_data) => {
@@ -410,12 +409,12 @@ let moduleDemo = {
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
 
-    for (let candle of _data.candles) {
+    for (let candle of candlesArray) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
     }
     moduleDemo.type = 1;
-    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 10 / 100;
 
     moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
     moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
