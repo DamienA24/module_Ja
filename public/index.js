@@ -428,8 +428,8 @@ let moduleDemo = {
     moduleDemo.min = 10000;
 
     for (let candle of candlesArray) {
-      moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[8]);
+      moduleDemo.max = Math.max(moduleDemo.max, candle[3]);
+      moduleDemo.min = Math.min(moduleDemo.min, candle[4]);
     }
     moduleDemo.type = 1;
     moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
