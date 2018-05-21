@@ -387,6 +387,8 @@ let moduleDemo = {
       yAxis: {
         scale: true,
         show: false,
+        min: moduleDemo.min,
+        max: moduleDemo.max
       },
       series: [{
         type: 'k',
@@ -405,10 +407,9 @@ let moduleDemo = {
   },
 
   drawGridYYY: () => {
-
     let myHtml = "";
     let myVolume = moduleDemo.max - moduleDemo.min;
-
+    
     let myStep = myVolume / 5;
 
     for (let i = 1; i < 5; i++) {
@@ -432,10 +433,10 @@ let moduleDemo = {
       moduleDemo.min = Math.min(moduleDemo.min, candle[4]);
     }
     moduleDemo.type = 1;
-    /* moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
 
     moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
-    moduleDemo.max = moduleDemo.max + moduleDemo.buffer; */
+    moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
 
     $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.lastPrice);
     moduleDemo.takeKeyUp('demoBoxDisplay-take');
