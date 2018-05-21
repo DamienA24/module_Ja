@@ -4,7 +4,9 @@ $(document).ready(function () {
   $('.demoBoxDisplay-devise').click((data) => {
     moduleDemo.tradeTake.type = 'off';
     moduleDemo._divDevise = data;
+
     let sentData = moduleDemo.getData(moduleDemo._divDevise);
+    
     moduleDemo.renitializeInterface();
     socket.emit('sendInstrument', sentData);
   });

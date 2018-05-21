@@ -34,7 +34,6 @@ let moduleDemo = {
 
   init: () => {
 
-
     $('#demoBoxInfos-balance-value').html(moduleDemo.balance + " " + moduleDemo.devise);
     $('#demoBoxDisplay-tradeTake').hide();
 
@@ -171,25 +170,25 @@ let moduleDemo = {
     return recoverdData;
   },
 
- /*  getMinMax: (_data) => {
-    moduleDemo.dataIn = _data.candles;
-    moduleDemo.lastPrice = _data.candles[_data.candles.length - 1][7];
+  /*  getMinMax: (_data) => {
+     moduleDemo.dataIn = _data.candles;
+     moduleDemo.lastPrice = _data.candles[_data.candles.length - 1][7];
 
-    moduleDemo.max = 0;
-    moduleDemo.min = 10000;
+     moduleDemo.max = 0;
+     moduleDemo.min = 10000;
 
-    for (let candle of _data.candles) {
-      moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-      moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
-    }
-    moduleDemo.type = 1;
-   moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
+     for (let candle of _data.candles) {
+       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
+       moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
+     }
+     moduleDemo.type = 1;
+    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
 
-    moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
-    moduleDemo.max = moduleDemo.max + moduleDemo.buffer; 
-    moduleDemo.drawChart(moduleDemo.dataIn);
-  },
- */
+     moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
+     moduleDemo.max = moduleDemo.max + moduleDemo.buffer; 
+     moduleDemo.drawChart(moduleDemo.dataIn);
+   },
+  */
   sendTrade: () => {
     let trade = {};
     trade.take = $('input[data-ref=demoBoxDisplay-take]').val();
@@ -326,22 +325,6 @@ let moduleDemo = {
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
 
-  drawTradeTake: (data) => {
-    moduleDemo.context.beginPath();
-    moduleDemo.context.setLineDash([5, 10]);
-    moduleDemo.context.moveTo(0, data.endY);
-    moduleDemo.context.lineTo(400, data.endY);
-    moduleDemo.context.lineWidth = 2;
-    moduleDemo.context.strokeStyle = 'blue';
-    moduleDemo.context.stroke();
-
-    moduleDemo.context.setLineDash([]);
-    moduleDemo.context.font = '16px Arial';
-    moduleDemo.context.strokeText(data.lastPrice, 10, data.endY - 3);
-    moduleDemo.context.closePath();
-
-  },
-
   drawUpdatePrice: (price) => {
 
     let myTickInterval = moduleDemo.tickInterval;
@@ -357,59 +340,10 @@ let moduleDemo = {
     moduleDemo.context.stroke();
   }, */
 
-  initChart: (dataTest, time) => {
-    moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
-    let options = {
-      xAxis: {
-        data: time,
-        show: false,
-        axisLine: {
-          lineStyle: {
-            color: '#8392A5'
-          }
-        },
-        axisTick: {
-          interval: 5
-        }
-      },
-      tooltip: {
-        trigger: 'none',
-        axisPointer: {
-          type: 'cross'
-        }
-      },
-      grid: {
-        left: '1%',
-        right: '10%',
-        top: '0%',
-        bottom: '0%'
-      },
-      yAxis: {
-        scale: true,
-        show: false,
-        min: moduleDemo.min,
-        max: moduleDemo.max
-      },
-      series: [{
-        type: 'k',
-        data: dataTest,
-        itemStyle: {
-          normal: {
-            color: '#0CF49B',
-            color0: '#FD1050',
-            borderColor: '#0CF49B',
-            borderColor0: '#FD1050'
-          }
-        }
-      }]
-    };
-    moduleDemo.canvas.setOption(options);
-  },
-
   drawGridYYY: () => {
     let myHtml = "";
     let myVolume = moduleDemo.max - moduleDemo.min;
-    
+
     let myStep = myVolume / 5;
 
     for (let i = 1; i < 5; i++) {
@@ -418,7 +352,6 @@ let moduleDemo = {
     }
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
-
 
   drawChart: (_data) => {
     moduleDemo.dataIn = _data.candles;
@@ -466,6 +399,71 @@ let moduleDemo = {
 
     moduleDemo.initChart(data, dates);
     moduleDemo.drawGridYYY();
+  },
+
+  initChart: (dataCandle, time) => {
+    moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
+    let options = {
+      xAxis: {
+        data: time,
+        show: false,
+        axisLine: {
+          lineStyle: {
+            color: '#8392A5'
+          }
+        },
+        axisTick: {
+          interval: 5
+        }
+      },
+      tooltip: {
+        trigger: 'none',
+        axisPointer: {
+          type: 'cross'
+        }
+      },
+      grid: {
+        left: '1%',
+        right: '10%',
+        top: '0%',
+        bottom: '0%'
+      },
+      yAxis: {
+        scale: true,
+        show: false,
+        min: moduleDemo.min,
+        max: moduleDemo.max
+      },
+      series: [{
+        type: 'k',
+        data: dataCandle,
+        itemStyle: {
+          normal: {
+            color: '#0CF49B',
+            color0: '#FD1050',
+            borderColor: '#0CF49B',
+            borderColor0: '#FD1050'
+          }
+        }
+      }]
+    };
+    moduleDemo.canvas.setOption(options);
+  },
+
+  drawTradeTake: (data) => {
+    moduleDemo.context.beginPath();
+    moduleDemo.context.setLineDash([5, 10]);
+    moduleDemo.context.moveTo(0, data.endY);
+    moduleDemo.context.lineTo(400, data.endY);
+    moduleDemo.context.lineWidth = 2;
+    moduleDemo.context.strokeStyle = 'blue';
+    moduleDemo.context.stroke();
+
+    moduleDemo.context.setLineDash([]);
+    moduleDemo.context.font = '16px Arial';
+    moduleDemo.context.strokeText(data.lastPrice, 10, data.endY - 3);
+    moduleDemo.context.closePath();
+
   },
 
   initBarAndInput: (_div, _data) => {
