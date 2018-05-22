@@ -39,6 +39,9 @@ let moduleDemo = {
     $('#demoBoxInfos-balance-value').html(moduleDemo.balance + " " + moduleDemo.devise);
     $('#demoBoxDisplay-tradeTake').hide();
 
+    $(".demoBoxDisplay-devise.usd").addClass("on");
+    $('.demoBoxDisplay-nav[data-value=h1]').addClass('on');
+
     moduleDemo.initBarAndInput("demoBoxDisplay-take", {
       axis: 'y',
       containment: '#demoBoxDisplay-chart',
@@ -61,6 +64,13 @@ let moduleDemo = {
       start: moduleDemo.pendingStartDrag,
       drag: moduleDemo.pendingDrag,
       stop: moduleDemo.pendingStopDrag
+    });
+   $('#demoBoxDisplay-stopWhere-label').mousemove(() => {
+      let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
+      let comp = moduleDemo.lastPrice.toFixed(4)
+      if(stop == comp) {
+        moduleDemo.closeTrade();
+      }
     });
 
     $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
@@ -202,7 +212,6 @@ let moduleDemo = {
     } else {
       trade.rate = 0;
     }
-
     trade.lot = moduleDemo.lot;
     trade.type = moduleDemo.type;
     trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
@@ -214,133 +223,53 @@ let moduleDemo = {
     closeTrade.amount = moduleDemo.lot;
     closeTrade.close = 'on';
 
-    return closeTrade;
-  },
-
-  /* drawChart: (_data) => {
-
-    let myTickInterval = moduleDemo.tickInterval;
-    let ratio = 240 / (moduleDemo.max - moduleDemo.min);
-    moduleDemo.endLine = _data[350][7] - moduleDemo.min
-
-    moduleDemo.canvas.width = 400;
-    moduleDemo.canvas.height = 240;
-
-    moduleDemo.context.beginPath();
-    moduleDemo.endY = 240 - (_data[_data.length - 1][7] - moduleDemo.min) * ratio;
-
-    moduleDemo.context.strokeStyle = "white"; // Green path
-    moduleDemo.context.moveTo(0, 240 - (_data[0][7] - moduleDemo.min) * ratio);
-
-    for (let i = 0; i < _data.length; i++) {
-      let iw = i;
-      moduleDemo.context.lineTo(iw, 240 - (_data[i][7] - moduleDemo.min) * ratio);
-    }
-
-    moduleDemo.context.stroke();
-    moduleDemo.drawGrid();
-    $('#demoBox').removeClass("loading");
-
-    if (moduleDemo.tradeTake.type == 'on') {
-      moduleDemo.drawTradeTake(moduleDemo.tradeTake);
-      $("input[data-ref=demoBoxDisplay-stop]").val(moduleDemo.tradeTake.valSL);
-      $("input[data-ref=demoBoxDisplay-take]").val(moduleDemo.tradeTake.valTP);
-      $('#demoBoxDisplay-take').css('top', moduleDemo.tradeTake.posTP.top - 3);
-      $('#demoBoxDisplay-stop').css('top', moduleDemo.tradeTake.posSL.top - 3);
-      $("#demoBoxDisplay-stopWhere-label").html(moduleDemo.tradeTake.valSL);
-      $("#demoBoxDisplay-takeWhere-label").html(moduleDemo.tradeTake.valTP);
-    }
-  },
-
-  drawGrid: () => {
-
-    moduleDemo.drawGridXXX();
-    moduleDemo.drawGridYYY();
-
-    $('#demoBoxDisplay-take').css('top', 80);
-    $('#demoBoxDisplay-stop').css('top', 160);
-    $('#demoBoxDisplay-pending').css('top', 120);
-
-    moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
-    moduleDemo.getYYYValue("demoBoxDisplay-stop", 157);
-    moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
-
-    let lastData = moduleDemo.dataIn[moduleDemo.dataIn.length - 1];
-
-    $("#demoBoxInfos-price-down").html(lastData[2]);
-    $("#demoBoxInfos-price-up").html(lastData[7]);
-
-    $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
-    moduleDemo.takeKeyUp('demoBoxDisplay-take');
-
-    $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(lastData[7], 10000000));
-    moduleDemo.takeKeyUp('demoBoxDisplay-stop');
-
-    $(window, document).trigger('resize');
-
-  },
-
-  drawGridXXX: () => {
-
-    let myTickInterval = moduleDemo.tickInterval;
-    let myHtml = "";
-
-    let myStep = Math.floor(moduleDemo.dataIn.length / 8);
-
-    for (let i = 1; i < 8; i++) {
-      if (moduleDemo.dataIn[i * myStep]) {
-
-        var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
-      } else {
-        if (myTickInterval == "week") {
-
-          var myDate = moment(moduleDemo.dataIn[(i - 1) * myStep][0] * 1000);
-          myDate.add(1, 'day');
-        } else {
-
-          var myDate = moment(moduleDemo.dataIn[(i - 1) * myStep][0] * 1000);
-          myDate.add(1, 'day');
+    let options = {
+      xAxis: {
+        data: moduleDemo.dates,
+        show: false,
+        axisLine: {
+          lineStyle: {
+            color: '#8392A5'
+          }
+        },
+        axisTick: {
+          interval: 5
         }
-      }
-      if (myTickInterval == "week") {
-        myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("MMM Do") + "</div></div>";
-      } else if (myTickInterval == "month") {
-        myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("MMM Do") + "</div></div>";
-      } else {
-        myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("HH:mm") + "</div></div>";
-      }
-    }
-    $('#demoBoxDisplay-xxx').html(myHtml);
+      },
+      grid: {
+        left: '1%',
+        right: '10%',
+        top: '0%',
+        bottom: '0%'
+      },
+      yAxis: {
+        scale: true,
+        show: false,
+        min: moduleDemo.min,
+        max: moduleDemo.max
+      },
+      series: [{
+        type: 'k',
+        data: moduleDemo.data,
+        itemStyle: {
+          normal: {
+            color: '#0CF49B',
+            color0: '#FD1050',
+            borderColor: '#0CF49B',
+            borderColor0: '#FD1050'
+          }
+        },
+        markLine: {
+          silent: false,
+          data: [{
+            yAxis: 0,
+          }]
+        }
+      }]
+    };
+    moduleDemo.canvas.setOption(options);
+    moduleDemo.renitializeInterface();
   },
-
-  drawGridYYY: () => {
-
-    let myHtml = "";
-    let myVolume = moduleDemo.max - moduleDemo.min;
-
-    let myStep = myVolume / 5;
-
-    for (let i = 1; i < 5; i++) {
-      let toShow = (moduleDemo.min + myStep * (5 - i));
-      myHtml += "<div class='yyy' style='top:" + (240 / 5 * i) + "px'><div class='yyy-value'>" + moduleDemo.reduceNumber(toShow, 10000000) + "</div></div>";
-    }
-    $('#demoBoxDisplay-yyy').html(myHtml);
-  },
-
-  drawUpdatePrice: (price) => {
-
-    let myTickInterval = moduleDemo.tickInterval;
-    let ratio = 240 / (moduleDemo.max - moduleDemo.min);
-
-    moduleDemo.context.beginPath();
-
-    moduleDemo.context.moveTo(351, 240 - moduleDemo.endLine * ratio);
-    console.log(`valueY =  ${240 - (price.rate - moduleDemo.min)*ratio}`);
-    moduleDemo.context.strokeStyle = "red"; // Green path
-
-    moduleDemo.context.lineTo(352, 240 - moduleDemo.endLine * ratio);
-    moduleDemo.context.stroke();
-  }, */
 
   drawGridYYY: () => {
     let myHtml = "";
@@ -491,17 +420,11 @@ let moduleDemo = {
         markLine: {
           silent: true,
           data: [{
-            yAxis: Number(data.valSL).toFixed(3),
+            yAxis: (moduleDemo.lastPrice).toFixed(3),
             lineStyle: {
-              color: 'rgb(255, 0, 0)',
+              color: 'rgb(0,0,205)',
               width: 2
             }
-          }, {
-            yAxis: Number(data.valTP).toFixed(3),
-            lineStyle: {
-              color: 'rgb(34,139,34)',
-              width: 2
-            },
           }]
         }
       }]
@@ -610,6 +533,13 @@ let moduleDemo = {
   },
 
   changeInterface: () => {
+
+    if (!$('#demoBoxInfos-button-sell').hasClass('show')) {
+      $('#demoBoxInfos-button-sell').addClass('show')
+    } else if (!$('#demoBoxInfos-button-buy').hasClass('show')) {
+      $('#demoBoxInfos-button-buy').addClass('show')
+    }
+
     $('#demoBoxInfos-change').hide();
     $('#demoBoxInfos-amount').hide();
     $('#demoBoxInfos-button-sell').addClass('buttonModify').html('Modifier');
