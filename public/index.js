@@ -23,6 +23,7 @@ let moduleDemo = {
   secondC: 'USD',
   tradeTake: {
     type: 'off',
+    order: null,
     endY: 0,
     firstCurrency: '',
     secondCurrency: '',
@@ -65,12 +66,12 @@ let moduleDemo = {
       drag: moduleDemo.pendingDrag,
       stop: moduleDemo.pendingStopDrag
     });
-   $('#demoBoxDisplay-stopWhere-label').mousemove(() => {
-      let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
-      let comp = moduleDemo.lastPrice.toFixed(4)
-      if(stop == comp) {
-        moduleDemo.closeTrade();
-      }
+    $('#demoBoxDisplay-stopWhere-label').mousemove(() => {
+      moduleDemo.closeTradeLineTouch();
+    });
+
+    $('#demoBoxInfos-stopLoss-value').keyup(() => {
+      moduleDemo.closeTradeLineTouch();
     });
 
     $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
@@ -87,6 +88,14 @@ let moduleDemo = {
 
       $("input[data-ref=demoBoxDisplay-amount]").val(moduleDemo.numberMore(myVal, -1));
       moduleDemo.setTradeSize();
+    });
+
+    $(".numberBox-up[data-ref=demoBoxDisplay-stop]").click(function () {
+      moduleDemo.closeTradeLineTouch();
+    });
+
+    $(".numberBox-down[data-ref=demoBoxDisplay-stop]").click(function () {
+      moduleDemo.closeTradeLineTouch();
     });
 
     $('input[data-ref=demoBoxDisplay-amount]').keyup(function () {
@@ -215,6 +224,8 @@ let moduleDemo = {
     trade.lot = moduleDemo.lot;
     trade.type = moduleDemo.type;
     trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
+    console.log(moduleDemo.typeIn)
+
     return trade;
   },
 
@@ -269,6 +280,22 @@ let moduleDemo = {
     };
     moduleDemo.canvas.setOption(options);
     moduleDemo.renitializeInterface();
+  },
+
+  closeTradeLineTouch: () => {
+    let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
+    let price = moduleDemo.lastPrice;
+    let stopBis = Number(stop).toFixed(4);
+
+    if(moduleDemo.tradeTake.order == 'sell') {
+      if(stopBis < price) {
+        moduleDemo.closeTrade();
+      }
+    } else {
+      if(stopBis > price) {
+        moduleDemo.closeTrade();
+      }
+    }
   },
 
   drawGridYYY: () => {

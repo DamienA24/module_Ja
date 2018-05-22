@@ -19,42 +19,13 @@ $(document).ready(function () {
     socket.emit('sendInstrument', sentData);
   });
 
-  /* $('#demoBoxInfos-buttons').click((data) => {
-    if ($('#demoBoxInfos-button-sell').hasClass("show") || $('#demoBoxInfos-button-buy').hasClass("show") && !$('#demoBoxDisplay-pending').hasClass('show')) {
-      if ($('#demoBoxInfos-button-buy').hasClass("buttonClose") && !$('#demoBoxInfos-button-sell').hasClass("buttonModify")) {
-        moduleDemo.tradeTake.type = 'off';
-        let closeTrade = moduleDemo.closeTrade();
-        socket.emit('closeTrade', closeTrade);
-
-        let sentData = moduleDemo.getData(moduleDemo._divDevise);
-        socket.emit('sendInstrument', sentData);
-        moduleDemo.renitializeInterface();
-      } else {
-        let sendTrade = moduleDemo.sendTrade();
-        if (sendTrade.lot < 1) {
-          $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-        } else {
-          socket.emit('sendTrade', sendTrade);
-        }
-      }
-    }
-
-    if ($('#demoBoxDisplay-pending').hasClass('show')) {
-      let sendTrade = moduleDemo.sendTrade();
-      if (sendTrade.lot < 1) {
-        $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-      } else {
-        socket.emit('sendTrade', sendTrade);
-      }
-    }
-  }); */
-
   $('#demoBoxInfos-button-sell').click(() => {
     if ($('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
       let sendTrade = moduleDemo.sendTrade();
       if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
+        moduleDemo.tradeTake.order = 'sell';
         socket.emit('sendTrade', sendTrade);
       }
     }
@@ -69,6 +40,7 @@ $(document).ready(function () {
       if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
+        moduleDemo.tradeTake.order = 'buy';
         socket.emit('sendTrade', sendTrade);
       }
     }
