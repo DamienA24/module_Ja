@@ -316,8 +316,7 @@ let moduleDemo = {
   drawChart: (_data) => {
     moduleDemo.dataIn = _data.candles;
     moduleDemo.lastPrice = _data.candles[50][2];
-/*     let candlesArray = _data.candles.slice(300);
- */
+
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
 
@@ -353,9 +352,17 @@ let moduleDemo = {
       let d = new Date(item[0] * 1000);
       return d.getHours();
     });
-
-    moduleDemo.data = moduleDemo.dataIn.map(function (item) {
+    
+    /* moduleDemo.data = moduleDemo.dataIn.map(function (item) {
       return [+item[1], +item[2], +item[3], +item[4]];
+    }); */
+
+   let newData = moduleDemo.dataIn.map(function (item) {
+      return [((item[1]+item[5])/2), ((item[2]+item[6])/2), ((item[4]+item[8])/2), ((item[3]+item[7])/2)];
+    });
+
+    moduleDemo.data = newData.map(function (item) {
+      return[Number(item[0].toFixed(5)), Number(item[1].toFixed(5)), Number(item[2].toFixed(5)), Number(item[3].toFixed(5))]
     });
 
     moduleDemo.initChart(moduleDemo.data, moduleDemo.dates);

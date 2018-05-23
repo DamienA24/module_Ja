@@ -9,7 +9,7 @@ let listenPrice = (socket, io) => {
 
   io.on('connection', (socket) => {
 
-     socket.on('test2', () => {
+     socket.on('realTime', () => {
       suscribePrices(sock);
     });
 
@@ -64,10 +64,10 @@ let listenPrice = (socket, io) => {
 
     let sendpriceUpdate = (time, pair, rate) => {
       let priceObj = {};
-      priceObj.rate = rate[1];
+      priceObj.rate = rate;
       priceObj.pair = pair;
 
-      io.emit('test2', priceObj);
+      io.emit('ServerSendRealTime', priceObj);
     };
   });
 };

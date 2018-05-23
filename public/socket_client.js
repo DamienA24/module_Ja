@@ -84,10 +84,10 @@ $(document).ready(function () {
      moduleDemo.closeTrade()
    }); */
 
-  /* socket.on('test2', function (data) {
+  socket.on('ServerSendRealTime', function (data) {
   console.log(data);
-   moduleDemo.drawUpdatePrice(data);
-  }); */
+/*    moduleDemo.drawUpdatePrice(data);
+ */  }); 
 
   let dataInitial = {
     currency: 'EUR/USD',
@@ -95,7 +95,6 @@ $(document).ready(function () {
   };
 
   moduleDemo.init();
-  socket.emit('test2');
+  socket.emit('realTime');
   socket.emit('sendInstrument', dataInitial);
-
 });
