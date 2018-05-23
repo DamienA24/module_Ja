@@ -191,25 +191,6 @@ let moduleDemo = {
     return recoverdData;
   },
 
-  /*  getMinMax: (_data) => {
-     moduleDemo.dataIn = _data.candles;
-     moduleDemo.lastPrice = _data.candles[_data.candles.length - 1][7];
-
-     moduleDemo.max = 0;
-     moduleDemo.min = 10000;
-
-     for (let candle of _data.candles) {
-       moduleDemo.max = Math.max(moduleDemo.max, candle[7]);
-       moduleDemo.min = Math.min(moduleDemo.min, candle[7]);
-     }
-     moduleDemo.type = 1;
-    moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
-
-     moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
-     moduleDemo.max = moduleDemo.max + moduleDemo.buffer; 
-     moduleDemo.drawChart(moduleDemo.dataIn);
-   },
-  */
   sendTrade: () => {
     let trade = {};
     trade.take = $('input[data-ref=demoBoxDisplay-take]').val();
