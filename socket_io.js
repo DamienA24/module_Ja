@@ -34,7 +34,7 @@ let listen = (io) => {
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
         params: {
-          "num": 351
+          "num": 51
         },
         headers: config.requestHeaders
       }).then((response) => {

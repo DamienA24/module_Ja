@@ -292,15 +292,36 @@ let moduleDemo = {
     $('#demoBoxDisplay-yyy').html(myHtml);
   },
 
+  drawGridXXX: () => {
+
+    let myTickInterval = moduleDemo.tickInterval;
+    let myHtml = "";
+
+    let myStep = 7;
+
+    for (let i = 1; i < 8; i++) {
+      if (moduleDemo.dataIn[i * myStep]) {
+
+        var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
+      } 
+      if (myTickInterval == "d1") {
+        myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("MMM Do") + "</div></div>";
+      } else {
+        myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("HH:mm") + "</div></div>";
+      }
+    }
+    $('#demoBoxDisplay-xxx').html(myHtml);
+},
+
   drawChart: (_data) => {
     moduleDemo.dataIn = _data.candles;
-    moduleDemo.lastPrice = _data.candles[350][2];
-    let candlesArray = _data.candles.slice(300);
-
+    moduleDemo.lastPrice = _data.candles[50][2];
+/*     let candlesArray = _data.candles.slice(300);
+ */
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
 
-    for (let candle of candlesArray) {
+    for (let candle of moduleDemo.dataIn) {
       moduleDemo.max = Math.max(moduleDemo.max, candle[3]);
       moduleDemo.min = Math.min(moduleDemo.min, candle[4]);
     }
@@ -319,28 +340,27 @@ let moduleDemo = {
     $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.lastPrice);
     moduleDemo.takeKeyUp('demoBoxDisplay-stop');
 
-    $("#demoBoxInfos-price-down").html(_data.candles[350][1]);
-    $("#demoBoxInfos-price-up").html(_data.candles[350][2]);
+    $("#demoBoxInfos-price-down").html(_data.candles[50][1]);
+    $("#demoBoxInfos-price-up").html(_data.candles[50][2]);
 
-    $('#demoBoxDisplay-take').css('top', 80);
-    $('#demoBoxDisplay-stop').css('top', 160);
     $('#demoBoxDisplay-pending').css('top', 120);
 
     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
     moduleDemo.getYYYValue("demoBoxDisplay-stop", 157);
     moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
 
-    moduleDemo.dates = candlesArray.map(function (item) {
+    moduleDemo.dates = moduleDemo.dataIn.map(function (item) {
       let d = new Date(item[0] * 1000);
       return d.getHours();
     });
 
-    moduleDemo.data = candlesArray.map(function (item) {
+    moduleDemo.data = moduleDemo.dataIn.map(function (item) {
       return [+item[1], +item[2], +item[3], +item[4]];
     });
 
     moduleDemo.initChart(moduleDemo.data, moduleDemo.dates);
     moduleDemo.drawGridYYY();
+    moduleDemo.drawGridXXX();
   },
 
   initChart: (dataCandle, time) => {
