@@ -38,8 +38,15 @@ let listen = (io) => {
         },
         headers: config.requestHeaders
       }).then((response) => {
-        let sentData = response.data;
-        io.emit('messageFromServer', sentData);
+        config.sentData = response.data;
+        config.candleRealTime[0] = config.sentData.candles[50][2];
+        config.candleRealTime[1] = config.sentData.candles[50][2];
+        config.candleRealTime[2] = config.sentData.candles[50][2];
+        config.candleRealTime[3] = config.sentData.candles[50][2];
+        config.candleRealTime[4] = config.sentData.candles[50][0];
+        config.candleRealTime[5] = response.data.period_id;
+
+        io.emit('messageFromServer', config.sentData);
       }).catch((error) => {
         console.log(error)
       })

@@ -49,6 +49,10 @@ let requestHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
 };
 
+let sentData;
+
+let candleRealTime = [];
+
 module.exports = {
   configFxcm,
   postTrade,
@@ -58,5 +62,7 @@ module.exports = {
   io,
   app,
   express,
-  server
+  server,
+  sentData,
+  candleRealTime
 };

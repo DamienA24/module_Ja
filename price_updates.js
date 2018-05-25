@@ -9,7 +9,7 @@ let listenPrice = (socket, io) => {
 
   io.on('connection', (socket) => {
 
-     socket.on('realTime', () => {
+    socket.on('realTime', () => {
       suscribePrices(sock);
     });
 
@@ -54,8 +54,8 @@ let listenPrice = (socket, io) => {
         jsonData.Rates = jsonData.Rates.map(function (element) {
           return element.toFixed(5);
         });
-/*         console.log(`@${jsonData.Updated} Price update of [${jsonData.Symbol}]: ${jsonData.Rates}`);
- */        sendpriceUpdate(jsonData.Updated, jsonData.Symbol, jsonData.Rates);
+
+        sendpriceUpdate(jsonData.Updated, jsonData.Symbol, jsonData.Rates);
       } catch (e) {
         console.log('price update JSON parse error: ', e);
         return;
@@ -64,8 +64,28 @@ let listenPrice = (socket, io) => {
 
     let sendpriceUpdate = (time, pair, rate) => {
       let priceObj = {};
-      priceObj.rate = rate;
+      let date = new Date();
+      let newDate = date.getMinutes();
+
+      if (config.candleRealTime[5] == "h1" && newDate == 59) {
+        priceObj.candleFinish = 'on';
+      } else if (config.candleRealTime[5] == "h1" && !newDate == 59) {
+        priceObj.candleFinish = 'off';
+      }
+
+      priceObj.rate = Number(rate[0]);
       priceObj.pair = pair;
+      priceObj.data = config.candleRealTime;
+
+      if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
+        config.candleRealTime[1] = priceObj.rate;
+      }
+      if (priceObj.rate > config.candleRealTime[2]) {
+        config.candleRealTime[2] = priceObj.rate;
+      }
+      if (priceObj.rate < config.candleRealTime[3]) {
+        config.candleRealTime[3] = priceObj.rate;
+      }
 
       io.emit('ServerSendRealTime', priceObj);
     };
