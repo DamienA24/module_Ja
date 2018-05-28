@@ -50,7 +50,6 @@ let requestHeaders = {
 };
 
 let sentData;
-
 let candleRealTime = [];
 
 module.exports = {
@@ -64,5 +63,5 @@ module.exports = {
   express,
   server,
   sentData,
-  candleRealTime
+  candleRealTime,
 };

@@ -34,24 +34,22 @@ let listen = (io) => {
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
         params: {
-          "num": 51
+          "num": 50
         },
         headers: config.requestHeaders
       }).then((response) => {
         config.sentData = response.data;
-        config.candleRealTime[0] = config.sentData.candles[50][2];
-        config.candleRealTime[1] = config.sentData.candles[50][2];
-        config.candleRealTime[2] = config.sentData.candles[50][2];
-        config.candleRealTime[3] = config.sentData.candles[50][2];
-        config.candleRealTime[4] = config.sentData.candles[50][0];
-        config.candleRealTime[5] = response.data.period_id;
+        config.candleRealTime[0] = config.sentData.candles[49][2];
+        config.candleRealTime[1] = config.sentData.candles[49][2];
+        config.candleRealTime[2] = config.sentData.candles[49][2];
+        config.candleRealTime[3] = config.sentData.candles[49][2];
+        config.candleRealTime[4] = response.data.period_id;
 
         io.emit('messageFromServer', config.sentData);
       }).catch((error) => {
         console.log(error)
       })
     })
-
     socket.on('sendTrade', (data) => {
       requestTradeSend(data);
     });

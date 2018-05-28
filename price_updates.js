@@ -64,14 +64,6 @@ let listenPrice = (socket, io) => {
 
     let sendpriceUpdate = (time, pair, rate) => {
       let priceObj = {};
-      let date = new Date();
-      let newDate = date.getMinutes();
-
-      if (config.candleRealTime[5] == "h1" && newDate == 59) {
-        priceObj.candleFinish = 'on';
-      } else if (config.candleRealTime[5] == "h1" && !newDate == 59) {
-        priceObj.candleFinish = 'off';
-      }
 
       priceObj.rate = Number(rate[0]);
       priceObj.pair = pair;

@@ -49,7 +49,7 @@ $(document).ready(function () {
       moduleDemo.closeTrade();
     }
   });
-//to do order pending
+  //to do order pending
   if ($('#demoBoxDisplay-pending').hasClass('show')) {
     let sendTrade = moduleDemo.sendTrade();
     if (sendTrade.lot < 1) {
@@ -85,9 +85,9 @@ $(document).ready(function () {
    }); */
 
   socket.on('ServerSendRealTime', function (data) {
-  console.log(data);
-/*    moduleDemo.drawUpdatePrice(data);
- */  }); 
+    console.log(data);
+    moduleDemo.drawUpdatePrice(data);
+  });
 
   let dataInitial = {
     currency: 'EUR/USD',

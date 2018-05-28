@@ -14,6 +14,7 @@ let moduleDemo = {
   endY: 0,
   endLine: 0,
   lot: null,
+  candleCreate: 'off',
   type: null,
   _divDevise: null,
   typeIn: 'take',
@@ -268,12 +269,12 @@ let moduleDemo = {
     let price = moduleDemo.lastPrice;
     let stopBis = Number(stop).toFixed(4);
 
-    if(moduleDemo.tradeTake.order == 'sell') {
-      if(stopBis < price) {
+    if (moduleDemo.tradeTake.order == 'sell') {
+      if (stopBis < price) {
         moduleDemo.closeTrade();
       }
     } else {
-      if(stopBis > price) {
+      if (stopBis > price) {
         moduleDemo.closeTrade();
       }
     }
@@ -303,7 +304,7 @@ let moduleDemo = {
       if (moduleDemo.dataIn[i * myStep]) {
 
         var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
-      } 
+      }
       if (myTickInterval == "d1") {
         myHtml += "<div class='xxx' style='left:" + (50 * i) + "px'><div class='xxx-value'>" + myDate.format("MMM Do") + "</div></div>";
       } else {
@@ -311,11 +312,11 @@ let moduleDemo = {
       }
     }
     $('#demoBoxDisplay-xxx').html(myHtml);
-},
+  },
 
   drawChart: (_data) => {
     moduleDemo.dataIn = _data.candles;
-    moduleDemo.lastPrice = _data.candles[50][2];
+    moduleDemo.lastPrice = _data.candles[49][2];
 
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
@@ -339,8 +340,8 @@ let moduleDemo = {
     $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.lastPrice);
     moduleDemo.takeKeyUp('demoBoxDisplay-stop');
 
-    $("#demoBoxInfos-price-down").html(_data.candles[50][1]);
-    $("#demoBoxInfos-price-up").html(_data.candles[50][2]);
+    $("#demoBoxInfos-price-down").html(_data.candles[49][1]);
+    $("#demoBoxInfos-price-up").html(_data.candles[49][2]);
 
     $('#demoBoxDisplay-pending').css('top', 120);
 
@@ -352,18 +353,18 @@ let moduleDemo = {
       let d = new Date(item[0] * 1000);
       return d.getHours();
     });
-    
-   moduleDemo.data = moduleDemo.dataIn.map(function (item) {
+
+    moduleDemo.data = moduleDemo.dataIn.map(function (item) {
       return [+item[1], +item[2], +item[3], +item[4]];
     });
 
-   /* let newData = moduleDemo.dataIn.map(function (item) {
-      return [((item[1]+item[5])/2), ((item[2]+item[6])/2), ((item[4]+item[8])/2), ((item[3]+item[7])/2)];
-    });
+    /* let newData = moduleDemo.dataIn.map(function (item) {
+       return [((item[1]+item[5])/2), ((item[2]+item[6])/2), ((item[4]+item[8])/2), ((item[3]+item[7])/2)];
+     });
 
-    moduleDemo.data = newData.map(function (item) {
-      return[Number(item[0].toFixed(5)), Number(item[1].toFixed(5)), Number(item[2].toFixed(5)), Number(item[3].toFixed(5))]
-    }); */
+     moduleDemo.data = newData.map(function (item) {
+       return[Number(item[0].toFixed(5)), Number(item[1].toFixed(5)), Number(item[2].toFixed(5)), Number(item[3].toFixed(5))]
+     }); */
 
     moduleDemo.initChart(moduleDemo.data, moduleDemo.dates);
     moduleDemo.drawGridYYY();
@@ -462,6 +463,68 @@ let moduleDemo = {
             }
           }]
         }
+      }]
+    };
+    moduleDemo.canvas.setOption(options);
+  },
+
+  drawUpdatePrice: (update) => {
+    let data = update.data.slice(0, 4);
+    let newData = [...moduleDemo.data, ...[data]];
+
+    $("#demoBoxInfos-price-up").html(update.rate);
+
+    let date = new Date();
+    let newDate = date.getMinutes();
+
+    if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === 'off') {
+      moduleDemo.data.shift();
+      moduleDemo.data.push(data);
+      moduleDemo.candleCreate = 'on';
+    } else if (update.data[4] == "m30" && newDate === 0 || newDate === 30 && moduleDemo.candleCreate === 'off') {
+      moduleDemo.data.shift();
+      moduleDemo.data.push(data);
+      moduleDemo.candleCreate = 'on';
+    } else if (newDate != 0 && newDate != 30) {
+      moduleDemo.candleCreate = 'off';
+    }
+    
+    let options = {
+      xAxis: {
+        data: moduleDemo.dates,
+        show: false,
+        axisLine: {
+          lineStyle: {
+            color: '#8392A5'
+          }
+        },
+        axisTick: {
+          interval: 5
+        }
+      },
+      grid: {
+        left: '1%',
+        right: '10%',
+        top: '0%',
+        bottom: '0%'
+      },
+      yAxis: {
+        scale: true,
+        show: false,
+        min: moduleDemo.min,
+        max: moduleDemo.max
+      },
+      series: [{
+        type: 'k',
+        data: newData,
+        itemStyle: {
+          normal: {
+            color: '#0CF49B',
+            color0: '#FD1050',
+            borderColor: '#0CF49B',
+            borderColor0: '#FD1050'
+          }
+        },
       }]
     };
     moduleDemo.canvas.setOption(options);
