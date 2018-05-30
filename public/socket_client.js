@@ -95,6 +95,6 @@ $(document).ready(function () {
   };
 
   moduleDemo.init();
-  socket.emit('realTime');
   socket.emit('sendInstrument', dataInitial);
+  socket.emit('realTime');
 });

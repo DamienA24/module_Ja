@@ -21,6 +21,7 @@ let listen = (io) => {
   io.on('connection', (socket) => {
     socket.on('sendInstrument', (data) => {
       let recoverdData = data;
+      let currency = data.currency;
 
       for (let props in devises) {
         if (recoverdData.currency == props) {
@@ -44,12 +45,15 @@ let listen = (io) => {
         config.candleRealTime[2] = config.sentData.candles[49][2];
         config.candleRealTime[3] = config.sentData.candles[49][2];
         config.candleRealTime[4] = response.data.period_id;
+        config.candleRealTime[5] = currency;
+        config.candleRealTime[6] = 'off';
 
         io.emit('messageFromServer', config.sentData);
       }).catch((error) => {
         console.log(error)
       })
     })
+    
     socket.on('sendTrade', (data) => {
       requestTradeSend(data);
     });

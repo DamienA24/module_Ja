@@ -215,6 +215,8 @@ let moduleDemo = {
     let closeTrade = {};
     closeTrade.amount = moduleDemo.lot;
     closeTrade.close = 'on';
+    moduleDemo.tradeTake.order = null;
+    moduleDemo.tradeTake.type = 'off';
 
     let options = {
       xAxis: {
@@ -265,16 +267,16 @@ let moduleDemo = {
   },
 
   closeTradeLineTouch: () => {
-    let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
+   let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
     let price = moduleDemo.lastPrice;
     let stopBis = Number(stop).toFixed(4);
 
-    if (moduleDemo.tradeTake.order == 'sell') {
-      if (stopBis < price) {
+    if (moduleDemo.tradeTake.order === 'sell') {
+      if (stopBis <= price) {
         moduleDemo.closeTrade();
       }
-    } else {
-      if (stopBis > price) {
+    } else if(moduleDemo.tradeTake.order === 'buy') {
+      if (stopBis >= price) {
         moduleDemo.closeTrade();
       }
     }
@@ -345,8 +347,8 @@ let moduleDemo = {
 
     $('#demoBoxDisplay-pending').css('top', 120);
 
-    moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
-    moduleDemo.getYYYValue("demoBoxDisplay-stop", 157);
+/*     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
+    moduleDemo.getYYYValue("demoBoxDisplay-stop", 157); */
     moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
 
     moduleDemo.dates = moduleDemo.dataIn.map(function (item) {
@@ -357,14 +359,6 @@ let moduleDemo = {
     moduleDemo.data = moduleDemo.dataIn.map(function (item) {
       return [+item[1], +item[2], +item[3], +item[4]];
     });
-
-    /* let newData = moduleDemo.dataIn.map(function (item) {
-       return [((item[1]+item[5])/2), ((item[2]+item[6])/2), ((item[4]+item[8])/2), ((item[3]+item[7])/2)];
-     });
-
-     moduleDemo.data = newData.map(function (item) {
-       return[Number(item[0].toFixed(5)), Number(item[1].toFixed(5)), Number(item[2].toFixed(5)), Number(item[3].toFixed(5))]
-     }); */
 
     moduleDemo.initChart(moduleDemo.data, moduleDemo.dates);
     moduleDemo.drawGridYYY();
@@ -471,63 +465,67 @@ let moduleDemo = {
   drawUpdatePrice: (update) => {
     let data = update.data.slice(0, 4);
     let newData = [...moduleDemo.data, ...[data]];
-
-    $("#demoBoxInfos-price-up").html(update.rate);
+    let devise = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
 
     let date = new Date();
     let newDate = date.getMinutes();
 
     if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === 'off') {
-      moduleDemo.data.shift();
-      moduleDemo.data.push(data);
-      moduleDemo.candleCreate = 'on';
+      moduleDemo.createNewCandle(data);
     } else if (update.data[4] == "m30" && newDate === 0 || newDate === 30 && moduleDemo.candleCreate === 'off') {
-      moduleDemo.data.shift();
-      moduleDemo.data.push(data);
-      moduleDemo.candleCreate = 'on';
+      moduleDemo.createNewCandle(data);
     } else if (newDate != 0 && newDate != 30) {
       moduleDemo.candleCreate = 'off';
     }
-    
-    let options = {
-      xAxis: {
-        data: moduleDemo.dates,
-        show: false,
-        axisLine: {
-          lineStyle: {
-            color: '#8392A5'
+    if (devise === update.pair) {
+      moduleDemo.lastPrice = update.rate;
+      $("#demoBoxInfos-price-up").html(update.rate);
+      let options = {
+        xAxis: {
+          data: moduleDemo.dates,
+          show: false,
+          axisLine: {
+            lineStyle: {
+              color: '#8392A5'
+            }
+          },
+          axisTick: {
+            interval: 5
           }
         },
-        axisTick: {
-          interval: 5
-        }
-      },
-      grid: {
-        left: '1%',
-        right: '10%',
-        top: '0%',
-        bottom: '0%'
-      },
-      yAxis: {
-        scale: true,
-        show: false,
-        min: moduleDemo.min,
-        max: moduleDemo.max
-      },
-      series: [{
-        type: 'k',
-        data: newData,
-        itemStyle: {
-          normal: {
-            color: '#0CF49B',
-            color0: '#FD1050',
-            borderColor: '#0CF49B',
-            borderColor0: '#FD1050'
-          }
+        grid: {
+          left: '1%',
+          right: '10%',
+          top: '0%',
+          bottom: '0%'
         },
-      }]
-    };
-    moduleDemo.canvas.setOption(options);
+        yAxis: {
+          scale: true,
+          show: false,
+          min: moduleDemo.min,
+          max: moduleDemo.max
+        },
+        series: [{
+          type: 'k',
+          data: newData,
+          itemStyle: {
+            normal: {
+              color: '#0CF49B',
+              color0: '#FD1050',
+              borderColor: '#0CF49B',
+              borderColor0: '#FD1050'
+            }
+          },
+        }]
+      };
+      moduleDemo.canvas.setOption(options);
+    }
+  },
+
+  createNewCandle: (newCandle) => {
+    moduleDemo.data.shift();
+    moduleDemo.data.push(newCandle);
+    moduleDemo.candleCreate = 'on';
   },
 
   initBarAndInput: (_div, _data) => {
@@ -826,8 +824,7 @@ let moduleDemo = {
     var myStop = $('input[data-ref=demoBoxDisplay-stop]').val();
 
     var myType = (Number(myTake) > Number(myStop)) ? "buy" : "sell";
-    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.dataIn[moduleDemo.dataIn.length - 1][2]);
-
+    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : $("#demoBoxInfos-price-up").text());
 
     if ($('#demoBoxInfos-amount-type').hasClass("pourcentage")) {
 

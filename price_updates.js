@@ -15,7 +15,7 @@ let listenPrice = (socket, io) => {
 
     let suscribePrices = (socket) => {
       let pairs = {
-        "pairs": ["EUR/USD"]
+        "pairs": ["EUR/USD", "AUD/USD", "GBP/CAD", "EUR/JPY"]
       };
       let postData = querystring.stringify(pairs);
       let option = {
@@ -64,22 +64,43 @@ let listenPrice = (socket, io) => {
 
     let sendpriceUpdate = (time, pair, rate) => {
       let priceObj = {};
+      let date = new Date(time);
+      let newDate = date.getMinutes();
+      let newDateSeconds = date.getSeconds();
 
       priceObj.rate = Number(rate[0]);
       priceObj.pair = pair;
       priceObj.data = config.candleRealTime;
 
-      if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
-        config.candleRealTime[1] = priceObj.rate;
-      }
-      if (priceObj.rate > config.candleRealTime[2]) {
-        config.candleRealTime[2] = priceObj.rate;
-      }
-      if (priceObj.rate < config.candleRealTime[3]) {
-        config.candleRealTime[3] = priceObj.rate;
+      if (config.candleRealTime[5] === pair) {
+        if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
+          config.candleRealTime[1] = priceObj.rate;
+        } else if (priceObj.rate > config.candleRealTime[2]) {
+          config.candleRealTime[2] = priceObj.rate;
+        } else if (priceObj.rate < config.candleRealTime[3]) {
+          config.candleRealTime[3] = priceObj.rate;
+        }
       }
 
+      if (newDate === 0 && newDateSeconds > 5 && config.candleRealTime[4] === 'h1' && config.candleRealTime[5] === 'off') {
+        updateDataNewCandle(priceObj.data, priceObj.rate);
+        config.candleRealTime[6] === 'on'
+      } else if (newDate === 30 || newDate === 0 && newDateSeconds > 5 && config.candleRealTime[4] === 'm30' && config.candleRealTime[6] === 'off') {
+        updateDataNewCandle(priceObj.data, priceObj.rate)
+        config.candleRealTime[6] === 'on'
+      } else if (newDate != 0 && newDate != 30) {
+        config.candleRealTime[6] = 'off'
+      }
       io.emit('ServerSendRealTime', priceObj);
+    };
+
+    let updateDataNewCandle = (oldData, newPrice) => {
+      oldData[0] = oldData[1];
+
+      for (let i = 1; i < oldData.length - 3; i++) {
+        oldData[i] = newPrice;
+      }
+      return oldData;
     };
   });
 };
