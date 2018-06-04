@@ -68,11 +68,11 @@ let listenPrice = (socket, io) => {
       let newDate = date.getMinutes();
       let newDateSeconds = date.getSeconds();
 
-      priceObj.rate = Number(rate[0]);
-      priceObj.pair = pair;
       priceObj.data = config.candleRealTime;
 
       if (config.candleRealTime[5] === pair) {
+        priceObj.rate = Number(rate[0]);
+        priceObj.pair = pair;
         if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
           config.candleRealTime[1] = priceObj.rate;
         } else if (priceObj.rate > config.candleRealTime[2]) {
@@ -82,7 +82,7 @@ let listenPrice = (socket, io) => {
         }
       }
 
-      if (newDate === 0 && newDateSeconds > 5 && config.candleRealTime[4] === 'h1' && config.candleRealTime[5] === 'off') {
+      if (newDate === 0 && newDateSeconds > 5 && config.candleRealTime[4] === 'h1' && config.candleRealTime[6] === 'off') {
         updateDataNewCandle(priceObj.data, priceObj.rate);
         config.candleRealTime[6] === 'on'
       } else if (newDate === 30 || newDate === 0 && newDateSeconds > 5 && config.candleRealTime[4] === 'm30' && config.candleRealTime[6] === 'off') {

@@ -14,7 +14,7 @@ let moduleDemo = {
   endY: 0,
   endLine: 0,
   lot: null,
-  candleCreate: 'off',
+  candleCreate: false,
   type: null,
   _divDevise: null,
   typeIn: 'take',
@@ -211,6 +211,16 @@ let moduleDemo = {
     return trade;
   },
 
+  postTrade : (socket) => {
+    let sendTrade = moduleDemo.sendTrade();
+      if (sendTrade.lot < 1) {
+        $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
+      } else {
+        moduleDemo.tradeTake.order = 'sell';
+        socket.emit('sendTrade', sendTrade);
+      }
+  },
+
   closeTrade: () => {
     let closeTrade = {};
     closeTrade.amount = moduleDemo.lot;
@@ -219,41 +229,7 @@ let moduleDemo = {
     moduleDemo.tradeTake.type = 'off';
 
     let options = {
-      xAxis: {
-        data: moduleDemo.dates,
-        show: false,
-        axisLine: {
-          lineStyle: {
-            color: '#8392A5'
-          }
-        },
-        axisTick: {
-          interval: 5
-        }
-      },
-      grid: {
-        left: '1%',
-        right: '10%',
-        top: '0%',
-        bottom: '0%'
-      },
-      yAxis: {
-        scale: true,
-        show: false,
-        min: moduleDemo.min,
-        max: moduleDemo.max
-      },
       series: [{
-        type: 'k',
-        data: moduleDemo.data,
-        itemStyle: {
-          normal: {
-            color: '#0CF49B',
-            color0: '#FD1050',
-            borderColor: '#0CF49B',
-            borderColor0: '#FD1050'
-          }
-        },
         markLine: {
           silent: false,
           data: [{
@@ -267,7 +243,7 @@ let moduleDemo = {
   },
 
   closeTradeLineTouch: () => {
-   let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
+    let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
     let price = moduleDemo.lastPrice;
     let stopBis = Number(stop).toFixed(4);
 
@@ -275,7 +251,7 @@ let moduleDemo = {
       if (stopBis <= price) {
         moduleDemo.closeTrade();
       }
-    } else if(moduleDemo.tradeTake.order === 'buy') {
+    } else if (moduleDemo.tradeTake.order === 'buy') {
       if (stopBis >= price) {
         moduleDemo.closeTrade();
       }
@@ -347,8 +323,8 @@ let moduleDemo = {
 
     $('#demoBoxDisplay-pending').css('top', 120);
 
-/*     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
-    moduleDemo.getYYYValue("demoBoxDisplay-stop", 157); */
+    /*     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
+        moduleDemo.getYYYValue("demoBoxDisplay-stop", 157); */
     moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
 
     moduleDemo.dates = moduleDemo.dataIn.map(function (item) {
@@ -383,7 +359,7 @@ let moduleDemo = {
       },
       grid: {
         left: '1%',
-        right: '10%',
+        right: '11.5%',
         top: '0%',
         bottom: '0%'
       },
@@ -412,45 +388,11 @@ let moduleDemo = {
   drawTradeTake: (data) => {
 
     let options = {
-      xAxis: {
-        data: moduleDemo.dates,
-        show: false,
-        axisLine: {
-          lineStyle: {
-            color: '#8392A5'
-          }
-        },
-        axisTick: {
-          interval: 5
-        }
-      },
-      grid: {
-        left: '1%',
-        right: '10%',
-        top: '0%',
-        bottom: '0%'
-      },
-      yAxis: {
-        scale: true,
-        show: false,
-        min: moduleDemo.min,
-        max: moduleDemo.max
-      },
       series: [{
-        type: 'k',
-        data: moduleDemo.data,
-        itemStyle: {
-          normal: {
-            color: '#0CF49B',
-            color0: '#FD1050',
-            borderColor: '#0CF49B',
-            borderColor0: '#FD1050'
-          }
-        },
         markLine: {
           silent: true,
           data: [{
-            yAxis: (moduleDemo.lastPrice).toFixed(3),
+            yAxis: (moduleDemo.lastPrice).toFixed(4),
             lineStyle: {
               color: 'rgb(0,0,205)',
               width: 2
@@ -470,52 +412,22 @@ let moduleDemo = {
     let date = new Date();
     let newDate = date.getMinutes();
 
-    if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === 'off') {
+    if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
       moduleDemo.createNewCandle(data);
-    } else if (update.data[4] == "m30" && newDate === 0 || newDate === 30 && moduleDemo.candleCreate === 'off') {
+    }
+    if (update.data[4] === "m30" &&  moduleDemo.candleCreate === false && newDate === 0 || newDate === 30) {
       moduleDemo.createNewCandle(data);
-    } else if (newDate != 0 && newDate != 30) {
-      moduleDemo.candleCreate = 'off';
+    }
+    if (newDate != 0 && newDate != 30) {
+      moduleDemo.candleCreate = true;
     }
     if (devise === update.pair) {
       moduleDemo.lastPrice = update.rate;
       $("#demoBoxInfos-price-up").html(update.rate);
       let options = {
-        xAxis: {
-          data: moduleDemo.dates,
-          show: false,
-          axisLine: {
-            lineStyle: {
-              color: '#8392A5'
-            }
-          },
-          axisTick: {
-            interval: 5
-          }
-        },
-        grid: {
-          left: '1%',
-          right: '10%',
-          top: '0%',
-          bottom: '0%'
-        },
-        yAxis: {
-          scale: true,
-          show: false,
-          min: moduleDemo.min,
-          max: moduleDemo.max
-        },
         series: [{
           type: 'k',
-          data: newData,
-          itemStyle: {
-            normal: {
-              color: '#0CF49B',
-              color0: '#FD1050',
-              borderColor: '#0CF49B',
-              borderColor0: '#FD1050'
-            }
-          },
+          data: newData
         }]
       };
       moduleDemo.canvas.setOption(options);
@@ -525,7 +437,7 @@ let moduleDemo = {
   createNewCandle: (newCandle) => {
     moduleDemo.data.shift();
     moduleDemo.data.push(newCandle);
-    moduleDemo.candleCreate = 'on';
+    moduleDemo.candleCreate = true;
   },
 
   initBarAndInput: (_div, _data) => {
@@ -635,7 +547,6 @@ let moduleDemo = {
     } else if (!$('#demoBoxInfos-button-buy').hasClass('show')) {
       $('#demoBoxInfos-button-buy').addClass('show')
     }
-
     $('#demoBoxInfos-change').hide();
     $('#demoBoxInfos-amount').hide();
     $('#demoBoxInfos-button-sell').addClass('buttonModify').html('Modifier');
@@ -891,13 +802,13 @@ let moduleDemo = {
       }
     }
     if (myAmount > moduleDemo.balance) {
-
       $('#demoBoxInfos-tradeSize').html("<font>not enough fund</font>");
       $("#demoBoxInfos-button-sell").removeClass('show');
       $("#demoBoxInfos-button-sell").css('cursor', '');
       $("#demoBoxInfos-button-buy").removeClass('show');
-    } else {
+    } else if (moduleDemo.tradeTake.type === 'on') {} else {
       $('#demoBoxInfos-tradeSize').html("Trade Size : <font>" + myResultSize + "</font>");
+
     }
   },
 
