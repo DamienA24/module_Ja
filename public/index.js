@@ -28,10 +28,9 @@ let moduleDemo = {
     endY: 0,
     firstCurrency: '',
     secondCurrency: '',
-    intervalTrade: '',
+    pending: false,
     lastPrice: 0,
-    posSL: 0,
-    posTP: 0,
+    valPE: 0,
     valSL: 0,
     valTP: 0
   },
@@ -73,6 +72,10 @@ let moduleDemo = {
 
     $('#demoBoxInfos-stopLoss-value').keyup(() => {
       moduleDemo.closeTradeLineTouch();
+    });
+
+    $('#demoBoxDisplay-pendingWhere-close').click(() => {
+      moduleDemo.closeTrade();
     });
 
     $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
@@ -211,14 +214,17 @@ let moduleDemo = {
     return trade;
   },
 
-  postTrade : (socket) => {
+  postTrade: (socket) => {
     let sendTrade = moduleDemo.sendTrade();
-      if (sendTrade.lot < 1) {
-        $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-      } else {
-        moduleDemo.tradeTake.order = 'sell';
-        socket.emit('sendTrade', sendTrade);
-      }
+    if (sendTrade.lot < 1) {
+      $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
+    } else if (moduleDemo.type === 'sell') {
+      moduleDemo.tradeTake.order = 'sell';
+      socket.emit('sendTrade', sendTrade);
+    } else if (moduleDemo.type === 'buy') {
+      moduleDemo.tradeTake.order = 'buy';
+      socket.emit('sendTrade', sendTrade);
+    }
   },
 
   closeTrade: () => {
@@ -256,6 +262,17 @@ let moduleDemo = {
         moduleDemo.closeTrade();
       }
     }
+  },
+
+  postTradePendingTouch: () => {
+    let myFunction =
+      setInterval(() => {
+        if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice.toFixed(4)) {
+          moduleDemo.removeBar('demoBoxDisplay-pending');
+          moduleDemo.drawTradeTake();
+          clearInterval(myFunction);
+        }
+      }, 500);
   },
 
   drawGridYYY: () => {
@@ -385,7 +402,7 @@ let moduleDemo = {
     moduleDemo.canvas.setOption(options);
   },
 
-  drawTradeTake: (data) => {
+  drawTradeTake: () => {
 
     let options = {
       series: [{
@@ -408,14 +425,13 @@ let moduleDemo = {
     let data = update.data.slice(0, 4);
     let newData = [...moduleDemo.data, ...[data]];
     let devise = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
-
     let date = new Date();
     let newDate = date.getMinutes();
 
     if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
       moduleDemo.createNewCandle(data);
     }
-    if (update.data[4] === "m30" &&  moduleDemo.candleCreate === false && newDate === 0 || newDate === 30) {
+    if (update.data[4] === "m30" && moduleDemo.candleCreate === false && newDate === 0 || newDate === 30) {
       moduleDemo.createNewCandle(data);
     }
     if (newDate != 0 && newDate != 30) {
