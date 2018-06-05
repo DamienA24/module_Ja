@@ -71,22 +71,23 @@
             <div id="demoBoxDisplay-bar"></div>
             <div id="demoBoxDisplay-devise">
 
-              <div class="demoBoxDisplay-devise transition_0_2" data-first="BTC" data-second="USD" data-type='crypto'>BTC / USD</div>
-              <div class="demoBoxDisplay-devise transition_0_2" data-first="EUR" data-second="USD" data-type='fiat'>EUR / USD</div>
-              <div class="demoBoxDisplay-devise transition_0_2" data-first="GBP" data-second="CAD" data-type='fiat'>GBP / CAD</div>
-              <div class="demoBoxDisplay-devise transition_0_2" data-first="ETH" data-second="EUR" data-type='crypto'>ETH / EUR</div>
+              <div class="demoBoxDisplay-devise aud transition_0_2" data-first="AUD" data-second="USD" data-type='fiat'>AUD / USD</div>
+              <div class="demoBoxDisplay-devise usd transition_0_2" data-first="EUR" data-second="USD" data-type='fiat'>EUR / USD</div>
+              <div class="demoBoxDisplay-devise cad transition_0_2" data-first="GBP" data-second="CAD" data-type='fiat'>GBP / CAD</div>
+              <div class="demoBoxDisplay-devise jpy transition_0_2" data-first="EUR" data-second="JPY" data-type='fiat'>EUR / JPY</div>
 
             </div>
             <div id="demoBoxDisplay-nav">
 
-              <div class="demoBoxDisplay-nav transition_0_2" data-value="hour">h1</div>
-              <div class="demoBoxDisplay-nav transition_0_2" data-value="fourhour">h4</div>
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="m30">M30</div>
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="h1">H1</div>
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="h4">H4</div>
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="d1">D1</div>
 
             </div>
             <div id="demoBoxDisplay-chart">
 
-              <canvas id="demoBoxDisplay-chartCanvas"></canvas>
-
+              <div id="demoBoxDisplay-chartCanvas" style="width: 400px;height:240px;"></div>
               <div id="demoBoxDisplay-chartLoader">
                 <div class='mb'>
                   <div class='mbc'>
@@ -131,6 +132,18 @@
                 <div id="demoBoxDisplay-pendingWhere-triangle"></div>
                 <div id="demoBoxDisplay-pendingWhere-label">0</div>
                 <div id="demoBoxDisplay-pendingWhere-close">
+                  <i class='fa fa-times'></i>
+                </div>
+              </div>
+            </div>
+
+            <div id="demoBoxDisplay-tradeTake" class='toDrag'>
+              <div id="demoBoxDisplay-tradeTakeTrait"></div>
+              <div id="demoBoxDisplay-tradeTakeLabel">T</div>
+              <div id="demoBoxDisplay-tradeTakeWhere">
+                <div id="demoBoxDisplay-tradeTakeWhere-triangle"></div>
+                <div id="demoBoxDisplay-tradeTakeWhere-label">0</div>
+                <div id="demoBoxDisplay-tradeTakeWhere-close">
                   <i class='fa fa-times'></i>
                 </div>
               </div>
@@ -206,7 +219,7 @@
                 <div class="clear"></div>
               </div>
               <div id="demoBoxInfos-pending">
-                <div id="demoBoxInfos-pending-label">{lg-home-demo-pending}</div>
+                <div id="demoBoxInfos-pending-label">Pending</div>
                 <div id="demoBoxInfos-pending-value">
                   <input type='text' value="0.580" data-ref="demoBoxDisplay-pending">
                   <div id="demoBoxInfos-pending-value-up" class="numberBox-up" data-ref="demoBoxDisplay-pending">
@@ -256,10 +269,11 @@
               </div>
               <div id="demoBoxInfos-tradeSize">TradeSize :
                 <font>1000</font>
+                <p></p>
               </div>
               <div id="demoBoxInfos-buttons">
-                <div id="demoBoxInfos-button-sell" class="transition_0_2" href='{link-download}#register'>Vendre</div>
-                <div id="demoBoxInfos-button-buy" class="transition_0_2" href='{link-download}#register'>Acheter</div>
+                <div id="demoBoxInfos-button-sell" class="transition_0_2">Vendre</div>
+                <div id="demoBoxInfos-button-buy" class="transition_0_2">Acheter</div>
                 <div class="clear"></div>
               </div>
             </div>
@@ -271,7 +285,14 @@
     </div>
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.1/moment.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="socket_client.js"></script>
+  <script src="./socket_client.js"></script>
+  <script type="application/javascript" src="/node_modules/echarts/dist/echarts.min.js"></script>
+  <script src="./index.js"></script>
 </body>
 </html>
