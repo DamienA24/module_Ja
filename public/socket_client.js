@@ -26,13 +26,12 @@ $(document).ready(function () {
     if ($('#demoBoxInfos-button-sell').hasClass('buttonModify') && $('#demoBoxInfos-button-buy').hasClass('show')) {
       alert('modify')
     }
-    if ($('#demoBoxDisplay-pending').hasClass('show')) {
+    if ($('#demoBoxDisplay-pending').hasClass('show') && $('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
       let sendTrade = moduleDemo.sendTrade();
       if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
-        moduleDemo.changeInterface();
-        moduleDemo.tradeTake.type = 'on';
+        moduleDemo.postTradePendingTouch();
       }
     }
   });
@@ -55,12 +54,6 @@ $(document).ready(function () {
       if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
-        moduleDemo.changeInterface();
-        moduleDemo.tradeTake.type = 'on';
-        moduleDemo.tradeTake.valSL = $("input[data-ref=demoBoxDisplay-stop]").val();
-        moduleDemo.tradeTake.valTP = $("input[data-ref=demoBoxDisplay-take]").val();
-        moduleDemo.tradeTake.valPE = $("input[data-ref=demoBoxDisplay-pending]").val();
-        moduleDemo.tradeTake.pending = true;
         moduleDemo.postTradePendingTouch();
       }
     }

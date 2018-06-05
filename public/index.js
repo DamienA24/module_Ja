@@ -265,14 +265,24 @@ let moduleDemo = {
   },
 
   postTradePendingTouch: () => {
-    let myFunction =
-      setInterval(() => {
-        if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice.toFixed(4)) {
-          moduleDemo.removeBar('demoBoxDisplay-pending');
-          moduleDemo.drawTradeTake();
-          clearInterval(myFunction);
-        }
-      }, 500);
+    moduleDemo.changeInterface();
+    moduleDemo.tradeTake.type = 'on';
+    moduleDemo.tradeTake.valSL = $("input[data-ref=demoBoxDisplay-stop]").val();
+    moduleDemo.tradeTake.valTP = $("input[data-ref=demoBoxDisplay-take]").val();
+    moduleDemo.tradeTake.valPE = $("input[data-ref=demoBoxDisplay-pending]").val();
+    moduleDemo.tradeTake.pending = true;
+
+    let myFunction = setInterval(() => {
+      let valSL = $("input[data-ref=demoBoxDisplay-stop]").val();
+      moduleDemo.tradeTake.valPE = $("input[data-ref=demoBoxDisplay-pending]").val();
+      if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice.toFixed(4)) {
+        moduleDemo.tradeTake.order = valSL < moduleDemo.tradeTake.valPE ? 'buy' : 'sell';
+        moduleDemo.removeBar('demoBoxDisplay-pending');
+        moduleDemo.drawTradeTake();
+        moduleDemo.tradeTake.pending = false;
+        clearInterval(myFunction);
+      }
+    }, 500);
   },
 
   drawGridYYY: () => {
