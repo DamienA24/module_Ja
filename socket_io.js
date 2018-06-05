@@ -31,11 +31,12 @@ let listen = (io) => {
       };
 
       let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
+      let numberCandle = recoverdData.interval === 'h4' ? 199 : 50;
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
         params: {
-          "num": 50
+          "num": numberCandle
         },
         headers: config.requestHeaders
       }).then((response) => {

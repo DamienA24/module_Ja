@@ -23,9 +23,9 @@ $(document).ready(function () {
     if ($('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show') && !$('#demoBoxDisplay-pending').hasClass('show')) {
       moduleDemo.postTrade(socket);
     }
-    if ($('#demoBoxInfos-button-sell').hasClass('buttonModify') && $('#demoBoxInfos-button-buy').hasClass('show')) {
+    /* if ($('#demoBoxInfos-button-sell').hasClass('buttonModify') && $('#demoBoxInfos-button-buy').hasClass('show')) {
       alert('modify')
-    }
+    } */
     if ($('#demoBoxDisplay-pending').hasClass('show') && $('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
       let sendTrade = moduleDemo.sendTrade();
       if (sendTrade.lot < 1) {

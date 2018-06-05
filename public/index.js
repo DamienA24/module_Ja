@@ -74,6 +74,14 @@ let moduleDemo = {
       moduleDemo.closeTradeLineTouch();
     });
 
+    $('#demoBoxDisplay-takeWhere-label').mousemove(() => {
+      moduleDemo.closeTradeLineTouch();
+    });
+
+    $('#demoBoxInfos-takeProfit-value').keyup(() => {
+      moduleDemo.closeTradeLineTouch();
+    });
+
     $('#demoBoxDisplay-pendingWhere-close').click(() => {
       moduleDemo.closeTrade();
     });
@@ -99,6 +107,14 @@ let moduleDemo = {
     });
 
     $(".numberBox-down[data-ref=demoBoxDisplay-stop]").click(function () {
+      moduleDemo.closeTradeLineTouch();
+    });
+
+    $(".numberBox-up[data-ref=demoBoxDisplay-take]").click(function () {
+      moduleDemo.closeTradeLineTouch();
+    });
+
+    $(".numberBox-down[data-ref=demoBoxDisplay-take]").click(function () {
       moduleDemo.closeTradeLineTouch();
     });
 
@@ -179,10 +195,6 @@ let moduleDemo = {
       moduleDemo.secondC = data.currentTarget.dataset.second;
     }
 
-    /*     $('#demoBox').addClass("loading");
-     */
-    /*     moduleDemo.clearChart();
-     */
     let myTickInterval = moduleDemo.tickInterval;
 
     $('.demoBoxDisplay-nav').removeClass('on');
@@ -250,15 +262,17 @@ let moduleDemo = {
 
   closeTradeLineTouch: () => {
     let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
-    let price = moduleDemo.lastPrice;
+    let take = $("input[data-ref=demoBoxDisplay-take]").val();
+    let price = moduleDemo.lastPrice.toFixed(4);
     let stopBis = Number(stop).toFixed(4);
+    let takeBis = Number(take).toFixed(4);
 
     if (moduleDemo.tradeTake.order === 'sell') {
-      if (stopBis <= price) {
+      if (stopBis <= price || takeBis >= price) {
         moduleDemo.closeTrade();
       }
     } else if (moduleDemo.tradeTake.order === 'buy') {
-      if (stopBis >= price) {
+      if (stopBis >= price || takeBis <= price) {
         moduleDemo.closeTrade();
       }
     }
@@ -440,13 +454,12 @@ let moduleDemo = {
 
     if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
       moduleDemo.createNewCandle(data);
-    }
-    if (newDate === 0 || newDate === 30 && update.data[4] === "m30" && moduleDemo.candleCreate === false ) {
+    } else if ((newDate === 0 || newDate === 30) && update.data[4] === "m30" && moduleDemo.candleCreate === false) {
       moduleDemo.createNewCandle(data);
-    }
-    if (newDate != 0 && newDate != 30) {
+    } else if (newDate != 0 && newDate != 30) {
       moduleDemo.candleCreate = false;
     }
+
     if (devise === update.pair) {
       moduleDemo.lastPrice = update.rate;
       $("#demoBoxInfos-price-up").html(update.rate);
@@ -847,6 +860,3 @@ let moduleDemo = {
   },
 };
 
-/* $(document).ready(function () {
-  moduleDemo.init();
-});  */
