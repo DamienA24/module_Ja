@@ -441,11 +441,11 @@ let moduleDemo = {
     if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
       moduleDemo.createNewCandle(data);
     }
-    if (update.data[4] === "m30" && moduleDemo.candleCreate === false && newDate === 0 || newDate === 30) {
+    if (newDate === 0 || newDate === 30 && update.data[4] === "m30" && moduleDemo.candleCreate === false ) {
       moduleDemo.createNewCandle(data);
     }
     if (newDate != 0 && newDate != 30) {
-      moduleDemo.candleCreate = true;
+      moduleDemo.candleCreate = false;
     }
     if (devise === update.pair) {
       moduleDemo.lastPrice = update.rate;
