@@ -2,14 +2,6 @@ const connexionSocket = require('./sockets_connexion_fxcm');
 const config = require('./config_fxcm.js');
 const path = require('path');
 
-/* const socketIo = require('socket.io');
-
-const express = require('express');
-
-const app = express();
-const server = require('http').Server(app);
-*/
-
 const app = require('./config_fxcm').app;
 const express = require('./config_fxcm').express
 const server = require('./config_fxcm').server;
