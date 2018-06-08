@@ -5,7 +5,7 @@ const server = require('http').Server(app);
 let io = socketIo.listen(server);
 
 const configFxcm = {
-  token: "a1262fae0f94fd916143398e99cc89c6acd80795",
+  token: "8524f4a5ec96cd6f513cc8d9a85d23870babc5a9",
   host: 'api-demo.fxcm.com',
   port: 443,
   proto: 'https',

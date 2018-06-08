@@ -22,7 +22,11 @@ let listen = (io) => {
     socket.on('sendInstrument', (data) => {
       let recoverdData = data;
       let currency = data.currency;
+      let interval = data.interval;
+      let candlesTime;
 
+/*       getCandleForRealTime(interval, candlesTime);
+ */
       for (let props in devises) {
         if (recoverdData.currency == props) {
           recoverdData.currency = devises[props];
@@ -32,6 +36,7 @@ let listen = (io) => {
 
       let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
       let numberCandle = recoverdData.interval === 'h4' ? 199 : 50;
+
       axios({
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
@@ -53,8 +58,8 @@ let listen = (io) => {
       }).catch((error) => {
         console.log(error)
       })
-    })
-    
+    });
+
     socket.on('sendTrade', (data) => {
       requestTradeSend(data);
     });
@@ -147,6 +152,23 @@ let listen = (io) => {
         console.log(error)
       })
     };
+
+    /* function getCandleForRealTime(interval, candlesTime) {
+      let date = new Date();
+      let minutes = date.getMinutes();
+
+      if (interval === 'm30') {
+        if (minutes <= 30) {
+          candlesTime = minutes - 0;
+        } else {
+          candlesTime = minutes - 30;
+        }
+      } else if (interval === 'h1') {
+        candlesTime = minutes - 0;
+      };
+      return candlesTime;
+    }; */
+
   });
 };
 
