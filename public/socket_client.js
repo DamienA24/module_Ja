@@ -28,11 +28,13 @@ $(document).ready(function () {
     } */
     if ($('#demoBoxDisplay-pending').hasClass('show') && $('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
       let sendTrade = moduleDemo.sendTrade();
-      if (sendTrade.lot < 1) {
+     /*  if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
         moduleDemo.postTradePendingTouch();
-      }
+      } */
+      moduleDemo.postTradePendingTouch();
+
     }
   });
 
@@ -51,11 +53,13 @@ $(document).ready(function () {
     }
     if ($('#demoBoxDisplay-pending').hasClass('show') && $('#demoBoxInfos-button-buy').hasClass('show') && !$('#demoBoxInfos-button-sell').hasClass('show')) {
       let sendTrade = moduleDemo.sendTrade();
-      if (sendTrade.lot < 1) {
+      /* if (sendTrade.lot < 1) {
         $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
       } else {
         moduleDemo.postTradePendingTouch();
-      }
+      } */
+      moduleDemo.postTradePendingTouch();
+
     }
   });
 

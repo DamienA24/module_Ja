@@ -22,6 +22,7 @@ let listen = (io) => {
     socket.on('sendInstrument', (data) => {
       let recoverdData = data;
       let currency = data.currency;
+      let interval = data.interval;
 
       for (let props in devises) {
         if (recoverdData.currency == props) {
@@ -30,31 +31,39 @@ let listen = (io) => {
         };
       };
 
-      let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
-      let numberCandle = recoverdData.interval === 'h4' ? 199 : 50;
+      let resource = `/candles/${recoverdData.currency}/`;
+
       axios({
-        url: `${proto}://${host}:${apiPort}${resource}`,
+        url: `${proto}://${host}:${apiPort}${resource}m1`,
         method: 'GET',
         params: {
-          "num": numberCandle
+          "num": getCandleForRealTime(interval)
         },
         headers: config.requestHeaders
       }).then((response) => {
-        config.sentData = response.data;
-        config.candleRealTime[0] = config.sentData.candles[49][2];
-        config.candleRealTime[1] = config.sentData.candles[49][2];
-        config.candleRealTime[2] = config.sentData.candles[49][2];
-        config.candleRealTime[3] = config.sentData.candles[49][2];
-        config.candleRealTime[4] = response.data.period_id;
-        config.candleRealTime[5] = currency;
-        config.candleRealTime[6] = 'off';
+        sortCandle(response.data.candles);
 
-        io.emit('messageFromServer', config.sentData);
+        return axios({
+          url: `${proto}://${host}:${apiPort}${resource}${recoverdData.interval}`,
+          method: 'GET',
+          params: {
+            "num": 50
+          },
+          headers: config.requestHeaders
+        }).then((response) => {
+          config.sentData = response.data;
+          config.candleRealTime[4] = response.data.period_id;
+          config.candleRealTime[5] = currency;
+          config.candleRealTime[6] = 'off';
+          io.emit('messageFromServer', config.sentData);
+        }).catch((error) => {
+          console.log(error);
+        })
       }).catch((error) => {
         console.log(error)
       })
-    })
-    
+    });
+
     socket.on('sendTrade', (data) => {
       requestTradeSend(data);
     });
@@ -145,6 +154,42 @@ let listen = (io) => {
         config.closeTrade.trade_id = response.data.open_positions[0].tradeId;
       }).catch((error) => {
         console.log(error)
+      })
+    };
+
+    function getCandleForRealTime(interval) {
+      let date = new Date();
+      let minutes = date.getMinutes();
+      let candlesTime;
+
+      if (interval === 'm30') {
+        if (minutes <= 30) {
+          candlesTime = minutes - 0;
+        } else {
+          candlesTime = minutes - 30;
+        }
+      } else if (interval === 'h1') {
+        candlesTime = minutes - 0;
+      } else if (interval === 'd1') {
+        candlesTime = 50;
+      }
+      return candlesTime;
+    };
+
+    function sortCandle(candles) {
+      let arrayCandles = candles;
+      config.candleRealTime[0] = arrayCandles[0][1];
+      config.candleRealTime[1] = arrayCandles[arrayCandles.length - 1][2];
+      config.candleRealTime[2] = arrayCandles[0][3];
+      config.candleRealTime[3] = arrayCandles[0][4];
+
+      arrayCandles.forEach((arr) => {
+        if (arr[3] > config.candleRealTime[2]) {
+          config.candleRealTime[2] = arr[3];
+        }
+        if (arr[4] < config.candleRealTime[3]) {
+          config.candleRealTime[3] = arr[4];
+        }
       })
     };
   });

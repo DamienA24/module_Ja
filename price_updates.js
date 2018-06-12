@@ -54,7 +54,6 @@ let listenPrice = (socket, io) => {
         jsonData.Rates = jsonData.Rates.map(function (element) {
           return element.toFixed(5);
         });
-
         sendpriceUpdate(jsonData.Updated, jsonData.Symbol, jsonData.Rates);
       } catch (e) {
         console.log('price update JSON parse error: ', e);
