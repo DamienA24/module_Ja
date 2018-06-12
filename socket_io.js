@@ -32,7 +32,6 @@ let listen = (io) => {
       };
 
       let resource = `/candles/${recoverdData.currency}/`;
-      let numberCandle = recoverdData.interval === 'h4' ? 199 : 50;
 
       axios({
         url: `${proto}://${host}:${apiPort}${resource}m1`,
@@ -48,7 +47,7 @@ let listen = (io) => {
           url: `${proto}://${host}:${apiPort}${resource}${recoverdData.interval}`,
           method: 'GET',
           params: {
-            "num": numberCandle
+            "num": 50
           },
           headers: config.requestHeaders
         }).then((response) => {
@@ -171,7 +170,9 @@ let listen = (io) => {
         }
       } else if (interval === 'h1') {
         candlesTime = minutes - 0;
-      };
+      } else if (interval === 'd1') {
+        candlesTime = 50;
+      }
       return candlesTime;
     };
 

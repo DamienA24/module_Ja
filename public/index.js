@@ -228,9 +228,9 @@ let moduleDemo = {
 
   postTrade: (socket) => {
     let sendTrade = moduleDemo.sendTrade();
-    if (sendTrade.lot < 1) {
+    /* if (sendTrade.lot < 1) {
       $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-    } else if (moduleDemo.type === 'sell') {
+    } */if (moduleDemo.type === 'sell') {
       moduleDemo.tradeTake.order = 'sell';
       socket.emit('sendTrade', sendTrade);
     } else if (moduleDemo.type === 'buy') {
