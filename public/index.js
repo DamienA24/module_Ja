@@ -435,7 +435,7 @@ let moduleDemo = {
           data: [{
             yAxis: (moduleDemo.lastPrice).toFixed(4),
             lineStyle: {
-              color: 'rgb(0,0,205)',
+              color: 'rgb(255,255,255)',
               width: 2
             }
           }]
