@@ -23,7 +23,7 @@ let listen = (io) => {
       let recoverdData = data;
       let currency = data.currency;
       let interval = data.interval;
-    
+
       for (let props in devises) {
         if (recoverdData.currency == props) {
           recoverdData.currency = devises[props];
@@ -38,20 +38,28 @@ let listen = (io) => {
         url: `${proto}://${host}:${apiPort}${resource}`,
         method: 'GET',
         params: {
-          "num": numberCandle
+          "num": getCandleForRealTime(interval)
         },
         headers: config.requestHeaders
       }).then((response) => {
-        config.sentData = response.data;
-        config.candleRealTime[0] = config.sentData.candles[49][2];
-        config.candleRealTime[1] = config.sentData.candles[49][2];
-        config.candleRealTime[2] = config.sentData.candles[49][2];
-        config.candleRealTime[3] = config.sentData.candles[49][2];
-        config.candleRealTime[4] = response.data.period_id;
-        config.candleRealTime[5] = currency;
-        config.candleRealTime[6] = 'off';
-
-        io.emit('messageFromServer', config.sentData);
+        sortCandle(response.data.candles);
+        
+        return axios({
+          url: `${proto}://${host}:${apiPort}${resource}`,
+          method: 'GET',
+          params: {
+            "num": numberCandle
+          },
+          headers: config.requestHeaders
+        }).then((response) => {
+          config.sentData = response.data;
+          config.candleRealTime[4] = response.data.period_id;
+          config.candleRealTime[5] = currency;
+          config.candleRealTime[6] = 'off';
+          io.emit('messageFromServer', config.sentData);
+        }).catch((error) => {
+          console.log(error);
+        })
       }).catch((error) => {
         console.log(error)
       })
@@ -167,6 +175,22 @@ let listen = (io) => {
       return candlesTime;
     };
 
+    function sortCandle(candles) {
+      let arrayCandles = candles;
+      config.candleRealTime[0] = arrayCandles[0][1];
+      config.candleRealTime[1] = arrayCandles[arrayCandles.length - 1][2];
+      config.candleRealTime[2] = arrayCandles[0][3];
+      config.candleRealTime[3] = arrayCandles[0][4];
+
+      arrayCandles.forEach((arr) => {
+        if (arr[3] > config.candleRealTime[2]) {
+          config.candleRealTime[2] = arr[3];
+        }
+        if (arr[4] < config.candleRealTime[3]) {
+          config.candleRealTime[3] = arr[4];
+        }
+      })
+    };
   });
 };
 
