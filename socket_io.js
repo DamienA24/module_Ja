@@ -23,10 +23,7 @@ let listen = (io) => {
       let recoverdData = data;
       let currency = data.currency;
       let interval = data.interval;
-      let candlesTime;
-
-/*       getCandleForRealTime(interval, candlesTime);
- */
+    
       for (let props in devises) {
         if (recoverdData.currency == props) {
           recoverdData.currency = devises[props];
@@ -153,9 +150,10 @@ let listen = (io) => {
       })
     };
 
-    /* function getCandleForRealTime(interval, candlesTime) {
+    function getCandleForRealTime(interval) {
       let date = new Date();
       let minutes = date.getMinutes();
+      let candlesTime;
 
       if (interval === 'm30') {
         if (minutes <= 30) {
@@ -167,7 +165,7 @@ let listen = (io) => {
         candlesTime = minutes - 0;
       };
       return candlesTime;
-    }; */
+    };
 
   });
 };
