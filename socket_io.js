@@ -31,11 +31,11 @@ let listen = (io) => {
         };
       };
 
-      let resource = `/candles/${recoverdData.currency}/${recoverdData.interval}`;
+      let resource = `/candles/${recoverdData.currency}/`;
       let numberCandle = recoverdData.interval === 'h4' ? 199 : 50;
 
       axios({
-        url: `${proto}://${host}:${apiPort}${resource}`,
+        url: `${proto}://${host}:${apiPort}${resource}m1`,
         method: 'GET',
         params: {
           "num": getCandleForRealTime(interval)
@@ -43,9 +43,9 @@ let listen = (io) => {
         headers: config.requestHeaders
       }).then((response) => {
         sortCandle(response.data.candles);
-        
+
         return axios({
-          url: `${proto}://${host}:${apiPort}${resource}`,
+          url: `${proto}://${host}:${apiPort}${resource}${recoverdData.interval}`,
           method: 'GET',
           params: {
             "num": numberCandle
