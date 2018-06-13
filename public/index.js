@@ -148,6 +148,12 @@ let moduleDemo = {
       moduleDemo.removeBar('demoBoxDisplay-stop');
     });
 
+    $('input[data-ref=demoBoxDisplay-stopPips]').keyup(function () {
+
+      let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
+      moduleDemo.addPips(myVal);
+    });
+
     $("#demoBoxInfos-takeProfit-close").click(function () {
       moduleDemo.removeBar('demoBoxDisplay-take');
     });
@@ -566,6 +572,10 @@ let moduleDemo = {
       moduleDemo.getYYYValue("demoBoxDisplay-stop", ui.position.top);
       moduleDemo.takeKeyUp("demoBoxDisplay-stop");
     }
+  },
+
+  addPips: (value) => {
+
   },
 
   clearChart: () => {
