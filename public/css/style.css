@@ -7,8 +7,9 @@
 @font-face {
   font-family: 'OpenSansLight';
   src: url("../fonts/OpenSansLight/OpenSansLight.eot");
-/*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
- */  font-weight: bold;
+  /*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
+ */
+  font-weight: bold;
   font-style: normal;
 }
 
@@ -979,6 +980,47 @@ section {
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox-up:hover {
   color: #1C98E2;
+}
+
+#demoBoxInfos-indic {
+  margin-top: 10px;
+  position: relative;
+}
+
+#demoBoxInfos-indic-label {
+  float: left;
+  width: 7%;
+  padding: 6px 0px;
+}
+
+#demoBoxInfos-indic-price {
+  border: 1px solid #1C98E2;
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 33%;
+}
+
+#demoBoxInfos-indic-pips {
+  border: 1px solid #1C98E2;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+}
+
+#demoBoxInfos-indic-value {
+  border: 1px solid #1C98E2;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 40%;
+  text-align: right;
+}
+
+.indicatorInput{
+  font-size: 12px;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss {
