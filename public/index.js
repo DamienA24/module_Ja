@@ -150,8 +150,24 @@ let moduleDemo = {
 
     $('input[data-ref=demoBoxDisplay-stopPips]').keyup(function () {
 
-      let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
-      moduleDemo.addPips(myVal);
+      if ($('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
+        let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
+        moduleDemo.addPips(myVal);
+      } else if ($('#demoBoxInfos-button-sell').hasClass('buttonModify') && moduleDemo.type === "sell") {
+        let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
+        moduleDemo.addPips(myVal);
+      }
+    });
+
+    $('input[data-ref=demoBoxDisplay-takePips]').keyup(function () {
+
+      if ($('#demoBoxInfos-button-buy').hasClass('show') && !$('#demoBoxInfos-button-sell').hasClass('show')) {
+        let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
+        moduleDemo.addPips(myVal);
+      } else if ($('#demoBoxInfos-button-buy').hasClass('buttonClose')) {
+        let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
+        moduleDemo.addPips(myVal);
+      }
     });
 
     $("#demoBoxInfos-takeProfit-close").click(function () {
@@ -236,7 +252,8 @@ let moduleDemo = {
     let sendTrade = moduleDemo.sendTrade();
     /* if (sendTrade.lot < 1) {
       $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-    } */if (moduleDemo.type === 'sell') {
+    } */
+    if (moduleDemo.type === 'sell') {
       moduleDemo.tradeTake.order = 'sell';
       socket.emit('sendTrade', sendTrade);
     } else if (moduleDemo.type === 'buy') {
@@ -576,6 +593,20 @@ let moduleDemo = {
 
   addPips: (value) => {
 
+    if (moduleDemo.type === 'sell') {
+      moduleDemo.changeValuePips("demoBoxDisplay-stop", value);
+    } else if (moduleDemo.type === 'buy') {
+      moduleDemo.changeValuePips("demoBoxDisplay-take", value);
+    }
+  },
+
+  changeValuePips: (_div, pips) => {
+    let price = moduleDemo.lastPrice;
+    let result;
+
+    result = price + (Number(pips) / 10000);
+    $(`input[data-ref=${_div}]`).val(result.toFixed(4));
+    moduleDemo.takeKeyUp(_div);
   },
 
   clearChart: () => {
@@ -592,7 +623,7 @@ let moduleDemo = {
   changeInterface: () => {
 
     if (!$('#demoBoxInfos-button-sell').hasClass('show')) {
-      $('#demoBoxInfos-button-sell').addClass('show')
+      $('#demoBoxInfos-button-sell').addClass('show');
     } else if (!$('#demoBoxInfos-button-buy').hasClass('show')) {
       $('#demoBoxInfos-button-buy').addClass('show')
     }
@@ -869,4 +900,3 @@ let moduleDemo = {
     }, 100);
   },
 };
-
