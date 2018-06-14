@@ -86,6 +86,26 @@ let moduleDemo = {
       moduleDemo.closeTrade();
     });
 
+    $(".numberBox-upPips[data-ref=demoBoxDisplay-take]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-takePips', 'up');
+    });
+
+    $(".numberBox-downPips[data-ref=demoBoxDisplay-take]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-takePips', 'down');
+    });
+
+    $(".numberBox-upPips[data-ref=demoBoxDisplay-stop]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-stopPips', 'up');
+    });
+
+    $(".numberBox-downPips[data-ref=demoBoxDisplay-stop]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-stopPips', 'down');
+    });
+
     $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
 
       let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
@@ -607,6 +627,37 @@ let moduleDemo = {
   updatePips: (_div, pips) => {
     $(`input[data-ref=${_div}]`).val(pips.toFixed(4));
     moduleDemo.takeKeyUp(_div);
+  },
+
+  changeValuePipsNumberBox: (_div, arrow) => {
+
+    if (_div === 'demoBoxDisplay-takePips') {
+      let myVal = $("input[data-ref=demoBoxDisplay-takePips]").val();
+      if (arrow === 'up') {
+        let result = Number(myVal) + 1;
+        $("input[data-ref=demoBoxDisplay-takePips]").val(result);
+        moduleDemo.addPips(result, 'demoBoxDisplay-take');
+      } else if (arrow === 'down') {
+        let result = Number(myVal) - 1;
+        if (result != 0) {
+          $("input[data-ref=demoBoxDisplay-takePips]").val(result);
+          moduleDemo.addPips(result, 'demoBoxDisplay-take');
+        }
+      }
+    } else if (_div === 'demoBoxDisplay-stopPips') {
+      let myVal = $("input[data-ref=demoBoxDisplay-stopPips]").val();
+      if (arrow === 'up') {
+        let result = Number(myVal) + 1;
+        $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
+        moduleDemo.addPips(result, 'demoBoxDisplay-stop');
+      } else if (arrow === 'down') {
+        let result = Number(myVal) - 1;
+        if (result != 0) {
+          $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
+          moduleDemo.addPips(result, 'demoBoxDisplay-stop');
+        }
+      }
+    }
   },
 
   clearChart: () => {

@@ -1016,8 +1016,36 @@ section {
   text-align: right;
 }
 
-.indicatorInput{
+.indicatorInput {
   font-size: 12px;
+}
+
+.numberBox-upPips {
+  position: absolute;
+  top: -4px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-upPips:hover {
+  color: #1C98E2;
+}
+
+.numberBox-downPips {
+  position: absolute;
+  top: 7px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-downPips:hover {
+  color: #1C98E2;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss {
