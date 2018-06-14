@@ -1,7 +1,5 @@
 const querystring = require('query-string');
 const config = require('./config_fxcm');
-const server = require('./server');
-const socketIo = require('socket.io');
 const https = require('https');
 
 let listenPrice = (socket, io) => {

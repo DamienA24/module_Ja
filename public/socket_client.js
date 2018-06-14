@@ -98,4 +98,4 @@ $(document).ready(function () {
   moduleDemo.init();
   socket.emit('sendInstrument', dataInitial);
   socket.emit('realTime');
-});
+ });
