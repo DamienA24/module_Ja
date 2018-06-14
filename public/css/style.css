@@ -994,7 +994,6 @@ section {
 }
 
 #demoBoxInfos-indic-price {
-  border: 1px solid #1C98E2;
   padding-right: 40px;
   position: relative;
   height: 27px;
@@ -1003,7 +1002,6 @@ section {
 }
 
 #demoBoxInfos-indic-pips {
-  border: 1px solid #1C98E2;
   position: relative;
   height: 27px;
   float: left;
@@ -1011,7 +1009,6 @@ section {
 }
 
 #demoBoxInfos-indic-value {
-  border: 1px solid #1C98E2;
   position: relative;
   height: 27px;
   float: left;

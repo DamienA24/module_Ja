@@ -150,24 +150,14 @@ let moduleDemo = {
 
     $('input[data-ref=demoBoxDisplay-stopPips]').keyup(function () {
 
-      if ($('#demoBoxInfos-button-sell').hasClass('show') && !$('#demoBoxInfos-button-buy').hasClass('show')) {
-        let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
-        moduleDemo.addPips(myVal);
-      } else if ($('#demoBoxInfos-button-sell').hasClass('buttonModify') && moduleDemo.type === "sell") {
-        let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
-        moduleDemo.addPips(myVal);
-      }
+      let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
+      moduleDemo.addPips(myVal, 'demoBoxDisplay-stop');
     });
 
     $('input[data-ref=demoBoxDisplay-takePips]').keyup(function () {
 
-      if ($('#demoBoxInfos-button-buy').hasClass('show') && !$('#demoBoxInfos-button-sell').hasClass('show')) {
-        let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
-        moduleDemo.addPips(myVal);
-      } else if ($('#demoBoxInfos-button-buy').hasClass('buttonClose')) {
-        let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
-        moduleDemo.addPips(myVal);
-      }
+      let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
+      moduleDemo.addPips(myVal, 'demoBoxDisplay-take');
     });
 
     $("#demoBoxInfos-takeProfit-close").click(function () {
@@ -591,21 +581,31 @@ let moduleDemo = {
     }
   },
 
-  addPips: (value) => {
-
-    if (moduleDemo.type === 'sell') {
-      moduleDemo.changeValuePips("demoBoxDisplay-stop", value);
-    } else if (moduleDemo.type === 'buy') {
-      moduleDemo.changeValuePips("demoBoxDisplay-take", value);
-    }
-  },
-
-  changeValuePips: (_div, pips) => {
+  addPips: (pips, _div) => {
     let price = moduleDemo.lastPrice;
     let result;
 
-    result = price + (Number(pips) / 10000);
-    $(`input[data-ref=${_div}]`).val(result.toFixed(4));
+    if (_div === 'demoBoxDisplay-stop') {
+      if (moduleDemo.type === 'sell') {
+        result = price + (Number(pips) / 10000);
+        moduleDemo.updatePips(_div, result);
+      } else if (moduleDemo.type === 'buy') {
+        result = price - (Number(pips) / 10000);
+        moduleDemo.updatePips(_div, result);
+      }
+    } else if (_div === 'demoBoxDisplay-take') {
+      if (moduleDemo.type === 'sell') {
+        result = price - (Number(pips) / 10000);
+        moduleDemo.updatePips(_div, result);
+      } else if (moduleDemo.type === 'buy') {
+        result = price + (Number(pips) / 10000);
+        moduleDemo.updatePips(_div, result);
+      }
+    }
+  },
+
+  updatePips: (_div, pips) => {
+    $(`input[data-ref=${_div}]`).val(pips.toFixed(4));
     moduleDemo.takeKeyUp(_div);
   },
 
