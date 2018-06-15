@@ -69,6 +69,7 @@ let listenPrice = (socket, io) => {
 
       if (config.candleRealTime[5] === pair) {
         priceObj.rate = Number(rate[0]);
+        priceObj.ask = Number(rate[1]);
         priceObj.pair = pair;
         if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
           config.candleRealTime[1] = priceObj.rate;

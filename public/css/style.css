@@ -767,6 +767,8 @@ section {
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-spread #demoBoxInfos-spread-value {
   float: right;
+  font-size: 14px;
+  color: #1C98E2;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-swap {
@@ -800,11 +802,12 @@ section {
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-down {
-  float: left;
+  float: right;
+  color: red;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-up {
-  float: right;
+  float: left;
   color: #9BDF51;
 }
 

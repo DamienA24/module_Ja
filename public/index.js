@@ -1,5 +1,5 @@
 let moduleDemo = {
-  canvasId: "demoBoxDisplay-chartCanvas",
+  canvasId: 'demoBoxDisplay-chartCanvas',
   canvas: null,
   context: null,
   balance: 3000,
@@ -17,9 +17,11 @@ let moduleDemo = {
   candleCreate: false,
   type: null,
   _divDevise: null,
+  ask: null,
+  spread: null,
   typeIn: 'take',
-  devise: "€",
-  tickInterval: "h1",
+  devise: '€',
+  tickInterval: 'h1',
   firstC: 'EUR',
   secondC: 'USD',
   tradeTake: {
@@ -124,18 +126,22 @@ let moduleDemo = {
 
     $(".numberBox-up[data-ref=demoBoxDisplay-stop]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-stop');
     });
 
     $(".numberBox-down[data-ref=demoBoxDisplay-stop]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-stop');
     });
 
     $(".numberBox-up[data-ref=demoBoxDisplay-take]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-take');
     });
 
     $(".numberBox-down[data-ref=demoBoxDisplay-take]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-take');
     });
 
     $('input[data-ref=demoBoxDisplay-amount]').keyup(function () {
@@ -296,7 +302,7 @@ let moduleDemo = {
   closeTradeLineTouch: () => {
     let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
     let take = $("input[data-ref=demoBoxDisplay-take]").val();
-    let price = moduleDemo.lastPrice.toFixed(4);
+    let price = moduleDemo.lastPrice;
     let stopBis = Number(stop).toFixed(4);
     let takeBis = Number(take).toFixed(4);
 
@@ -322,7 +328,7 @@ let moduleDemo = {
     let myFunction = setInterval(() => {
       let valSL = $("input[data-ref=demoBoxDisplay-stop]").val();
       moduleDemo.tradeTake.valPE = $("input[data-ref=demoBoxDisplay-pending]").val();
-      if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice.toFixed(4)) {
+      if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice) {
         moduleDemo.tradeTake.order = valSL < moduleDemo.tradeTake.valPE ? 'buy' : 'sell';
         moduleDemo.removeBar('demoBoxDisplay-pending');
         moduleDemo.drawTradeTake();
@@ -469,7 +475,7 @@ let moduleDemo = {
         markLine: {
           silent: true,
           data: [{
-            yAxis: (moduleDemo.lastPrice).toFixed(4),
+            yAxis: moduleDemo.lastPrice,
             lineStyle: {
               color: 'rgb(255,255,255)',
               width: 2
@@ -497,8 +503,14 @@ let moduleDemo = {
     }
 
     if (devise === update.pair) {
-      moduleDemo.lastPrice = update.rate;
-      $("#demoBoxInfos-price-up").html(update.rate);
+      moduleDemo.lastPrice = update.rate.toFixed(4);
+      moduleDemo.ask = update.ask.toFixed(4);
+      moduleDemo.spread = (Number(moduleDemo.ask) * 10000) - (Number(moduleDemo.lastPrice) * 10000);
+
+      $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
+      $("#demoBoxInfos-price-down").html(moduleDemo.ask);
+      $('#demoBoxInfos-spread-value').html(moduleDemo.spread);
+
       let options = {
         series: [{
           type: 'k',
@@ -605,7 +617,7 @@ let moduleDemo = {
   },
 
   addPips: (pips, _div) => {
-    let price = moduleDemo.lastPrice;
+    let price = Number(moduleDemo.lastPrice);
     let result;
 
     if (_div === 'demoBoxDisplay-stop') {
@@ -630,6 +642,18 @@ let moduleDemo = {
   updatePips: (_div, pips) => {
     $(`input[data-ref=${_div}]`).val(pips);
     moduleDemo.takeKeyUp(_div);
+  },
+
+  updatePipsWithPrice: (_div) => {
+    if (_div === 'demoBoxDisplay-stop') {
+      let stop = $('input[data-ref=demoBoxDisplay-stop]').val();
+      let pips = Math.abs(Math.ceil((stop - moduleDemo.lastPrice) * 10000));
+      $(`input[data-ref=demoBoxDisplay-stopPips]`).val(pips);
+    } else if (_div === 'demoBoxDisplay-take') {
+      let take = $('input[data-ref=demoBoxDisplay-take]').val();
+      let pips = Math.abs(Math.ceil((take - moduleDemo.lastPrice) * 10000));
+      $(`input[data-ref=demoBoxDisplay-takePips]`).val(pips);
+    }
   },
 
   changeValuePipsNumberBox: (_div, arrow) => {
@@ -796,8 +820,8 @@ let moduleDemo = {
     } else if (_div === 'demoBoxDisplay-take') {
       moduleDemo.updatePips('demoBoxDisplay-takePips', pips);
     }
-     
-     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
+
+    $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
 
     if (moduleDemo.tradeTake.type === 'off') {
@@ -815,6 +839,16 @@ let moduleDemo = {
     let myVal = $('input[data-ref=' + _div + ']').val();
     let myWhere = myVal - moduleDemo.min;
 
+    /* if (_div === 'demoBoxDisplay-stop') {
+      let stop = $('input[data-ref=demoBoxDisplay-stop]').val();
+      let pips = Math.abs(Math.ceil((stop - moduleDemo.lastPrice) * 10000));
+      moduleDemo.updatePips('demoBoxDisplay-stopPips', pips);
+    } else if (_div === 'demoBoxDisplay-take') {
+      let take = $('input[data-ref=demoBoxDisplay-take]').val();
+      let pips = Math.abs(Math.ceil((take - moduleDemo.lastPrice) * 10000));
+      moduleDemo.updatePips('demoBoxDisplay-takePips', pips);
+    } */
+
     $('input[data-ref=' + _div + ']').val(moduleDemo.numberVerifDot(myVal));
     myWhere = 240 - (myWhere / myVolume * 240);
 
@@ -826,20 +860,20 @@ let moduleDemo = {
       $('#' + _div).addClass("toofar");
     }
     $('#' + _div).css('top', myWhere + 60 - 3);
-    $('#' + _div + "Where-label").html(myVal);
+    $('#' + _div + "Where-label").html(moduleDemo.reduceNumber(myVal, 10000000));
 
     if (_div.indexOf('pending') != -1) {
       if (!$("#demoBoxDisplay-stop").hasClass('on')) {
 
         $('#demoBoxDisplay-stop').css('top', myWhere + 60 - 3);
-        $("#demoBoxDisplay-stopWhere-label").html(myVal);
-        $('input[data-ref=demoBoxDisplay-stop]').val(myVal);
+        $("#demoBoxDisplay-stopWhere-label").html(moduleDemo.reduceNumber(myVal, 10000000));
+        $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myVal, 10000000));
       }
       if (!$("#demoBoxDisplay-take").hasClass('on')) {
 
         $('#demoBoxDisplay-take').css('top', myWhere + 60 - 3);
-        $("#demoBoxDisplay-takeWhere-label").html(myVal);
-        $('input[data-ref=demoBoxDisplay-take]').val(myVal);
+        $("#demoBoxDisplay-takeWhere-label").html(moduleDemo.reduceNumber(myVal, 10000000));
+        $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myVal, 10000000));
       }
     }
     moduleDemo.setTradeSize();
