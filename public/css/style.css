@@ -1126,6 +1126,7 @@ section {
   height: 27px;
   float: left;
   width: 20%;
+  margin-left: 5px;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value input {
@@ -1265,6 +1266,7 @@ section {
   height: 27px;
   float: left;
   width: 20%;
+  margin-left: 5px;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value input {

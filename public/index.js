@@ -354,7 +354,6 @@ let moduleDemo = {
 
     for (let i = 1; i < 8; i++) {
       if (moduleDemo.dataIn[i * myStep]) {
-
         var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
       }
       if (myTickInterval == "d1") {
@@ -397,8 +396,6 @@ let moduleDemo = {
 
     $('#demoBoxDisplay-pending').css('top', 120);
 
-    /*     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
-        moduleDemo.getYYYValue("demoBoxDisplay-stop", 157); */
     moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
 
     moduleDemo.dates = moduleDemo.dataIn.map(function (item) {
@@ -417,7 +414,7 @@ let moduleDemo = {
 
   initChart: (dataCandle, time) => {
     moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
-
+    console.log(moduleDemo.min, moduleDemo.max);
     let options = {
       xAxis: {
         data: time,
@@ -443,6 +440,12 @@ let moduleDemo = {
         min: moduleDemo.min,
         max: moduleDemo.max
       },
+      /*  tooltip: {
+         trigger: 'item',
+         axisPointer : {
+           type: 'cross'
+         }
+       }, */
       series: [{
         type: 'k',
         data: dataCandle,
@@ -625,7 +628,7 @@ let moduleDemo = {
   },
 
   updatePips: (_div, pips) => {
-    $(`input[data-ref=${_div}]`).val(pips.toFixed(4));
+    $(`input[data-ref=${_div}]`).val(pips);
     moduleDemo.takeKeyUp(_div);
   },
 
@@ -633,12 +636,13 @@ let moduleDemo = {
 
     if (_div === 'demoBoxDisplay-takePips') {
       let myVal = $("input[data-ref=demoBoxDisplay-takePips]").val();
+      let verifMyVal = myVal.toString().replace("-", "");
       if (arrow === 'up') {
-        let result = Number(myVal) + 1;
+        let result = Number(verifMyVal) + 1;
         $("input[data-ref=demoBoxDisplay-takePips]").val(result);
         moduleDemo.addPips(result, 'demoBoxDisplay-take');
       } else if (arrow === 'down') {
-        let result = Number(myVal) - 1;
+        let result = Number(verifMyVal) - 1;
         if (result != 0) {
           $("input[data-ref=demoBoxDisplay-takePips]").val(result);
           moduleDemo.addPips(result, 'demoBoxDisplay-take');
@@ -646,12 +650,13 @@ let moduleDemo = {
       }
     } else if (_div === 'demoBoxDisplay-stopPips') {
       let myVal = $("input[data-ref=demoBoxDisplay-stopPips]").val();
+      let verifMyVal = myVal.toString().replace("-", "");
       if (arrow === 'up') {
-        let result = Number(myVal) + 1;
+        let result = Number(verifMyVal) + 1;
         $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
         moduleDemo.addPips(result, 'demoBoxDisplay-stop');
       } else if (arrow === 'down') {
-        let result = Number(myVal) - 1;
+        let result = Number(verifMyVal) - 1;
         if (result != 0) {
           $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
           moduleDemo.addPips(result, 'demoBoxDisplay-stop');
@@ -784,8 +789,15 @@ let moduleDemo = {
 
     let myRatio = _nb / 240;
     let myValue = myRatio * myVolume + moduleDemo.min;
+    let pips = Math.abs(Math.ceil((myValue - moduleDemo.lastPrice) * 10000));
 
-    $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
+    if (_div === 'demoBoxDisplay-stop') {
+      moduleDemo.updatePips('demoBoxDisplay-stopPips', pips);
+    } else if (_div === 'demoBoxDisplay-take') {
+      moduleDemo.updatePips('demoBoxDisplay-takePips', pips);
+    }
+     
+     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
 
     if (moduleDemo.tradeTake.type === 'off') {
@@ -857,8 +869,6 @@ let moduleDemo = {
   },
 
   setTradeSizeReel: () => {
-
-    var myResult = 0;
 
     var myVolume = moduleDemo.max - moduleDemo.min;
     var myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
