@@ -2,7 +2,7 @@ let moduleDemo = {
   canvasId: 'demoBoxDisplay-chartCanvas',
   canvas: null,
   context: null,
-  balance: 3000,
+  balance: 10000,
   dataIn: null,
   data: null,
   dates: null,
@@ -338,6 +338,27 @@ let moduleDemo = {
     }, 500);
   },
 
+  calculateSpread: (data) => {
+
+    if (data.pair === 'EUR/USD' || data.pair === 'GBP/CAD' || data.pair === 'AUD/USD') {
+      moduleDemo.lastPrice = data.rate.toFixed(4);
+      moduleDemo.ask = data.ask.toFixed(4);
+      moduleDemo.spread = (Number(moduleDemo.ask) * 10000) - (Number(moduleDemo.lastPrice) * 10000);
+
+      $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
+      $("#demoBoxInfos-price-down").html(moduleDemo.ask);
+      $('#demoBoxInfos-spread-value').html(moduleDemo.spread);
+    } else if (data.pair === 'EUR/JPY') {
+      moduleDemo.lastPrice = data.rate.toFixed(2);
+      moduleDemo.ask = data.ask.toFixed(2);
+      moduleDemo.spread = (Math.ceil((Number(moduleDemo.ask) * 100))) - (Math.ceil((Number(moduleDemo.lastPrice) * 100)));
+
+      $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
+      $("#demoBoxInfos-price-down").html(moduleDemo.ask);
+      $('#demoBoxInfos-spread-value').html(moduleDemo.spread);
+    }
+  },
+
   drawGridYYY: () => {
     let myHtml = "";
     let myVolume = moduleDemo.max - moduleDemo.min;
@@ -396,9 +417,6 @@ let moduleDemo = {
 
     $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.lastPrice);
     moduleDemo.takeKeyUp('demoBoxDisplay-stop');
-
-    $("#demoBoxInfos-price-down").html(_data.candles[49][1]);
-    $("#demoBoxInfos-price-up").html(_data.candles[49][2]);
 
     $('#demoBoxDisplay-pending').css('top', 120);
 
@@ -503,13 +521,7 @@ let moduleDemo = {
     }
 
     if (devise === update.pair) {
-      moduleDemo.lastPrice = update.rate.toFixed(4);
-      moduleDemo.ask = update.ask.toFixed(4);
-      moduleDemo.spread = (Number(moduleDemo.ask) * 10000) - (Number(moduleDemo.lastPrice) * 10000);
-
-      $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
-      $("#demoBoxInfos-price-down").html(moduleDemo.ask);
-      $('#demoBoxInfos-spread-value').html(moduleDemo.spread);
+      moduleDemo.calculateSpread(update);
 
       let options = {
         series: [{
