@@ -7,8 +7,9 @@
 @font-face {
   font-family: 'OpenSansLight';
   src: url("../fonts/OpenSansLight/OpenSansLight.eot");
-/*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
- */  font-weight: bold;
+  /*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
+ */
+  font-weight: bold;
   font-style: normal;
 }
 
@@ -766,6 +767,8 @@ section {
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-spread #demoBoxInfos-spread-value {
   float: right;
+  font-size: 14px;
+  color: #1C98E2;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-swap {
@@ -799,11 +802,12 @@ section {
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-down {
-  float: left;
+  float: right;
+  color: red;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-up {
-  float: right;
+  float: left;
   color: #9BDF51;
 }
 
@@ -981,6 +985,73 @@ section {
   color: #1C98E2;
 }
 
+#demoBoxInfos-indic {
+  margin-top: 10px;
+  position: relative;
+}
+
+#demoBoxInfos-indic-label {
+  float: left;
+  width: 7%;
+  padding: 6px 0px;
+}
+
+#demoBoxInfos-indic-price {
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 33%;
+}
+
+#demoBoxInfos-indic-pips {
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+#demoBoxInfos-indic-value {
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 40%;
+  text-align: center;
+}
+
+.indicatorInput {
+  font-size: 12px;
+}
+
+.numberBox-upPips {
+  position: absolute;
+  top: -4px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-upPips:hover {
+  color: #1C98E2;
+}
+
+.numberBox-downPips {
+  position: absolute;
+  top: 7px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-downPips:hover {
+  color: #1C98E2;
+}
+
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss {
   margin-top: 10px;
   position: relative;
@@ -1001,7 +1072,7 @@ section {
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-label {
   float: left;
-  width: 30%;
+  width: 7%;
   padding: 6px 0px;
 }
 
@@ -1011,7 +1082,7 @@ section {
   position: relative;
   height: 27px;
   float: left;
-  width: 35%;
+  width: 33%;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value input {
@@ -1049,6 +1120,53 @@ section {
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value {
+  border: 1px solid #1C98E2;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  margin-left: 5px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-up:hover {
   color: #1C98E2;
 }
 
@@ -1093,7 +1211,7 @@ section {
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-label {
   float: left;
-  width: 30%;
+  width: 7%;
   padding: 6px 0px;
 }
 
@@ -1103,7 +1221,7 @@ section {
   position: relative;
   height: 27px;
   float: left;
-  width: 35%;
+  width: 33%;
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value input {
@@ -1141,6 +1259,54 @@ section {
 }
 
 #demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value {
+  border: 1px solid #1C98E2;
+  padding-right: 10px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  margin-left: 5px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-up:hover {
   color: #1C98E2;
 }
 

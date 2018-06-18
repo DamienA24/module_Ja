@@ -1,8 +1,8 @@
 let moduleDemo = {
-  canvasId: "demoBoxDisplay-chartCanvas",
+  canvasId: 'demoBoxDisplay-chartCanvas',
   canvas: null,
   context: null,
-  balance: 3000,
+  balance: 10000,
   dataIn: null,
   data: null,
   dates: null,
@@ -17,9 +17,11 @@ let moduleDemo = {
   candleCreate: false,
   type: null,
   _divDevise: null,
+  ask: null,
+  spread: null,
   typeIn: 'take',
-  devise: "€",
-  tickInterval: "h1",
+  devise: '€',
+  tickInterval: 'h1',
   firstC: 'EUR',
   secondC: 'USD',
   tradeTake: {
@@ -86,6 +88,26 @@ let moduleDemo = {
       moduleDemo.closeTrade();
     });
 
+    $(".numberBox-upPips[data-ref=demoBoxDisplay-take]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-takePips', 'up');
+    });
+
+    $(".numberBox-downPips[data-ref=demoBoxDisplay-take]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-takePips', 'down');
+    });
+
+    $(".numberBox-upPips[data-ref=demoBoxDisplay-stop]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-stopPips', 'up');
+    });
+
+    $(".numberBox-downPips[data-ref=demoBoxDisplay-stop]").click(() => {
+
+      moduleDemo.changeValuePipsNumberBox('demoBoxDisplay-stopPips', 'down');
+    });
+
     $(".numberBox-up[data-ref=demoBoxDisplay-amount]").click(function () {
 
       let myVal = $("input[data-ref=demoBoxDisplay-amount]").val();
@@ -104,18 +126,22 @@ let moduleDemo = {
 
     $(".numberBox-up[data-ref=demoBoxDisplay-stop]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-stop');
     });
 
     $(".numberBox-down[data-ref=demoBoxDisplay-stop]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-stop');
     });
 
     $(".numberBox-up[data-ref=demoBoxDisplay-take]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-take');
     });
 
     $(".numberBox-down[data-ref=demoBoxDisplay-take]").click(function () {
       moduleDemo.closeTradeLineTouch();
+      moduleDemo.updatePipsWithPrice('demoBoxDisplay-take');
     });
 
     $('input[data-ref=demoBoxDisplay-amount]').keyup(function () {
@@ -146,6 +172,18 @@ let moduleDemo = {
 
     $("#demoBoxInfos-stopLoss-close").click(function () {
       moduleDemo.removeBar('demoBoxDisplay-stop');
+    });
+
+    $('input[data-ref=demoBoxDisplay-stopPips]').keyup(function () {
+
+      let myVal = $('input[data-ref=demoBoxDisplay-stopPips]').val();
+      moduleDemo.addPips(myVal, 'demoBoxDisplay-stop');
+    });
+
+    $('input[data-ref=demoBoxDisplay-takePips]').keyup(function () {
+
+      let myVal = $('input[data-ref=demoBoxDisplay-takePips]').val();
+      moduleDemo.addPips(myVal, 'demoBoxDisplay-take');
     });
 
     $("#demoBoxInfos-takeProfit-close").click(function () {
@@ -230,7 +268,8 @@ let moduleDemo = {
     let sendTrade = moduleDemo.sendTrade();
     /* if (sendTrade.lot < 1) {
       $('#demoBoxInfos-tradeSize').html("<font style=color:red>1 lot minimum</font>");
-    } */if (moduleDemo.type === 'sell') {
+    } */
+    if (moduleDemo.type === 'sell') {
       moduleDemo.tradeTake.order = 'sell';
       socket.emit('sendTrade', sendTrade);
     } else if (moduleDemo.type === 'buy') {
@@ -263,7 +302,7 @@ let moduleDemo = {
   closeTradeLineTouch: () => {
     let stop = $("input[data-ref=demoBoxDisplay-stop]").val();
     let take = $("input[data-ref=demoBoxDisplay-take]").val();
-    let price = moduleDemo.lastPrice.toFixed(4);
+    let price = moduleDemo.lastPrice;
     let stopBis = Number(stop).toFixed(4);
     let takeBis = Number(take).toFixed(4);
 
@@ -289,7 +328,7 @@ let moduleDemo = {
     let myFunction = setInterval(() => {
       let valSL = $("input[data-ref=demoBoxDisplay-stop]").val();
       moduleDemo.tradeTake.valPE = $("input[data-ref=demoBoxDisplay-pending]").val();
-      if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice.toFixed(4)) {
+      if (moduleDemo.tradeTake.valPE == moduleDemo.lastPrice) {
         moduleDemo.tradeTake.order = valSL < moduleDemo.tradeTake.valPE ? 'buy' : 'sell';
         moduleDemo.removeBar('demoBoxDisplay-pending');
         moduleDemo.drawTradeTake();
@@ -297,6 +336,16 @@ let moduleDemo = {
         clearInterval(myFunction);
       }
     }, 500);
+  },
+
+  calculateSpread: (data, fixeNumber, calculNumber) => {
+    moduleDemo.lastPrice = data.rate.toFixed(fixeNumber);
+    moduleDemo.ask = data.ask.toFixed(fixeNumber);
+    moduleDemo.spread = (Math.ceil((Number(moduleDemo.ask) * calculNumber))) - (Math.ceil((Number(moduleDemo.lastPrice) * calculNumber)));
+
+    $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
+    $("#demoBoxInfos-price-down").html(moduleDemo.ask);
+    $('#demoBoxInfos-spread-value').html(moduleDemo.spread);
   },
 
   drawGridYYY: () => {
@@ -316,12 +365,10 @@ let moduleDemo = {
 
     let myTickInterval = moduleDemo.tickInterval;
     let myHtml = "";
-
     let myStep = 7;
 
     for (let i = 1; i < 8; i++) {
       if (moduleDemo.dataIn[i * myStep]) {
-
         var myDate = moment(moduleDemo.dataIn[i * myStep][0] * 1000);
       }
       if (myTickInterval == "d1") {
@@ -337,6 +384,9 @@ let moduleDemo = {
     moduleDemo.dataIn = _data.candles;
     moduleDemo.lastPrice = _data.candles[49][2];
 
+    $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
+    $("#demoBoxInfos-price-down").html(moduleDemo.lastPrice);
+
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
 
@@ -347,8 +397,13 @@ let moduleDemo = {
     moduleDemo.type = 1;
     moduleDemo.buffer = (moduleDemo.max - moduleDemo.min) * 20 / 100;
 
-    moduleDemo.min = moduleDemo.min - moduleDemo.buffer;
-    moduleDemo.max = moduleDemo.max + moduleDemo.buffer;
+    if (moduleDemo.secondC === 'JPY') {
+      moduleDemo.min = Number((moduleDemo.min - moduleDemo.buffer).toFixed(2));
+      moduleDemo.max = Number((moduleDemo.max + moduleDemo.buffer).toFixed(2));
+    } else {
+      moduleDemo.min = Number((moduleDemo.min - moduleDemo.buffer).toFixed(4));
+      moduleDemo.max = Number((moduleDemo.max + moduleDemo.buffer).toFixed(4));
+    }
 
     let ratio = 240 / (moduleDemo.max - moduleDemo.min);
     moduleDemo.endY = 240 - (moduleDemo.lastPrice - moduleDemo.min) * ratio;
@@ -359,13 +414,8 @@ let moduleDemo = {
     $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.lastPrice);
     moduleDemo.takeKeyUp('demoBoxDisplay-stop');
 
-    $("#demoBoxInfos-price-down").html(_data.candles[49][1]);
-    $("#demoBoxInfos-price-up").html(_data.candles[49][2]);
-
     $('#demoBoxDisplay-pending').css('top', 120);
 
-    /*     moduleDemo.getYYYValue("demoBoxDisplay-take", 77);
-        moduleDemo.getYYYValue("demoBoxDisplay-stop", 157); */
     moduleDemo.getYYYValue("demoBoxDisplay-pending", 117);
 
     moduleDemo.dates = moduleDemo.dataIn.map(function (item) {
@@ -384,7 +434,7 @@ let moduleDemo = {
 
   initChart: (dataCandle, time) => {
     moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
-
+    console.log(moduleDemo.min, moduleDemo.max);
     let options = {
       xAxis: {
         data: time,
@@ -433,7 +483,7 @@ let moduleDemo = {
         markLine: {
           silent: true,
           data: [{
-            yAxis: (moduleDemo.lastPrice).toFixed(4),
+            yAxis: moduleDemo.lastPrice,
             lineStyle: {
               color: 'rgb(255,255,255)',
               width: 2
@@ -460,9 +510,13 @@ let moduleDemo = {
       moduleDemo.candleCreate = false;
     }
 
-    if (devise === update.pair) {
-      moduleDemo.lastPrice = update.rate;
-      $("#demoBoxInfos-price-up").html(update.rate);
+    if (devise === update.data[5]) {
+      if (devise === 'EUR/USD' || devise === 'GBP/CAD' || devise === 'AUD/USD') {
+        moduleDemo.calculateSpread(update, 4, 10000);
+      } else if (devise === 'EUR/JPY') {
+        moduleDemo.calculateSpread(update, 2, 100);
+      }
+
       let options = {
         series: [{
           type: 'k',
@@ -568,6 +622,95 @@ let moduleDemo = {
     }
   },
 
+  addPips: (pips, _div) => {
+    let price = Number(moduleDemo.lastPrice);
+    let result;
+
+    if (moduleDemo.secondC === 'JPY') {
+      update(_div, 100);
+    } else {
+      update(_div, 10000);
+    }
+    function update(_div, number) {
+      if (_div === 'demoBoxDisplay-stop') {
+        if (moduleDemo.type === 'sell') {
+          result = price + (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        } else if (moduleDemo.type === 'buy') {
+          result = price - (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        }
+      } else if (_div === 'demoBoxDisplay-take') {
+        if (moduleDemo.type === 'sell') {
+          result = price - (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        } else if (moduleDemo.type === 'buy') {
+          result = price + (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        }
+      }
+    }
+  },
+
+  updatePips: (_div, pips) => {
+    $(`input[data-ref=${_div}]`).val(pips);
+    moduleDemo.takeKeyUp(_div);
+  },
+
+  updatePipsWithPrice: (_div) => {
+
+    if (moduleDemo.secondC === 'JPY') {
+      update(_div, 100);
+    } else {
+      update(_div, 10000);
+    }
+
+    function update(_div, number) {
+      if (_div === 'demoBoxDisplay-stop') {
+        let stop = Number($('input[data-ref=demoBoxDisplay-stop]').val());
+        let pips = Math.abs(Math.ceil((stop - Number(moduleDemo.lastPrice)) * number));
+        $(`input[data-ref=demoBoxDisplay-stopPips]`).val(pips);
+      } else if (_div === 'demoBoxDisplay-take') {
+        let take = Number($('input[data-ref=demoBoxDisplay-take]').val());
+        let pips = Math.abs(Math.ceil((take - Number(moduleDemo.lastPrice)) * number));
+        $(`input[data-ref=demoBoxDisplay-takePips]`).val(pips);
+      }
+    }
+  },
+
+  changeValuePipsNumberBox: (_div, arrow) => {
+
+    if (_div === 'demoBoxDisplay-takePips') {
+      let myVal = $("input[data-ref=demoBoxDisplay-takePips]").val();
+      let verifMyVal = myVal.toString().replace("-", "");
+      if (arrow === 'up') {
+        let result = Number(verifMyVal) + 1;
+        $("input[data-ref=demoBoxDisplay-takePips]").val(result);
+        moduleDemo.addPips(result, 'demoBoxDisplay-take');
+      } else if (arrow === 'down') {
+        let result = Number(verifMyVal) - 1;
+        if (result != 0) {
+          $("input[data-ref=demoBoxDisplay-takePips]").val(result);
+          moduleDemo.addPips(result, 'demoBoxDisplay-take');
+        }
+      }
+    } else if (_div === 'demoBoxDisplay-stopPips') {
+      let myVal = $("input[data-ref=demoBoxDisplay-stopPips]").val();
+      let verifMyVal = myVal.toString().replace("-", "");
+      if (arrow === 'up') {
+        let result = Number(verifMyVal) + 1;
+        $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
+        moduleDemo.addPips(result, 'demoBoxDisplay-stop');
+      } else if (arrow === 'down') {
+        let result = Number(verifMyVal) - 1;
+        if (result != 0) {
+          $("input[data-ref=demoBoxDisplay-stopPips]").val(result);
+          moduleDemo.addPips(result, 'demoBoxDisplay-stop');
+        }
+      }
+    }
+  },
+
   clearChart: () => {
     moduleDemo.context.clearRect(0, 0, moduleDemo.canvas.width, moduleDemo.canvas.height);
   },
@@ -582,10 +725,14 @@ let moduleDemo = {
   changeInterface: () => {
 
     if (!$('#demoBoxInfos-button-sell').hasClass('show')) {
-      $('#demoBoxInfos-button-sell').addClass('show')
+      $('#demoBoxInfos-button-sell').addClass('show');
     } else if (!$('#demoBoxInfos-button-buy').hasClass('show')) {
       $('#demoBoxInfos-button-buy').addClass('show')
     }
+    let myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
+    moduleDemo.balance = moduleDemo.balance - myAmount;
+    $('#demoBoxInfos-balance-value').html(moduleDemo.balance);
+
     $('#demoBoxInfos-change').hide();
     $('#demoBoxInfos-amount').hide();
     $('#demoBoxInfos-button-sell').addClass('buttonModify').html('Modifier');
@@ -600,8 +747,7 @@ let moduleDemo = {
     _numb = Math.floor(_numb);
     _numb /= myCount;
 
-    let verifLengthNumber = _numb;
-    if (verifLengthNumber.toString().length >= 10) {
+    if (moduleDemo.secondC === 'JPY') {
       return _numb.toFixed(2);
     } else {
       return _numb.toFixed(4);
@@ -692,6 +838,19 @@ let moduleDemo = {
 
     let myRatio = _nb / 240;
     let myValue = myRatio * myVolume + moduleDemo.min;
+    let pips;
+
+    if (moduleDemo.secondC === 'JPY') {
+      pips = Math.abs(Math.ceil((myValue - moduleDemo.lastPrice) * 100));
+    } else {
+      pips = Math.abs(Math.ceil((myValue - moduleDemo.lastPrice) * 10000));
+    }
+
+    if (_div === 'demoBoxDisplay-stop') {
+      moduleDemo.updatePips('demoBoxDisplay-stopPips', pips);
+    } else if (_div === 'demoBoxDisplay-take') {
+      moduleDemo.updatePips('demoBoxDisplay-takePips', pips);
+    }
 
     $("#" + _div + "Where-label").html(moduleDemo.reduceNumber(myValue, 10000000));
     $('input[data-ref=' + _div + ']').val(moduleDemo.reduceNumber(myValue, 10000000));
@@ -722,20 +881,20 @@ let moduleDemo = {
       $('#' + _div).addClass("toofar");
     }
     $('#' + _div).css('top', myWhere + 60 - 3);
-    $('#' + _div + "Where-label").html(myVal);
+    $('#' + _div + "Where-label").html(moduleDemo.reduceNumber(myVal, 10000000));
 
     if (_div.indexOf('pending') != -1) {
       if (!$("#demoBoxDisplay-stop").hasClass('on')) {
 
         $('#demoBoxDisplay-stop').css('top', myWhere + 60 - 3);
-        $("#demoBoxDisplay-stopWhere-label").html(myVal);
-        $('input[data-ref=demoBoxDisplay-stop]').val(myVal);
+        $("#demoBoxDisplay-stopWhere-label").html(moduleDemo.reduceNumber(myVal, 10000000));
+        $('input[data-ref=demoBoxDisplay-stop]').val(moduleDemo.reduceNumber(myVal, 10000000));
       }
       if (!$("#demoBoxDisplay-take").hasClass('on')) {
 
         $('#demoBoxDisplay-take').css('top', myWhere + 60 - 3);
-        $("#demoBoxDisplay-takeWhere-label").html(myVal);
-        $('input[data-ref=demoBoxDisplay-take]').val(myVal);
+        $("#demoBoxDisplay-takeWhere-label").html(moduleDemo.reduceNumber(myVal, 10000000));
+        $('input[data-ref=demoBoxDisplay-take]').val(moduleDemo.reduceNumber(myVal, 10000000));
       }
     }
     moduleDemo.setTradeSize();
@@ -766,15 +925,13 @@ let moduleDemo = {
 
   setTradeSizeReel: () => {
 
-    var myResult = 0;
-
     var myVolume = moduleDemo.max - moduleDemo.min;
     var myAmount = $('input[data-ref=demoBoxDisplay-amount]').val();
     var myTake = $('input[data-ref=demoBoxDisplay-take]').val();
     var myStop = $('input[data-ref=demoBoxDisplay-stop]').val();
 
     var myType = (Number(myTake) > Number(myStop)) ? "buy" : "sell";
-    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : $("#demoBoxInfos-price-up").text());
+    var myPending = parseFloat(($('#demoBoxInfos-change').hasClass("pending")) ? $('input[data-ref=demoBoxDisplay-pending]').val() : moduleDemo.lastPrice);
 
     if ($('#demoBoxInfos-amount-type').hasClass("pourcentage")) {
 
@@ -842,12 +999,13 @@ let moduleDemo = {
     }
     if (myAmount > moduleDemo.balance) {
       $('#demoBoxInfos-tradeSize').html("<font>not enough fund</font>");
+      $('#demoBoxInfos-stopLoss-indicator').html("<font>null</font>");
+      $('#demoBoxInfos-takeProfit-indicator').html("<font>null</font>");
       $("#demoBoxInfos-button-sell").removeClass('show');
       $("#demoBoxInfos-button-sell").css('cursor', '');
       $("#demoBoxInfos-button-buy").removeClass('show');
-    } else if (moduleDemo.tradeTake.type === 'on') {} else {
+    } else if (moduleDemo.tradeTake.type != 'on') {
       $('#demoBoxInfos-tradeSize').html("Trade Size : <font>" + myResultSize + "</font>");
-
     }
   },
 
@@ -859,4 +1017,3 @@ let moduleDemo = {
     }, 100);
   },
 };
-

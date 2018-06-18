@@ -81,8 +81,9 @@
 
               <div class="demoBoxDisplay-nav transition_0_2" data-value="m30">M30</div>
               <div class="demoBoxDisplay-nav transition_0_2" data-value="h1">H1</div>
-<!--               <div class="demoBoxDisplay-nav transition_0_2" data-value="h4">H4</div>
- -->              <div class="demoBoxDisplay-nav transition_0_2" data-value="d1">D1</div>
+              <!--               <div class="demoBoxDisplay-nav transition_0_2" data-value="h4">H4</div>
+ -->
+              <div class="demoBoxDisplay-nav transition_0_2" data-value="d1">D1</div>
 
             </div>
             <div id="demoBoxDisplay-chart">
@@ -181,8 +182,8 @@
                 <div class="clear"></div>
               </div>
               <div id="demoBoxInfos-price">
-                <div id="demoBoxInfos-price-down">.</div>
                 <div id="demoBoxInfos-price-up">.</div>
+                <div id="demoBoxInfos-price-down">.</div>
                 <div class="clear"></div>
               </div>
               <div id="demoBoxInfos-change">
@@ -231,10 +232,25 @@
                 </div>
                 <div class="clear"></div>
               </div>
+
+              <div id="demoBoxInfos-indic">
+                <div id="demoBoxInfos-indic-label"></div>
+                <div id="demoBoxInfos-indic-price">
+                  <p class="indicatorInput">Prix</p>
+                </div>
+                <div id="demoBoxInfos-indic-pips">
+                  <p class="indicatorInput">Pips</p>
+                </div>
+                <div id="demoBoxInfos-indic-value">
+                  <p class="indicatorInput">Valeur</p>
+                </div>
+                <div class="clear"></div>
+              </div>
+
               <div id="demoBoxInfos-stopLoss" data-ref="demoBoxDisplay-stop">
-                <div id="demoBoxInfos-stopLoss-label">STOP-LOSS</div>
+                <div id="demoBoxInfos-stopLoss-label">SL</div>
                 <div id="demoBoxInfos-stopLoss-value">
-                  <input type='text' value="0.580" data-ref="demoBoxDisplay-stop">
+                  <input type='text' value="0.580" data-ref="demoBoxDisplay-stop" maxlength="6">
                   <div id="demoBoxInfos-stopLoss-value-up" class="numberBox-up" data-ref="demoBoxDisplay-stop">
                     <i class='fa fa-angle-up'></i>
                   </div>
@@ -242,6 +258,17 @@
                     <i class='fa fa-angle-down'></i>
                   </div>
                 </div>
+
+                <div id="demoBoxInfos-stopLossPips-value">
+                  <input type='text' value="" data-ref="demoBoxDisplay-stopPips" maxlength="3">
+                  <div id="demoBoxInfos-takeProfit-value-up" class="numberBox-downPips" data-ref="demoBoxDisplay-stop">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                  <div id="demoBoxInfos-takeProfit-value-down" class="numberBox-upPips" data-ref="demoBoxDisplay-stop">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                </div>
+
                 <div id="demoBoxInfos-stopLoss-indicator">0</div>
                 <div id="demoBoxInfos-stopLoss-close">
                   <i class='fa fa-times'></i>
@@ -250,9 +277,9 @@
                 <div class="clear"></div>
               </div>
               <div id="demoBoxInfos-takeProfit" data-ref="demoBoxDisplay-take">
-                <div id="demoBoxInfos-takeProfit-label">TAKE-PROFIT</div>
+                <div id="demoBoxInfos-takeProfit-label">TP</div>
                 <div id="demoBoxInfos-takeProfit-value">
-                  <input type='text' value="0.580" data-ref="demoBoxDisplay-take">
+                  <input type='text' value="0.580" data-ref="demoBoxDisplay-take" maxlength="6">
                   <div id="demoBoxInfos-takeProfit-value-up" class="numberBox-up" data-ref="demoBoxDisplay-take">
                     <i class='fa fa-angle-up'></i>
                   </div>
@@ -260,6 +287,17 @@
                     <i class='fa fa-angle-down'></i>
                   </div>
                 </div>
+
+                <div id="demoBoxInfos-takeProfitPips-value">
+                  <input type='text' value="" data-ref="demoBoxDisplay-takePips" maxlength="3">
+                  <div id="demoBoxInfos-takeProfit-value-up" class="numberBox-downPips" data-ref="demoBoxDisplay-take">
+                    <i class='fa fa-angle-down'></i>
+                  </div>
+                  <div id="demoBoxInfos-takeProfit-value-down" class="numberBox-upPips" data-ref="demoBoxDisplay-take">
+                    <i class='fa fa-angle-up'></i>
+                  </div>
+                </div>
+
                 <div id="demoBoxInfos-takeProfit-indicator">0</div>
                 <div id="demoBoxInfos-takeProfit-close">
                   <i class='fa fa-times'></i>
@@ -289,10 +327,12 @@
     crossorigin="anonymous"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.1/moment.min.js"></script>
+  <script src="/node_modules/moment/moment.js"></script>
+  <script src="/node_modules/moment/locale/fr.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="./socket_client.js"></script>
   <script type="application/javascript" src="/node_modules/echarts/dist/echarts.min.js"></script>
   <script src="./index.js"></script>
 </body>
+
 </html>

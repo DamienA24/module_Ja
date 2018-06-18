@@ -42,7 +42,6 @@ let listen = (io) => {
         headers: config.requestHeaders
       }).then((response) => {
         sortCandle(response.data.candles);
-
         return axios({
           url: `${proto}://${host}:${apiPort}${resource}${recoverdData.interval}`,
           method: 'GET',
@@ -177,13 +176,12 @@ let listen = (io) => {
     };
 
     function sortCandle(candles) {
-      let arrayCandles = candles;
-      config.candleRealTime[0] = arrayCandles[0][1];
-      config.candleRealTime[1] = arrayCandles[arrayCandles.length - 1][2];
-      config.candleRealTime[2] = arrayCandles[0][3];
-      config.candleRealTime[3] = arrayCandles[0][4];
+      config.candleRealTime[0] = candles[0][1];
+      config.candleRealTime[1] = candles[candles.length - 1][2];
+      config.candleRealTime[2] = candles[0][3];
+      config.candleRealTime[3] = candles[0][4];
 
-      arrayCandles.forEach((arr) => {
+      candles.forEach((arr) => {
         if (arr[3] > config.candleRealTime[2]) {
           config.candleRealTime[2] = arr[3];
         }
