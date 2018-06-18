@@ -737,8 +737,7 @@ let moduleDemo = {
     _numb = Math.floor(_numb);
     _numb /= myCount;
 
-    let verifLengthNumber = _numb;
-    if (verifLengthNumber.toString().length >= 10) {
+    if (moduleDemo.secondC === 'JPY') {
       return _numb.toFixed(2);
     } else {
       return _numb.toFixed(4);
