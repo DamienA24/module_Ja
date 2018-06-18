@@ -66,6 +66,8 @@ $(document).ready(function () {
   socket.on('messageFromServer', function (data) {
     let recupData = data;
     moduleDemo.drawChart(recupData);
+    $(`input[data-ref=demoBoxDisplay-stopPips]`).val(0);
+    $(`input[data-ref=demoBoxDisplay-takePips]`).val(0);
   });
 
   socket.on('messageFromServerPostTrade', function () {
