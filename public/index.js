@@ -626,21 +626,28 @@ let moduleDemo = {
     let price = Number(moduleDemo.lastPrice);
     let result;
 
-    if (_div === 'demoBoxDisplay-stop') {
-      if (moduleDemo.type === 'sell') {
-        result = price + (Number(pips) / 10000);
-        moduleDemo.updatePips(_div, result);
-      } else if (moduleDemo.type === 'buy') {
-        result = price - (Number(pips) / 10000);
-        moduleDemo.updatePips(_div, result);
-      }
-    } else if (_div === 'demoBoxDisplay-take') {
-      if (moduleDemo.type === 'sell') {
-        result = price - (Number(pips) / 10000);
-        moduleDemo.updatePips(_div, result);
-      } else if (moduleDemo.type === 'buy') {
-        result = price + (Number(pips) / 10000);
-        moduleDemo.updatePips(_div, result);
+    if (moduleDemo.secondC === 'JPY') {
+      update(_div, 100);
+    } else {
+      update(_div, 10000);
+    }
+    function update(_div, number) {
+      if (_div === 'demoBoxDisplay-stop') {
+        if (moduleDemo.type === 'sell') {
+          result = price + (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        } else if (moduleDemo.type === 'buy') {
+          result = price - (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        }
+      } else if (_div === 'demoBoxDisplay-take') {
+        if (moduleDemo.type === 'sell') {
+          result = price - (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        } else if (moduleDemo.type === 'buy') {
+          result = price + (Number(pips) / number);
+          moduleDemo.updatePips(_div, result);
+        }
       }
     }
   },
