@@ -384,8 +384,8 @@ let moduleDemo = {
     moduleDemo.dataIn = _data.candles;
     moduleDemo.lastPrice = _data.candles[49][2];
 
-    $("#demoBoxInfos-price-up").html(moduleDemo.lastPrice);
-    $("#demoBoxInfos-price-down").html(moduleDemo.lastPrice);
+    $("#demoBoxInfos-price-up").html(moduleDemo.reduceNumber(moduleDemo.lastPrice));
+    $("#demoBoxInfos-price-down").html(moduleDemo.reduceNumber(moduleDemo.lastPrice));
 
     moduleDemo.max = 0;
     moduleDemo.min = 10000;
