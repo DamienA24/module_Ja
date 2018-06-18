@@ -70,7 +70,6 @@ let listenPrice = (socket, io) => {
       if (config.candleRealTime[5] === pair) {
         priceObj.rate = Number(rate[0]);
         priceObj.ask = Number(rate[1]);
-        priceObj.pair = pair;
         if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
           config.candleRealTime[1] = priceObj.rate;
         } else if (priceObj.rate > config.candleRealTime[2]) {
@@ -87,7 +86,9 @@ let listenPrice = (socket, io) => {
       } else if (newDate != 0 && newDate != 30) {
         config.candleRealTime[6] = 'off'
       }
-      io.emit('ServerSendRealTime', priceObj);
+      if (priceObj.hasOwnProperty('rate')) {
+        io.emit('ServerSendRealTime', priceObj);
+      }
     };
 
     let updateDataNewCandle = (oldData, newPrice) => {
