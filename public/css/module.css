@@ -1,49 +1,12 @@
-/*html{
-
-  overflow-y: scroll !IMPORTANT;
-
-}*/
-
-/* @media screen and (max-width: 1024px) {
-  .ergonomie-home-public {
-    visibility: hidden;  
-  }
-} */
-
 @font-face {
   font-family: 'OpenSansLight';
   src: url("../fonts/OpenSansLight/OpenSansLight.eot");
-  /*   src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
- */
+  src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
-section {
-  display: block;
-}
-
 .ergonomie-home-public {
-  /*   background-image: url("../img/demoBG.jpg");
- */
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  font-family: 'OpenSansLight';
-}
-
-.ergonomie-home-public .use-pc {
-  color: #fff;
-  width: 100%;
-  top: 30px;
-  font-size: 2.2rem;
-  position: absolute;
-  text-align: center;
-}
-
-.ergonomie-home-public {
-  margin: 0px;
-  padding: 0px;
   font-family: "Roboto", sans-serif;
   font-size: 12px;
   overflow: hidden;
@@ -1559,19 +1522,6 @@ section {
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
-}
-
-#form_input57597 {
-  width: 100%;
-  border: 1px solid #bbb;
-  background: white;
-  border-radius: 50px;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  margin: 5px 0px 5px 0px;
 }
 
 /*# sourceMappingURL=module_demo.css.map */
