@@ -88,7 +88,6 @@ $(document).ready(function () {
    }); */
 
   socket.on('ServerSendRealTime', function (data) {
-    console.log(data);
     moduleDemo.drawUpdatePrice(data);
   });
 
