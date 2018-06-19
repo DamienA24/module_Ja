@@ -259,7 +259,6 @@ let moduleDemo = {
     trade.lot = moduleDemo.lot;
     trade.type = moduleDemo.type;
     trade.currency = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
-    console.log(moduleDemo.typeIn)
 
     return trade;
   },
@@ -434,7 +433,6 @@ let moduleDemo = {
 
   initChart: (dataCandle, time) => {
     moduleDemo.canvas = echarts.init(document.getElementById(moduleDemo.canvasId));
-    console.log(moduleDemo.min, moduleDemo.max);
     let options = {
       xAxis: {
         data: time,
