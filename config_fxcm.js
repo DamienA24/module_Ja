@@ -1,8 +1,5 @@
-const socketIo = require('socket.io');
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-let io = socketIo.listen(server);
+const server = require('http').createServer()
+const socketIo = require('socket.io')(server);
 
 const configFxcm = {
   token: "faea04378049646b8da5d1616c876214e4a3f8fc",
@@ -58,9 +55,7 @@ module.exports = {
   changeTrade,
   closeTrade,
   requestHeaders,
-  io,
-  app,
-  express,
+  socketIo,
   server,
   sentData,
   candleRealTime,

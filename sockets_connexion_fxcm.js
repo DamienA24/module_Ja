@@ -1,13 +1,10 @@
-const updatePrice = require('./price_updates');
-const querystring = require('query-string');
 const sockIo = require('socket.io-client');
 const config = require('./config_fxcm.js');
 const axios = require('axios');
-const ioTest = require('./config_fxcm').io;
+const socketIo = require('./config_fxcm').socketIo;
 
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
-const token = config.configFxcm.token;
 const host = config.configFxcm.host;
 
 
@@ -21,7 +18,7 @@ let getConnexionFXCM = (token) => {
     console.log('Socket.IO session has been opened: ', socket.id);
     config.requestHeaders.Authorization = 'Bearer ' + socket.id + token;
     getAccountId();
-    require('./price_updates').listenPrice(socket, ioTest);
+    require('./price_updates').listenPrice(socket, socketIo);
   });
   socket.on('connect_error', (error) => {
     console.log('Socket.IO session connect error: ', error);
