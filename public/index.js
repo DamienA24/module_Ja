@@ -495,33 +495,36 @@ let moduleDemo = {
 
   drawUpdatePrice: (update) => {
     let data = update.data.slice(0, 4);
-    let newData = [...moduleDemo.data, ...[data]];
-    let devise = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
-    let date = new Date();
-    let newDate = date.getMinutes();
 
-    if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
-      moduleDemo.createNewCandle(data);
-    } else if ((newDate === 0 || newDate === 30) && update.data[4] === "m30" && moduleDemo.candleCreate === false) {
-      moduleDemo.createNewCandle(data);
-    } else if (newDate != 0 && newDate != 30) {
-      moduleDemo.candleCreate = false;
-    }
+    if (Array.isArray(moduleDemo.data)) {
+      let newData = [...moduleDemo.data, ...[data]];
+      let devise = `${moduleDemo.firstC}/${moduleDemo.secondC}`;
+      let date = new Date();
+      let newDate = date.getMinutes();
 
-    if (devise === update.data[5]) {
-      if (devise === 'EUR/USD' || devise === 'GBP/CAD' || devise === 'AUD/USD') {
-        moduleDemo.calculateSpread(update, 4, 10000);
-      } else if (devise === 'EUR/JPY') {
-        moduleDemo.calculateSpread(update, 2, 100);
+      if (update.data[4] === "h1" && newDate === 0 && moduleDemo.candleCreate === false) {
+        moduleDemo.createNewCandle(data);
+      } else if ((newDate === 0 || newDate === 30) && update.data[4] === "m30" && moduleDemo.candleCreate === false) {
+        moduleDemo.createNewCandle(data);
+      } else if (newDate != 0 && newDate != 30) {
+        moduleDemo.candleCreate = false;
       }
 
-      let options = {
-        series: [{
-          type: 'k',
-          data: newData
-        }]
-      };
-      moduleDemo.canvas.setOption(options);
+      if (devise === update.data[5]) {
+        if (devise === 'EUR/USD' || devise === 'GBP/CAD' || devise === 'AUD/USD') {
+          moduleDemo.calculateSpread(update, 4, 10000);
+        } else if (devise === 'EUR/JPY') {
+          moduleDemo.calculateSpread(update, 2, 100);
+        }
+
+        let options = {
+          series: [{
+            type: 'k',
+            data: newData
+          }]
+        };
+        moduleDemo.canvas.setOption(options);
+      }
     }
   },
 
@@ -629,6 +632,7 @@ let moduleDemo = {
     } else {
       update(_div, 10000);
     }
+
     function update(_div, number) {
       if (_div === 'demoBoxDisplay-stop') {
         if (moduleDemo.type === 'sell') {
