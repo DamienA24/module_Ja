@@ -41,7 +41,7 @@ let listen = (io) => {
         },
         headers: config.requestHeaders
       }).then((response) => {
-        sortCandle(response.data.candles);
+        sortCandle(response.data.candles, currency);
         return axios({
           url: `${proto}://${host}:${apiPort}${resource}${recoverdData.interval}`,
           method: 'GET',
@@ -52,7 +52,6 @@ let listen = (io) => {
         }).then((response) => {
           config.sentData = response.data;
           config.candleRealTime[4] = response.data.period_id;
-          config.candleRealTime[5] = currency;
           config.candleRealTime[6] = 'off';
           io.emit('messageFromServer', config.sentData);
         }).catch((error) => {
@@ -175,11 +174,12 @@ let listen = (io) => {
       return candlesTime;
     };
 
-    function sortCandle(candles) {
+    function sortCandle(candles, devise) {
       config.candleRealTime[0] = candles[0][1];
       config.candleRealTime[1] = candles[candles.length - 1][2];
       config.candleRealTime[2] = candles[0][3];
       config.candleRealTime[3] = candles[0][4];
+      config.candleRealTime[5] = devise;
 
       candles.forEach((arr) => {
         if (arr[3] > config.candleRealTime[2]) {

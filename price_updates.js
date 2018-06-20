@@ -7,13 +7,13 @@ let listenPrice = (socket, io) => {
 
   io.on('connection', (socket) => {
 
-    socket.on('realTime', () => {
-      suscribePrices(sock);
+    socket.on('realTime', (currency) => {
+      suscribePrices(sock, currency);
     });
 
-    let suscribePrices = (socket) => {
+    let suscribePrices = (socket, currency) => {
       let pairs = {
-        "pairs": ["EUR/USD", "AUD/USD", "GBP/CAD", "EUR/JPY"]
+        "pairs": currency
       };
       let postData = querystring.stringify(pairs);
       let option = {
@@ -70,6 +70,7 @@ let listenPrice = (socket, io) => {
       if (config.candleRealTime[5] === pair) {
         priceObj.rate = Number(rate[0]);
         priceObj.ask = Number(rate[1]);
+
         if (priceObj.rate > config.candleRealTime[1] || priceObj.rate < config.candleRealTime[1]) {
           config.candleRealTime[1] = priceObj.rate;
         } else if (priceObj.rate > config.candleRealTime[2]) {

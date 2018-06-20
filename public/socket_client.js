@@ -9,6 +9,7 @@ $(document).ready(function () {
 
     moduleDemo.renitializeInterface();
     socket.emit('sendInstrument', sentData);
+    socket.emit('realTime', sentData.currency);
   });
 
   $('.demoBoxDisplay-nav').click((data) => {
@@ -98,5 +99,5 @@ $(document).ready(function () {
 
   moduleDemo.init();
   socket.emit('sendInstrument', dataInitial);
-  socket.emit('realTime');
+  socket.emit('realTime', dataInitial.currency);
  });
