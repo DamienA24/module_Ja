@@ -1,0 +1,1533 @@
+@font-face {
+  font-family: 'OpenSansLight';
+  src: url("../fonts/OpenSansLight/OpenSansLight.eot");
+  src: url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"), url("../fonts/OpenSansBold/OpenSansLight.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+.ergonomie-home-public {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.ergonomie-home-public *:not(ul) {
+  box-sizing: border-box;
+}
+
+.ergonomie-home-public .onMobile {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .ergonomie-home-public .onMobile {
+    display: block;
+  }
+}
+
+.ergonomie-home-public .transition_0_5 {
+  transition: All 0.5s ease;
+  -webkit-transition: All 0.5s ease;
+  -moz-transition: All 0.5s ease;
+  -o-transition: All 0.5s ease;
+}
+
+.ergonomie-home-public .transition_0_2 {
+  transition: All 0.2s ease;
+  -webkit-transition: All 0.2s ease;
+  -moz-transition: All 0.2s ease;
+  -o-transition: All 0.2s ease;
+}
+
+.ergonomie-home-public .transition_0_1 {
+  transition: All 0.05s ease;
+  -webkit-transition: All 0.05s ease;
+  -moz-transition: All 0.05s ease;
+  -o-transition: All 0.05s ease;
+}
+
+.ergonomie-home-public :focus {
+  outline: 0;
+}
+
+.ergonomie-home-public .clear {
+  clear: both;
+}
+
+.mb {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+.mb .mbc {
+  display: inline;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#demo {
+  color: #FFFFFF;
+  /*   background-image: url(../../images/testDynamisBox/stock-1863880_1920.jpg);
+ */
+  padding: 50px 0px;
+  position: relative;
+}
+
+#demo #demoBg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9000;
+}
+
+@media screen and (max-width: 900px) {
+  #demo {
+    padding: 30px 0px;
+  }
+}
+
+#demoTitle {
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 3rem;
+  font-family: "OpenSansLight";
+  z-index: 10040;
+  position: relative;
+  padding: 0px 30px;
+  padding-bottom: 30px;
+}
+
+#demoBoxContent {
+  width: 1100px;
+  margin: 0px auto;
+}
+
+#leftDemoBox {
+  float: left;
+  width: 300px;
+}
+
+@media screen and (max-width: 1100px) {
+  #leftDemoBox {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+  #leftDemoBox #demoErgonomie {
+    padding: 0px 30px;
+  }
+  #leftDemoBox #demoSteps {
+    text-align: center;
+  }
+  #leftDemoBox #demoSteps .demoStep {
+    display: inline-block;
+    margin-right: 20px;
+  }
+}
+
+#leftDemoBox #demoErgonomie {
+  width: 100%;
+  padding-right: 30px;
+  margin: 0px auto;
+  padding-bottom: 40px;
+  z-index: 10080;
+  position: relative;
+}
+
+#leftDemoBox #demoErgonomie #demoErgonomie-title {
+  font-size: 3rem;
+  font-family: "OpenSansLight";
+}
+
+#leftDemoBox #demoErgonomie #demoErgonomie-subTitle {
+  font-size: 2rem;
+  font-family: "OpenSansLight";
+}
+
+#leftDemoBox #demoErgonomie #demoErgonomie-description {
+  color: #1C98E2;
+  font-size: 1.5rem;
+  padding-top: 15px;
+}
+
+#leftDemoBox #demoSteps {
+  max-width: 800px;
+  padding: 0px 30px;
+  margin: 0px auto;
+  padding-bottom: 80px;
+  z-index: 10060;
+  position: relative;
+}
+
+#leftDemoBox #demoSteps .demoStep {
+  padding-top: 10px;
+}
+
+#leftDemoBox #demoSteps .demoStep:first-child {
+  padding-top: 0px;
+}
+
+#leftDemoBox #demoSteps .demoStep div:nth-child(1) {
+  border: 1px solid #FFFFFF;
+  border-radius: 35px;
+  display: inline-block;
+  padding: 7px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
+
+#leftDemoBox #demoSteps .demoStep div:nth-child(2) {
+  display: inline-block;
+  padding-left: 10px;
+  font-family: "OpenSansLight";
+  font-size: 1.5rem;
+}
+
+#demoBox {
+  float: right;
+  width: 800px;
+  margin: 0px auto;
+  z-index: 10000;
+  position: relative;
+}
+
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-chart #demoBoxDisplay-chartLoader {
+  display: block;
+}
+
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-take,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-stop,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-tradeTake {
+  display: none;
+}
+
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-take.show,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-stop.show,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-pending.show,
+#demoBox.loading #demoBoxDisplay #demoBoxDisplay-tradeTake.show {
+  display: none;
+}
+
+#demoBox #demoBoxDisplay {
+  float: left;
+  width: 500px;
+  position: relative;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-devise {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  font-size: 0px;
+  line-height: 0px;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-devise .demoBoxDisplay-devise {
+  padding: 0px 5px;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+  background-color: #555555;
+  border: 1px solid #555555;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-devise .demoBoxDisplay-devise:hover {
+  border: 1px solid #1C98E2;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-devise .demoBoxDisplay-devise.on {
+  background-color: #1C98E2;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-bar {
+  position: absolute;
+  top: 42px;
+  left: 0px;
+  right: 0px;
+  border-top: 1px solid #53575B;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-nav {
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  right: 0px;
+  font-size: 0px;
+  line-height: 0px;
+  padding-left: 15px;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-nav .demoBoxDisplay-nav {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 11px;
+  text-transform: uppercase;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 2px;
+  margin: 0px 5px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-nav .demoBoxDisplay-nav:hover {
+  border: 1px solid #1C98E2;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-nav .demoBoxDisplay-nav.on {
+  background-color: #1C98E2;
+  border: 1px solid #1C98E2;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-chart {
+  border: 1px solid #1C98E2;
+  background-color: #191919;
+  height: 240px;
+  margin-top: 60px;
+  width: 400px;
+  position: relative;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-chart #demoBoxDisplay-chartLoader {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take {
+  position: absolute;
+  top: 180px;
+  left: 0px;
+  right: 0px;
+  height: 5px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take:hover #demoBoxDisplay-takeTrait,
+#demoBox #demoBoxDisplay #demoBoxDisplay-take:hover #demoBoxDisplay-takeLabel {
+  opacity: 1;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take.toofar {
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take.on #demoBoxDisplay-takeLabel {
+  left: 0;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take.on #demoBoxDisplay-takeTrait {
+  display: block;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take.on #demoBoxDisplay-takeWhere {
+  display: block;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeTrait {
+  position: absolute;
+  top: 2px;
+  height: 1px;
+  width: 400px;
+  background-color: #9BDF51;
+  display: none;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeLabel {
+  position: absolute;
+  top: 2px;
+  left: 351px;
+  height: 20px;
+  width: 20px;
+  background-color: #9BDF51;
+  line-height: 20px;
+  text-align: center;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeWhere {
+  position: absolute;
+  top: -8px;
+  left: 399px;
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeWhere #demoBoxDisplay-takeWhere-triangle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 10px;
+  height: 20px;
+  border-left: none;
+  border-right: 10px solid #9BDF51;
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeWhere #demoBoxDisplay-takeWhere-label {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  height: 20px;
+  width: auto;
+  line-height: 20px;
+  padding: 0px;
+  padding-right: 10px;
+  padding-left: 5px;
+  background-color: #9BDF51;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-take #demoBoxDisplay-takeWhere #demoBoxDisplay-takeWhere-close {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  background-color: #9BDF51;
+  text-align: center;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop {
+  position: absolute;
+  top: 200px;
+  left: 0px;
+  right: 0px;
+  height: 5px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop:hover #demoBoxDisplay-stopTrait,
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop:hover #demoBoxDisplay-stopLabel {
+  opacity: 1;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop.toofar {
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop.on #demoBoxDisplay-stopLabel {
+  left: 0;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop.on #demoBoxDisplay-stopTrait {
+  display: block;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop.on #demoBoxDisplay-stopWhere {
+  display: block;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopTrait {
+  position: absolute;
+  top: 2px;
+  height: 1px;
+  width: 400px;
+  background-color: #E03D3D;
+  display: none;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopLabel {
+  position: absolute;
+  top: 2px;
+  left: 371px;
+  height: 20px;
+  width: 20px;
+  background-color: #E03D3D;
+  line-height: 20px;
+  text-align: center;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopWhere {
+  position: absolute;
+  top: -8px;
+  left: 399px;
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopWhere #demoBoxDisplay-stopWhere-triangle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 10px;
+  height: 20px;
+  border-left: none;
+  border-right: 10px solid #E03D3D;
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopWhere #demoBoxDisplay-stopWhere-label {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  height: 20px;
+  width: auto;
+  line-height: 20px;
+  padding: 0px;
+  padding-right: 10px;
+  padding-left: 5px;
+  background-color: #E03D3D;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-stop #demoBoxDisplay-stopWhere #demoBoxDisplay-stopWhere-close {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  background-color: #E03D3D;
+  text-align: center;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending {
+  position: absolute;
+  top: 120px;
+  left: 0px;
+  right: 0px;
+  height: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending.show {
+  display: block;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending.show.toofar {
+  display: none;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending:hover #demoBoxDisplay-pendingTrait,
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending:hover #demoBoxDisplay-pendingLabel {
+  opacity: 1;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingTrait {
+  position: absolute;
+  top: 2px;
+  height: 1px;
+  width: 400px;
+  background-color: #1C98E2;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingLabel {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  height: 20px;
+  width: 20px;
+  background-color: #1C98E2;
+  line-height: 20px;
+  text-align: center;
+  opacity: .7;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingWhere {
+  position: absolute;
+  top: -8px;
+  left: 399px;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingWhere #demoBoxDisplay-pendingWhere-triangle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 10px;
+  height: 20px;
+  border-left: none;
+  border-right: 10px solid #1C98E2;
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingWhere #demoBoxDisplay-pendingWhere-label {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  height: 20px;
+  width: auto;
+  line-height: 20px;
+  padding: 0px;
+  padding-right: 10px;
+  padding-left: 5px;
+  background-color: #1C98E2;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-pending #demoBoxDisplay-pendingWhere #demoBoxDisplay-pendingWhere-close {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  background-color: #1C98E2;
+  text-align: center;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-xxx {
+  position: absolute;
+  top: 300px;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-xxx .xxx {
+  position: absolute;
+  top: 0px;
+  height: 5px;
+  width: 1px;
+  background-color: #53575B;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-xxx .xxx .xxx-value {
+  position: absolute;
+  top: 5px;
+  right: -5px;
+  transform-origin: bottom right;
+  transform: rotate(-22deg);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-yyy {
+  position: absolute;
+  top: 60px;
+  left: 400px;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-yyy .yyy {
+  position: absolute;
+  left: 0px;
+  width: 5px;
+  height: 1px;
+  background-color: #53575B;
+}
+
+#demoBox #demoBoxDisplay #demoBoxDisplay-yyy .yyy .yyy-value {
+  position: absolute;
+  top: -6px;
+  padding-left: 10px;
+}
+
+#demoBox #demoBoxInfos {
+  float: right;
+  background-color: #0D0D0F;
+  width: 300px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfos-title {
+  background-color: #060608;
+  text-align: center;
+  text-transform: uppercase;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #1A1A1E;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox {
+  padding: 15px;
+  text-transform: uppercase;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair {
+  padding-bottom: 15px;
+  position: relative;
+  z-index: 400;
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair input {
+  border: none;
+  border-bottom: 1px solid #1C98E2;
+  background-color: transparent;
+  width: 100%;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 24px;
+  padding: 5px;
+  text-align: center;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-first {
+  float: left;
+  width: 40%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-separator {
+  float: left;
+  width: 20%;
+  text-align: center;
+  font-size: 24px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-second {
+  float: left;
+  width: 40%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto {
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  right: 0px;
+  max-height: 140px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: #FFFFFF;
+  color: #1A1A1E;
+  z-index: 500;
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto.show {
+  display: block;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto div {
+  padding: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto div.show {
+  display: block;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto div font {
+  font-size: .7em;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pair #demoBoxInfos-pair-auto div:hover {
+  background-color: #1C98E2;
+  color: #FFFFFF;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-balance #demoBoxInfos-balance-label {
+  float: left;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-balance #demoBoxInfos-balance-value {
+  float: right;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-spread #demoBoxInfos-spread-label {
+  float: left;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-spread #demoBoxInfos-spread-value {
+  float: right;
+  font-size: 14px;
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-swap {
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-swap #demoBoxInfos-swap-label {
+  float: left;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-swap #demoBoxInfos-swap-value {
+  float: right;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price {
+  border-bottom: 2px solid #FFFFFF;
+  padding: 10px 0px;
+  font-size: 14px;
+  /*   background-image: url(../../content/images/testDynamisBox/bg1.png);
+ */
+  background-position: top center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding-top: 15px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price big {
+  font-size: 20px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-down {
+  float: right;
+  color: red;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-price #demoBoxInfos-price-up {
+  float: left;
+  color: #9BDF51;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change {
+  border-bottom: 1px solid #1A1A1E;
+  padding: 20px 0px;
+  text-align: center;
+  position: relative;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change.pending #demoBoxInfos-change-market {
+  color: #FFFFFF;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change.pending #demoBoxInfos-change-button #demoBoxInfos-change-buttonBox {
+  left: 20px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change.pending #demoBoxInfos-change-pending {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change #demoBoxInfos-change-market {
+  float: left;
+  width: 100px;
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change #demoBoxInfos-change-button {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  margin-left: -25px;
+  border-radius: 25px;
+  border: 1px solid #1C98E2;
+  width: 50px;
+  height: 30px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change #demoBoxInfos-change-button #demoBoxInfos-change-buttonBox {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 25px;
+  border: 1px solid #0D0D0F;
+  width: 28px;
+  height: 28px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-change #demoBoxInfos-change-pending {
+  float: right;
+  width: 100px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-label {
+  padding: 10px 0px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value {
+  float: left;
+  width: 48%;
+  border: 1px solid #1C98E2;
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type {
+  float: right;
+  width: 48%;
+  height: 26px;
+  overflow: hidden;
+  border: 1px solid #1C98E2;
+  padding-right: 25px;
+  position: relative;
+  font-size: 12px;
+  height: 27px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type.pourcentage .checkBox {
+  position: absolute;
+  top: -27px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type.pourcentage .checkBox-down {
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type.pourcentage .checkBox-up {
+  display: block;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox {
+  position: absolute;
+  top: 0px;
+  height: 54px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox .checkBox-one {
+  padding: 6px;
+  height: 27px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox .checkBox-two {
+  padding: 6px;
+  height: 27px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox-down {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-amount #demoBoxInfos-amount-type .checkBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBoxInfos-indic {
+  margin-top: 10px;
+  position: relative;
+}
+
+#demoBoxInfos-indic-label {
+  float: left;
+  width: 7%;
+  padding: 6px 0px;
+}
+
+#demoBoxInfos-indic-price {
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 33%;
+}
+
+#demoBoxInfos-indic-pips {
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+
+#demoBoxInfos-indic-value {
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 40%;
+  text-align: center;
+}
+
+.indicatorInput {
+  font-size: 12px;
+}
+
+.numberBox-upPips {
+  position: absolute;
+  top: -4px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-upPips:hover {
+  color: #1C98E2;
+}
+
+.numberBox-downPips {
+  position: absolute;
+  top: 7px;
+  right: 4px;
+  width: 12px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.numberBox-downPips:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss {
+  position: relative;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss.on #demoBoxInfos-stopLoss-hide {
+  left: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-hide {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-label {
+  float: left;
+  width: 7%;
+  padding: 6px 0px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value {
+  border: 1px solid #1C98E2;
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 33%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value {
+  border: 1px solid #1C98E2;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  margin-left: 5px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLossPips-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-indicator {
+  float: left;
+  width: 25%;
+  padding: 6px 0px;
+  text-align: right;
+  color: #E03D3D;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-close {
+  float: left;
+  width: 10%;
+  text-align: right;
+  color: #FFFFFF;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-stopLoss #demoBoxInfos-stopLoss-close:hover {
+  color: #DDDDDD;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit {
+  margin-top: 10px;
+  position: relative;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit.on #demoBoxInfos-takeProfit-hide {
+  left: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-hide {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-label {
+  float: left;
+  width: 7%;
+  padding: 6px 0px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value {
+  border: 1px solid #1C98E2;
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 33%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value {
+  border: 1px solid #1C98E2;
+  padding-right: 10px;
+  position: relative;
+  height: 27px;
+  float: left;
+  width: 20%;
+  margin-left: 5px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfitPips-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-indicator {
+  float: left;
+  width: 25%;
+  padding: 6px 0px;
+  text-align: right;
+  color: #9BDF51;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-close {
+  float: left;
+  width: 10%;
+  text-align: right;
+  color: #FFFFFF;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-takeProfit #demoBoxInfos-takeProfit-close:hover {
+  color: #DDDDDD;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending {
+  padding-top: 10px;
+  display: none;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-label {
+  float: left;
+  width: 48%;
+  padding: 6px 0px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value {
+  border: 1px solid #1C98E2;
+  padding-right: 40px;
+  position: relative;
+  height: 27px;
+  float: right;
+  width: 48%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value input {
+  padding: 5px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value .numberBox-down {
+  position: absolute;
+  top: 0px;
+  right: 21px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value .numberBox-down:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value .numberBox-up {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  width: 18px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-pending #demoBoxInfos-pending-value .numberBox-up:hover {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-tradeSize {
+  margin-top: 10px;
+  padding: 15px;
+  padding-top: 17px;
+  text-align: center;
+  color: #3F3F47;
+  /*   background-image: url(../../content/images/testDynamisBox/bg2.png);
+ */
+  background-position: top center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-tradeSize font {
+  color: #1C98E2;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons {
+  color: #FFFFFF;
+  text-align: center;
+  text-transform: uppercase;
+  padding-top: 10px;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-sell {
+  background-color: #E03D3D;
+  border: 1px solid #E03D3D;
+  padding: 10px;
+  float: left;
+  width: 48%;
+  cursor: pointer;
+  opacity: .5;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-sell.show {
+  opacity: 1;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-sell.show:hover {
+  font-weight: 700;
+  background-color: transparent;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-buy {
+  background-color: #1C98E2;
+  border: 1px solid #1C98E2;
+  padding: 10px;
+  float: right;
+  width: 48%;
+  cursor: pointer;
+  opacity: .5;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-buy.show {
+  opacity: 1;
+}
+
+#demoBox #demoBoxInfos #demoBoxInfosBox #demoBoxInfos-buttons #demoBoxInfos-button-buy.show:hover {
+  font-weight: 700;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 1100px) {
+  #demoBox {
+    float: none;
+    max-width: 800px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  #demoBox {
+    text-align: center;
+  }
+  #demoBox #demoBoxDisplay {
+    float: none;
+    display: inline-block;
+    transform: scale(0.8);
+  }
+  #demoBox #demoBoxInfos {
+    float: none;
+    width: 300px;
+    margin: 0px auto;
+    position: relative;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #demoBox #demoBoxDisplay {
+    margin-left: -10%;
+    transform: scale(0.6);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #demoBox #demoBoxDisplay {
+    margin-left: -20%;
+    transform: scale(0.6);
+  }
+}
+
+@media screen and (max-width: 350px) {
+  #demoBox #demoBoxDisplay {
+    margin-left: -25%;
+    transform: scale(0.55);
+  }
+}
+
+#emailModal {
+  display: none;
+  position: fixed;
+  /* Stay in place */
+  z-index: 11000;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.text-marketing {
+  font-size: 1.8em;
+  margin: 5px;
+  text-align: center;
+}
+
+.text-marketing>p {
+  font-family: "Roboto", sans-serif;
+}
+
+.content-form {
+  width: 20%;
+}
+
+.button-modal {
+  margin-top: 5px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.button-modal>button {
+  background: #1C98E2;
+  border: 1px;
+  border-radius: 10px;
+  padding: 10px 30px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+/*# sourceMappingURL=module_demo.css.map */
