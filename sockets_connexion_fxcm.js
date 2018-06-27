@@ -1,5 +1,3 @@
-const updatePrice = require('./price_updates');
-const querystring = require('query-string');
 const sockIo = require('socket.io-client');
 const config = require('./config_fxcm.js');
 const axios = require('axios');
@@ -7,7 +5,6 @@ const ioTest = require('./config_fxcm').io;
 
 const apiPort = config.configFxcm.port;
 const proto = config.configFxcm.proto;
-const token = config.configFxcm.token;
 const host = config.configFxcm.host;
 
 
